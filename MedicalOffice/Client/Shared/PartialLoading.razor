@@ -1,0 +1,14 @@
+﻿<!-- PartialLoading.razor -->
+@if (isLoading)
+{
+    <div class="overlay">
+        <div class="loader-container">
+            <div class="loader"></div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public bool isLoading { get; set; }
+}

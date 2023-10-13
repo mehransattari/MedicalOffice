@@ -1,0 +1,49 @@
+﻿<MudAppBar Elevation="1"  Style="@($"color:{Colors.Shades.Black}; background:{Colors.Shades.White};")">
+
+    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
+                   OnClick="@ToggleDrawer" />
+    <MudSpacer />
+
+    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor" Target="_blank" />
+
+</MudAppBar>
+
+<MudDrawer @bind-Open="@open" Elevation="5" Anchor="Anchor.End"
+           Style="@($"color:{Colors.Shades.Black}; background:{Colors.Shades.White}; top:0;")">
+
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h6">
+            مدیریت پزشکی
+        </MudText>
+    </MudDrawerHeader>
+    <MudNavMenu Rounded="true" Margin="Margin.Dense" Class="pa-2  " >
+
+        <MudText Typo="Typo.h6" Class="px-4">
+            دکتر نسیم گلبان
+        </MudText>
+
+        <MudDivider Class="my-2" />
+
+        <MudNavLink Match="NavLinkMatch.Prefix" Href="/" Icon="@Icons.Material.Filled.Dashboard" Class=" mb-1">
+            داشبورد
+        </MudNavLink>
+        <MudNavLink Href="/admin/users" Icon="@Icons.Material.Filled.SupervisedUserCircle" Class=" mb-1">
+            کاربران
+        </MudNavLink>
+        <MudNavLink Href="/admin/roles" Icon="@Icons.Material.Filled.ReadMore" Class="mb-1">
+            نقش ها
+        </MudNavLink>
+   
+    </MudNavMenu>
+</MudDrawer>
+
+@code {
+    private MudTheme Theme = new MudTheme();
+
+    bool open = true;
+
+    void ToggleDrawer()
+    {
+        open = !open;
+    }
+}

@@ -1,0 +1,76 @@
+﻿@inherits FormDialogUserBase
+
+<MudDialog>
+
+    <DialogContent>
+
+        <EditForm Model="@User" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+
+            <MudPaper Class="pa-4">
+
+                <MudGrid>
+
+                    <MudItem md="6" sm="12" xs="12">
+                        
+                        <MudSelect Label="نقش" AnchorOrigin="Origin.BottomCenter"
+                                   TransformOrigin="Origin.CenterCenter" 
+                                   Placeholder="نقش  را انتخاب کنید...." @bind-Value="User.RoleId"
+                                   For="@(() => User.RoleId)">
+
+                            <MudSelectItem T="long" Value="RoleId">@RoleName</MudSelectItem>
+
+
+                            @foreach (var role in roles)
+                            {
+                                <MudSelectItem T="long" Value="@role.Id">@role.FaCaption</MudSelectItem>
+                            }
+
+                        </MudSelect>
+                    </MudItem>
+
+                    <MudItem md="6" sm="12" xs="12">
+                        <MudTextField T="string" Label="نام" Required="true" For="@(() => User.FirstName)"
+                        @bind-Value="User.FirstName" />
+                    </MudItem>
+
+                    <MudItem md="6" sm="12" xs="12">
+                        <MudTextField T="string" Label="نام خانوادگی" Required="true" For="@(() => User.LastName)"
+                        @bind-Value="User.LastName" />
+                    </MudItem>
+
+                    <MudItem md="6" sm="12" xs="12">
+                        <MudTextField T="string" Label="موبایل" Required="true" For="@(() => User.Mobile)"
+                        @bind-Value="User.Mobile" />
+                    </MudItem>
+
+                    @if (Id == 0)
+                    {
+                        <MudItem md="6" sm="12" xs="12">
+                            <MudTextField T="string" Label="رمز" Required="true" For="@(() => User.Password)"
+                            @bind-Value="User.Password" />
+                        </MudItem>
+                    }
+
+
+                </MudGrid>
+
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
+                           DisableElevation="true" Class="mt-4">
+                    ذخیره
+                </MudButton>
+
+            </MudPaper>
+
+        </EditForm>
+
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel" Color="Color.Error" Variant="Variant.Filled">لغو</MudButton>
+    </DialogActions>
+
+</MudDialog>
+
+
+

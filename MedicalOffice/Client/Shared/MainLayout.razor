@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+
+<MudLayout >
+    <NavMenu/>
+
+    <MudMainContent Class="pt-16 px-16 mt-2" MaxWidth="MaxWidth.False">
+        @Body
+    </MudMainContent>
+
+</MudLayout>
+
+

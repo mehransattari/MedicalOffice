@@ -1,0 +1,47 @@
+﻿@inherits FormDialogRoleBase
+
+<MudDialog>
+
+    <DialogContent>
+
+        <EditForm Model="@Role" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+
+            <MudPaper Class="pa-4">
+
+                <MudGrid>
+
+                   
+
+                    <MudItem md="6" sm="12" xs="12">
+                        <MudTextField T="string" Label="نام فارسی" Required="true" For="@(() => Role.FaCaption)"
+                        @bind-Value="Role.FaCaption" />
+                    </MudItem>
+
+                    <MudItem md="6" sm="12" xs="12">
+                        <MudTextField T="string" Label="نام انگلیسی" Required="true" For="@(() => Role.EnCaption)"
+                        @bind-Value="Role.EnCaption" />
+                    </MudItem>
+
+
+                </MudGrid>
+
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
+                           DisableElevation="true" Class="mt-4">
+                    ذخیره
+                </MudButton>
+
+            </MudPaper>
+
+        </EditForm>
+
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel" Color="Color.Error" Variant="Variant.Filled">لغو</MudButton>
+    </DialogActions>
+
+</MudDialog>
+
+
+
