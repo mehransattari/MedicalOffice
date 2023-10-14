@@ -22,6 +22,9 @@ public class RoleController : ControllerBase
     }
     #endregion
 
+    #region Methods
+
+   
     [HttpGet]
     public async Task<List<Role>> Get()
     {
@@ -171,5 +174,5 @@ public class RoleController : ControllerBase
 
         return _roles;
     }
-
+    #endregion
 }

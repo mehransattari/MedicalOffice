@@ -168,7 +168,7 @@ public class ListRoleBase : ComponentBase
             FullWidth = true,
         };
 
-        var result = await DialogService.Show<FormDialogRole>("افزودن کاربر", closeOnEscapeKey).Result;
+        var result = await DialogService.Show<FormDialogRole>("افزودن نقش", closeOnEscapeKey).Result;
 
         if (!result.Canceled)
         {

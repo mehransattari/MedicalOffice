@@ -1,0 +1,64 @@
+﻿@inherits FormDialogContactUsBase
+
+<MudDialog>
+
+    <DialogContent>
+
+        <EditForm Model="@ContactUsDto" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <MudPaper Class="pa-4">
+
+                <MudGrid>                   
+
+                    <MudItem md="6" sm="12" xs="12">
+                        <MudTextField T="string" Label="عنوان" Required="true" For="@(() => ContactUsDto.Title)"
+                        @bind-Value="ContactUsDto.Title" />
+                    </MudItem>
+
+                    <MudItem md="6" sm="12" xs="12">
+                        <MudTextField T="string" Label="موبایل " Required="true" For="@(() => ContactUsDto.Mobile)"
+                        @bind-Value="ContactUsDto.Mobile" />
+                    </MudItem>
+
+                    <MudItem md="6" sm="12" xs="12">
+                        <MudTextField T="string" Label="تلفن " Required="true" For="@(() => ContactUsDto.PhoneNumber)"
+                        @bind-Value="ContactUsDto.PhoneNumber" />
+                    </MudItem>
+
+                     <MudItem md="6" sm="12" xs="12">
+                        <MudTextField T="string" Label="آدرس اول " Required="true" For="@(() => ContactUsDto.Address1)"
+                        @bind-Value="ContactUsDto.Address1" />
+                    </MudItem>                    
+                
+
+                    <MudItem md="6" sm="12" xs="12">
+                        <MudTextField T="string" Label="تصویر  " Required="true" For="@(() => ContactUsDto.Address2)"
+                        @bind-Value="ContactUsDto.Image" />
+                    </MudItem>
+
+                    <MudItem md="6" sm="12" xs="12">
+                        <MudTextField T="string" Label="نقشه  " Required="true" For="@(() => ContactUsDto.Map)"
+                        @bind-Value="ContactUsDto.Map" />
+                    </MudItem>
+
+                </MudGrid>
+
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
+                           DisableElevation="true" Class="mt-4">
+                    ذخیره
+                </MudButton>
+
+            </MudPaper>
+
+        </EditForm>
+
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel" Color="Color.Error" Variant="Variant.Filled">لغو</MudButton>
+    </DialogActions>
+
+</MudDialog>
+
+
+

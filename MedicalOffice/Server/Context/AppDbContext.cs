@@ -34,6 +34,8 @@ public class AppDbContext : DbContext
     public DbSet<Role> Roles { get; set; } 
     public DbSet<Status> Status { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<AboutUs> AboutUs { get; set; }
+    public DbSet<ContactUs> ContactUs { get; set; }
 
 
 

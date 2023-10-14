@@ -1,0 +1,115 @@
+﻿@page "/admin/contactus"
+@using MedicalOffice.Client.Repositories.Inteface;
+@using MedicalOffice.Shared.DTO;
+@inherits ListContactUsBase
+
+
+<MudIconButton OnClick="@OpenAddDialogAdd" Icon="@Icons.Material.Filled.Add"
+               Color="Color.Success"></MudIconButton>
+
+<MudIconButton OnClick="@OpenAddDialogEdit" Icon="@Icons.Material.Filled.Edit"
+               Color="Color.Warning"></MudIconButton>
+
+
+<MudIconButton  Icon="@Icons.Material.Filled.Delete" aria-label="delete" 
+                Color="Color.Error" OnClick="OnButtonClicked"></MudIconButton>
+
+<MudTable ServerData="@(new Func<TableState, Task<TableData<ContactUsDto>>>(ServerReload))"
+          Dense="true"
+          Hover="true"
+            @ref="ContactUsTable"
+          Bordered="true"
+          CanCancelEdit="true"
+          SortLabel="Sort By"
+          CommitEditTooltip="Commit Edit"
+          OnCommitEditClick="@(() => Snackbar.Add("عملیات ویرایش با موفقیت انجام شد"))" 
+          RowEditPreview="BackupItem"
+          RowEditCancel="ResetItemToOriginalValues"
+          RowEditCommit="ItemHasBeenCommitted"
+          IsEditRowSwitchingBlocked="true"
+          ApplyButtonPosition="@applyButtonPosition"
+          EditButtonPosition="@editButtonPosition" 
+          EditTrigger="@editTrigger"
+          OnRowClick="@OnRowClick"
+          MultiSelection="true"
+          @bind-SelectOnRowClick="@_selectOnRowClick"
+          @bind-SelectedItems="selectedItems"
+          T="ContactUsDto" Items="@ContactUses">
+
+
+    <ToolBarContent >
+        <MudText Typo="Typo.h6"> تماس با ما</MudText>
+        <MudSpacer />
+       
+    </ToolBarContent>
+
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="Id_field" T="User">ردیف</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="FirstName_field" T="ContactUsDto">عنوان </MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="LastName_field" T="ContactUsDto">موبایل </MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="LastName_field" T="ContactUsDto">تلفن </MudTableSortLabel></MudTh>
+
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd DataLabel="ردیف">@context.Number</MudTd>
+        <MudTd DataLabel="FirstName">@context.Title</MudTd>
+        <MudTd DataLabel="LastName">@context.Mobile</MudTd>
+        <MudTd DataLabel="LastName">@context.PhoneNumber</MudTd>
+    </RowTemplate>
+
+    <RowEditingTemplate>
+
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+
+        <MudTd DataLabel="Title">
+            <MudTextField @bind-Value="@context.Title" Required />
+        </MudTd>
+
+        <MudTd DataLabel="Mobile">
+            <MudTextField @bind-Value="@context.Mobile" Required />
+        </MudTd>
+
+        <MudTd DataLabel="PhoneNumber">
+            <MudTextField @bind-Value="@context.PhoneNumber" Required />
+        </MudTd>
+
+    </RowEditingTemplate>
+
+    <NoRecordsContent>
+        <MudText>رکوردی وجود ندارد.</MudText>
+    </NoRecordsContent>
+
+    <LoadingContent>
+        <MudText>در حال بارگیری...</MudText>
+    </LoadingContent>
+
+
+
+    <EditButtonContent Context="button">
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Class="pa-0"
+                       OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+    </EditButtonContent>
+
+</MudTable>
+
+
+<MudMessageBox @ref="mbox" Title="حذف" CancelText="لغو">
+    <MessageContent>
+        آیا از حذف
+         @(selectedItems == null ? "" : string.Join(", ", selectedItems.OrderBy(x => x.Id).Select(x => x.Title)))
+        مطمئن هستید؟
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="DeleteContactUses"
+                   StartIcon="@Icons.Material.Filled.DeleteForever">حذف</MudButton>
+    </YesButton>
+</MudMessageBox>
+
+
+
+
+
+
+
+

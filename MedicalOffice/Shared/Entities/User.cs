@@ -21,8 +21,11 @@ public class User
     [DataType(DataType.Password, ErrorMessage = "کلمه عبور را بدرستی وارد کنید")]
     [Required(ErrorMessage = "وارد کردن کلمه عبور الزامی است")]
     public string Password { get; set; } 
+
     public long RoleId { get; set; }
+
     public virtual Role? Role { get; set; }
+
     public virtual Status? Status { get; set; }
 
 }
