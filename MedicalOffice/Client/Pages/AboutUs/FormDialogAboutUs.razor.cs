@@ -74,22 +74,20 @@ public class FormDialogAboutUsBase : ComponentBase
         {
             AboutUss = result.Response.ToList();
         }
+
         if (Id != 0)
         {
             AboutUs.Id = Id;
             AboutUs.Title = Title;
             AboutUs.Text = Text;
             AboutUs.Image = Image;
-
         }
-
-        TextEditor();
     }
     #endregion
 
     #region Upload Image
 
-    public void HandleValueChanged(IList<IBrowserFile> _files)
+    public void FileHandleValueChanged(IList<IBrowserFile> _files)
     {
         Console.WriteLine(_files.FirstOrDefault().Name);
     }
@@ -100,40 +98,9 @@ public class FormDialogAboutUsBase : ComponentBase
     public string toolbar = """"...markup here..."""";
     public string body = """"...markup here..."""";
 
-    public  void TextEditor()
+    public void TextHandleValueChanged(string text)
     {
-        toolbar = """"
-            <select class="ql-header">
-                <option selected=""></option>
-                <option value="1"></option>
-                <option value="2"></option>
-                <option value="3"></option>
-                <option value="4"></option>
-                <option value="5"></option>
-            </select>
-            <span class="ql-formats">
-                <button class="ql-bold"></button>
-                <button class="ql-italic"></button>
-                <button class="ql-underline"></button>
-                <button class="ql-strike"></button>
-            </span>
-            <span class="ql-formats">
-                <select class="ql-color"></select>
-                <select class="ql-background"></select>
-            </span>
-            <span class="ql-formats">
-                <button class="ql-list" value="ordered"></button>
-                <button class="ql-list" value="bullet"></button>
-            </span>
-            <span class="ql-formats">
-                <button class="ql-link"></button>
-            </span>
-            """";
-
-        body = """"
-            <h4>This Toolbar works with HTML</h4>
-            <a href="https://BlazorHelpWebsite.com">BlazorHelpWebsite.com</a>
-            """";
+        Console.WriteLine(text);
     }
     #endregion
 }

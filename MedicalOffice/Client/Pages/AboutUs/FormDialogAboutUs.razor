@@ -1,58 +1,46 @@
 ﻿@inherits FormDialogAboutUsBase
+<EditForm Model="@AboutUs" OnValidSubmit="OnValidSubmit">
 
-<MudDialog>
+    <MudDialog>
 
-    <DialogContent>
 
-        <EditForm Model="@AboutUs" OnValidSubmit="OnValidSubmit">
+        <DialogContent>
+
             <DataAnnotationsValidator />
 
-            <MudPaper Class="pa-4">
+            <MudGrid>
 
-                <MudGrid>
+                <MudItem xs="12" sm="12">
+                    <MudTextField T="string" Label="عنوان " Required="true" For="@(() => AboutUs.Title)"
+                    @bind-Value="AboutUs.Title" />
+                </MudItem>
+                <MudSpacer />
+              
 
-                   
+                <MudItem xs="12" sm="12">
+                    <QuilltextEditor OnValueChanged="TextHandleValueChanged" />
+                </MudItem>
+                <MudSpacer />
+                <MudItem xs="12" sm="12">
+                    <FileUpload OnValueChanged="FileHandleValueChanged" />
+                </MudItem>
+                <MudSpacer />
+            </MudGrid>
 
-                    <MudItem md="12" sm="12" xs="12">
-                        <MudTextField T="string" Label="عنوان " Required="true" For="@(() => AboutUs.Title)"
-                        @bind-Value="AboutUs.Title" />
-                    </MudItem>
 
-                    <MudItem md="12" sm="12" xs="12">
+        </DialogContent>
 
-                        <MudTextField @ref="multilineReference" T="string" Label="متن"
-                                      Lines="3" Variant="Variant.Outlined" For="@(() => AboutUs.Text)"
-                            Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Api"
-                                      OnAdornmentClick="@(() => multilineReference.SelectAsync())" @bind-Value="AboutUs.Text" />
+        <DialogActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
+                       DisableElevation="true">
+                ذخیره
+            </MudButton>
+            <MudButton OnClick="Cancel" Color="Color.Error" Variant="Variant.Filled">لغو</MudButton>
+        </DialogActions>
 
-                  
-                    </MudItem>
+    </MudDialog>
+</EditForm>
 
-                    <MudItem md="12" sm="12" xs="12">
-                        <FileUpload OnValueChanged="HandleValueChanged"/>
-                    </MudItem>
 
-                     <MudItem md="12" sm="12" xs="12">
-                        <QuilltextEditor />
-                    </MudItem>
-
-                </MudGrid>
-
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
-                           DisableElevation="true" Class="mt-4">
-                    ذخیره
-                </MudButton>
-
-            </MudPaper>
-
-        </EditForm>
-
-    </DialogContent>
-
-    <DialogActions>
-        <MudButton OnClick="Cancel" Color="Color.Error" Variant="Variant.Filled">لغو</MudButton>
-    </DialogActions>
-
-</MudDialog>
 
 

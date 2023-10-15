@@ -46,7 +46,7 @@
     font-style: normal;
 }
 
-html, body, h1, h2, h3, h4, h5, h6, p, button {
+html, body, h1, h2, h3, h4, h5, h6, p, button,label {
     font-family: 'Vazir', sans-serif !important;
 }
 
@@ -149,4 +149,10 @@ a, .btn-link {
 
 .mud-nav-link {
     text-decoration: none;
+}
+
+.mud-input-label-inputcontrol {
+    top: 0;
+    position: absolute;
+    transform: translate(0,24px) scale(1);
 }
