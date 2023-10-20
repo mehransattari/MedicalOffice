@@ -21,6 +21,8 @@ builder.Services.AddMudServices();
 
 builder.Services.AddScoped<IHttpService, HttpService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IFileUpload, FileUpload>();
+
 builder.Services.AddScoped<ProtectPassword>();
 builder.Services.AddSingleton<UserStateService>();
 builder.Services.AddScoped<GenerateNewToken>();

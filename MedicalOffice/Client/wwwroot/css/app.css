@@ -155,4 +155,7 @@ a, .btn-link {
     top: 0;
     position: absolute;
     transform: translate(0,24px) scale(1);
+    direction: rtl;
+    text-align: right;
+    left:unset;
 }

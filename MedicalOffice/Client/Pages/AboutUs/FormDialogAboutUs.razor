@@ -1,7 +1,7 @@
 ﻿@inherits FormDialogAboutUsBase
 <EditForm Model="@AboutUs" OnValidSubmit="OnValidSubmit">
 
-    <MudDialog>
+    <MudDialog >
 
 
         <DialogContent>
@@ -18,13 +18,25 @@
               
 
                 <MudItem xs="12" sm="12">
-                    <QuilltextEditor OnValueChanged="TextHandleValueChanged" />
+                    <QuilltextEditor OnValueChanged="TextHandleValueChanged" ReceiveText="@Text" />
                 </MudItem>
+
                 <MudSpacer />
+
                 <MudItem xs="12" sm="12">
-                    <FileUpload OnValueChanged="FileHandleValueChanged" />
+                    <FileUpload OnValueChanged="FileHandleValueChanged" />   
+                </MudItem>
+
+                <MudItem xs="12" sm="12">
+
+                    @if (!string.IsNullOrEmpty(AboutUs.ImageUrl))
+                    {
+                        <MudImage Src="@AboutUs.ImageUrl" Alt="@AboutUs.Title" Elevation="25" Width="100" Class="rounded-lg" />
+                    }
+
                 </MudItem>
                 <MudSpacer />
+
             </MudGrid>
 
 

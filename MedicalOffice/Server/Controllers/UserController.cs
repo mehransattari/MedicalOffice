@@ -135,7 +135,6 @@ public class UserController
         return _users;
     }
 
-
     [HttpPost("getUserById")]
     public async Task<User> GetUserById([FromBody] long Id)
     {

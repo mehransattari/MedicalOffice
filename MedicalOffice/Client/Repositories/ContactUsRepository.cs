@@ -1,6 +1,7 @@
 ﻿using MedicalOffice.Client.Repositories.Inteface;
 using MedicalOffice.Client.Services.Interface;
 using MedicalOffice.Shared.DTO;
+using MedicalOffice.Shared.Entities;
 using MedicalOffice.Shared.Helper;
 
 namespace MedicalOffice.Client.Repositories;
@@ -9,19 +10,24 @@ public class ContactUsRepository : IContactUsRepository
 {
     #region Constructor
     private readonly IHttpService _http;
-    private readonly string _URL = "api/roles";
+    private readonly string _URL = "api/contactus";
     public ContactUsRepository(IHttpService http)
     {
         _http = http;
     }
     #endregion
 
+
     #region Methods
-
-
-    public async Task<ResponseData<bool>> CreateContactUs(ContactUsDto model)
+    public async Task<ResponseData<bool>> CreateContactUs(MultipartFormDataContent model)
     {
-        var result = await _http.PostAsync<ContactUsDto, bool>($"{_URL}/createContactUs", model);
+        var result = await _http.PostAsync<bool>($"{_URL}", model);
+        return result;
+    }
+
+    public async Task<ResponseData<bool>> UpdateContactUs(MultipartFormDataContent model)
+    {
+        var result = await _http.PutAsync<bool>($"{_URL}", model);
         return result;
     }
 
@@ -30,24 +36,18 @@ public class ContactUsRepository : IContactUsRepository
         var result = await _http.DeleteAsync<IEnumerable<long>, bool>($"{_URL}/deleteContactUs", ids);
         return result;
     }
-
-    public async Task<ResponseData<IEnumerable<ContactUsDto>>> GetContactUs()
+    public async Task<ResponseData<IEnumerable<ContactUs>>> GetContactUs()
     {
-        var result = await _http.Get<IEnumerable<ContactUsDto>>($"{_URL}/ContactUs");
+        var result = await _http.Get<IEnumerable<ContactUs>>($"{_URL}");
         return result;
     }
 
     public async Task<ResponseData<ContactUsDto>> GetContactUsById(long Id)
     {
-        var result = await _http.PostAsync<long, ContactUsDto>($"{_URL}/getContactUsById", Id);
+        var result = await _http.PostAsync<long, ContactUsDto>($"{_URL}", Id);
         return result;
     }
 
-    public async Task<ResponseData<bool>> UpdateContactUs(ContactUsDto model)
-    {
-        var result = await _http.PutAsync<ContactUsDto, bool>($"{_URL}/updateContactUs", model);
-        return result;
-    }
 
     #endregion
 }

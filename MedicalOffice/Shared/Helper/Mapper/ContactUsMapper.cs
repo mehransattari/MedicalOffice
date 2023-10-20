@@ -17,6 +17,7 @@ public static class ContactUsMapper
             Address1 = model.Address1,
             Address2 = model.Address2,
             PhoneNumber = model.PhoneNumber,
+            Image=model.ImageUrl
         };
 
         return result;
@@ -33,8 +34,43 @@ public static class ContactUsMapper
             Address1 = model.Address1,
             Address2 = model.Address2,
             PhoneNumber = model.PhoneNumber,
-            
+            ImageUrl=model.Image
         };
+
+        return result;
+    }
+
+    public static IEnumerable<ContactUsDto> Mapper(this IEnumerable<ContactUs> models)
+    {
+
+        var result = models.Select(model => new ContactUsDto
+        {
+            Id = model.Id,
+            Title = model.Title,
+            Text = model.Text,
+            Mobile = model.Mobile,
+            Address1 = model.Address1,
+            Address2 = model.Address2,
+            PhoneNumber = model.PhoneNumber,
+            ImageUrl = model.Image
+        });
+
+        return result;
+    }
+    public static IEnumerable<ContactUs> Mapper(this IEnumerable<ContactUsDto> models)
+    {
+
+        var result = models.Select(model => new ContactUs
+        {
+            Id = model.Id,
+            Title = model.Title,
+            Text = model.Text,
+            Mobile = model.Mobile,
+            Address1 = model.Address1,
+            Address2 = model.Address2,
+            PhoneNumber = model.PhoneNumber,
+            Image = model.ImageUrl
+        });
 
         return result;
     }

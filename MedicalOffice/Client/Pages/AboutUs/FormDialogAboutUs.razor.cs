@@ -1,22 +1,26 @@
 ﻿using Blazored.TextEditor;
 using MedicalOffice.Client.Repositories.Inteface;
+using MedicalOffice.Client.Services;
 using MedicalOffice.Shared.DTO;
+using MedicalOffice.Shared.Entities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Http;
 using MudBlazor;
 
 
 namespace MedicalOffice.Client.Pages.AboutUss;
 
-public class FormDialogAboutUsBase : ComponentBase
+public partial class FormDialogAboutUsBase : ComponentBase
 {
-    #region Inject CascadingParameter
+    #region Inject 
     [Inject]
     public IAboutUsRepository _aboutUsRepository { get; set; }
 
     [CascadingParameter]
     public MudDialogInstance MudDialog { get; set; }
+
+    [Inject]
+    public IFileUpload fileUpload { get; set; }
     #endregion
 
     #region Parameter
@@ -25,82 +29,98 @@ public class FormDialogAboutUsBase : ComponentBase
     [Parameter]
     public string Title { get; set; }
     [Parameter]
-    public IFormFile? Image { get; set; }
+    public IBrowserFile? Image { get; set; }
+    [Parameter]
+    public string? ImageUrl { get; set; }
     [Parameter]   
     public string? Text { get; set; }
 
     #endregion
 
     #region Fields
-    public MudTextField<string> multilineReference;
+    public MultipartFormDataContent MultipartFormData = new MultipartFormDataContent();
 
+    public MudTextField<string>? multilineReference;
     public string? AboutUsName { get; set; }
 
     public AboutUsDto AboutUs = new AboutUsDto();
 
-    public List<AboutUsDto> AboutUss { get; set; } = new List<AboutUsDto>();
-
-    public void Submit() => MudDialog.Close(DialogResult.Ok(true));
-
-    public void Cancel() => MudDialog.Cancel();
-
-    public bool success;
-
-    public string[] errors = { };
     #endregion
 
-    #region Methods
-  
-
-    public async Task OnValidSubmit(EditContext context)
+    protected override void OnInitialized()
     {
-        success = true;
-        if (Id != 0)
-        {
-            await _aboutUsRepository.UpdateAboutUs(AboutUs);
-        }
-        else
-        {
-            await _aboutUsRepository.CreateAboutUs(AboutUs);
-        }
-        StateHasChanged();
-        Submit();
-    }
-    protected override async Task OnInitializedAsync()
-    {
-
-        var result = await _aboutUsRepository.GetAboutUs();
-        if (result.Success)
-        {
-            AboutUss = result.Response.ToList();
-        }
-
         if (Id != 0)
         {
             AboutUs.Id = Id;
             AboutUs.Title = Title;
             AboutUs.Text = Text;
-            AboutUs.Image = Image;
+            AboutUs.ImageUrl = ImageUrl;
         }
     }
-    #endregion
 
-    #region Upload Image
+}
 
+/// <summary>
+/// Upload Image
+/// </summary>
+public partial class FormDialogAboutUsBase : ComponentBase
+{
     public void FileHandleValueChanged(IList<IBrowserFile> _files)
     {
-        Console.WriteLine(_files.FirstOrDefault().Name);
+        Image = _files.FirstOrDefault();
+        var result = fileUpload.AddImage(Image).Result;
+        MultipartFormData.Add(content: result, name: "\"Image\"", fileName: Image.Name);
+        this.StateHasChanged();
     }
-    #endregion
+}
 
-    #region TextEditor
+/// <summary>
+/// TextEditor
+/// </summary>
+public partial class FormDialogAboutUsBase : ComponentBase
+{
     public BlazoredTextEditor richEditor = default!;
     public string toolbar = """"...markup here..."""";
     public string body = """"...markup here..."""";
 
     public void TextHandleValueChanged(string text)
     {
-        Console.WriteLine(text);
+        AboutUs.Text = text;
     }
-    #endregion
+}
+
+/// <summary>
+/// OnValidSubmit
+/// </summary>
+public partial class FormDialogAboutUsBase : ComponentBase
+{
+    public bool success;
+    public void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    public void Cancel() => MudDialog.Cancel();
+    public async Task OnValidSubmit(EditContext context)
+    {
+        success = true;
+
+        MultipartFormData.Add(new StringContent(AboutUs.Id.ToString()), "Id");
+        MultipartFormData.Add(new StringContent(AboutUs.Text.ToString()), "Text");
+        MultipartFormData.Add(new StringContent(AboutUs.Title.ToString()), "Title");
+
+        if (Image == null && !string.IsNullOrEmpty(AboutUs.ImageUrl))
+        {
+            MultipartFormData.Add(new StringContent(AboutUs.ImageUrl.ToString()), "ImageUrl");
+        }
+
+        if (Id != 0)
+        {
+            await _aboutUsRepository.UpdateAboutUs(MultipartFormData);
+        }
+
+        else
+        {
+            await _aboutUsRepository.CreateAboutUs(MultipartFormData);
+        }
+
+        StateHasChanged();
+        Submit();
+    }
 }

@@ -13,4 +13,7 @@ public interface IHttpService
     Task<ResponseData<TResponse>> DeleteAsync<T, TResponse>(string url, T data);
     Task<ResponseData<T>> Get<T>(string url);
 
+    Task<ResponseData<TResponse>> PostAsync<TResponse>(string url, MultipartFormDataContent data);
+    Task<ResponseData<TResponse>> PutAsync<TResponse>(string url, MultipartFormDataContent data);
+
 }

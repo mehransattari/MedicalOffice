@@ -5,7 +5,7 @@
 
 
 <MudIconButton OnClick="@OpenAddDialogAdd" Icon="@Icons.Material.Filled.Add"
-               Color="Color.Success"></MudIconButton>
+               Color="Color.Success" Disabled="disableButtonAdd"></MudIconButton>
 
 <MudIconButton OnClick="@OpenAddDialogEdit" Icon="@Icons.Material.Filled.Edit"
                Color="Color.Warning"></MudIconButton>
@@ -17,7 +17,7 @@
 <MudTable ServerData="@(new Func<TableState, Task<TableData<AboutUsDto>>>(ServerReload))"
           Dense="true"
           Hover="true"
-            @ref="AboutUsTable"
+          @ref="AboutUsTable"
           Bordered="true"
           CanCancelEdit="true"
           SortLabel="Sort By"
@@ -27,14 +27,14 @@
           RowEditCancel="ResetItemToOriginalValues"
           RowEditCommit="ItemHasBeenCommitted"
           IsEditRowSwitchingBlocked="true"
-          ApplyButtonPosition="@applyButtonPosition"
-          EditButtonPosition="@editButtonPosition" 
-          EditTrigger="@editTrigger"
+          ApplyButtonPosition="@TableApplyButtonPosition.End"
+          EditButtonPosition="@TableEditButtonPosition.End"
+          EditTrigger="@TableEditTrigger.EditButton"
           OnRowClick="@OnRowClick"
           MultiSelection="true"
           @bind-SelectOnRowClick="@_selectOnRowClick"
           @bind-SelectedItems="selectedItems"
-          T="AboutUsDto" Items="@AboutUss">
+          T="AboutUsDto" Items="@listAboutUs">
 
 
     <ToolBarContent >
@@ -44,24 +44,45 @@
     </ToolBarContent>
 
     <HeaderContent>
-        <MudTh><MudTableSortLabel SortLabel="FirstName_field" T="User">عنوان </MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="LastName_field" T="User">تصویر </MudTableSortLabel></MudTh>
+         <MudTh><MudTableSortLabel SortLabel="FirstName_field" T="User">عنوان </MudTableSortLabel></MudTh>
+
+         <MudTh><MudTableSortLabel SortLabel="LastName_field" T="User">تصویر </MudTableSortLabel></MudTh>
+      
     </HeaderContent>
 
     <RowTemplate>
-        <MudTd DataLabel="FirstName">@context.Title</MudTd>
-        <MudTd DataLabel="LastName">@context.Image</MudTd>    
+
+        <MudTd DataLabel="Title">@context.Title</MudTd>
+        @if (!string.IsNullOrEmpty(context.ImageUrl))
+        {
+            <MudImage Src="@context.ImageUrl" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
+        }
+        else
+        {
+            <MudImage Src="empty.jpg" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
+        }
+
     </RowTemplate>
 
     <RowEditingTemplate>
-        <MudTd DataLabel="Id">@context.Id</MudTd>
-        <MudTd DataLabel="FirstName">
+        <MudTd DataLabel="Title">
             <MudTextField @bind-Value="@context.Title" Required />
         </MudTd>
-        <MudTd DataLabel="LastName">
-            <MudTextField @bind-Value="@context.Image" Required />
+        <MudTd DataLabel="Image">
+            <MudImage Src="@context.ImageUrl" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
         </MudTd>
-       
+
+        @if (!string.IsNullOrEmpty(context.ImageUrl))
+        {
+            <MudTd DataLabel="Image">
+                <MudImage Src="@context.ImageUrl" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
+            </MudTd>
+        }
+        else
+        {
+            <MudImage Src="empty.jpg" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
+        }
+
     </RowEditingTemplate>
 
     <NoRecordsContent>
@@ -88,7 +109,8 @@
 <MudMessageBox @ref="mbox" Title="حذف" CancelText="لغو">
     <MessageContent>
         آیا از حذف
-        @(selectedItems == null ? "" : string.Join(", ", selectedItems.OrderBy(x => x.Id).Select(x => x.Title)))
+        @(selectedItems == null ? "" :
+        string.Join(", ", selectedItems.OrderBy(x => x.Id).Select(x => x.Title)))
         مطمئن هستید؟
     </MessageContent>
     <YesButton>
@@ -96,6 +118,11 @@
                    StartIcon="@Icons.Material.Filled.DeleteForever">حذف</MudButton>
     </YesButton>
 </MudMessageBox>
+
+
+
+
+
 
 
 

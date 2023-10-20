@@ -1,64 +1,67 @@
 ﻿@inherits FormDialogContactUsBase
 
-<MudDialog>
-
-    <DialogContent>
-
-        <EditForm Model="@ContactUsDto" OnValidSubmit="OnValidSubmit">
+<EditForm Model="@ContactUs" OnValidSubmit="OnValidSubmit">  
+    <MudDialog>
+        <DialogContent>
             <DataAnnotationsValidator />
-            <MudPaper Class="pa-4">
 
-                <MudGrid>                   
+            <MudGrid>
 
-                    <MudItem md="6" sm="12" xs="12">
-                        <MudTextField T="string" Label="عنوان" Required="true" For="@(() => ContactUsDto.Title)"
-                        @bind-Value="ContactUsDto.Title" />
+                <MudItem xs="6" sm="6">
+                    <MudTextField T="string" Label="عنوان " Required="true" For="@(() => ContactUs.Title)"
+                    @bind-Value="ContactUs.Title" />
+                </MudItem>
+
+                <MudItem xs="6" sm="6">
+                    <MudTextField T="string" Label="موبایل " Required="true" For="@(() => ContactUs.Mobile)"
+                    @bind-Value="ContactUs.Mobile" />
+                </MudItem>
+
+                <MudItem xs="6" sm="6">
+                    <MudTextField T="string" Label="تلفن " Required="true" For="@(() => ContactUs.PhoneNumber)"
+                    @bind-Value="ContactUs.PhoneNumber" />
+                </MudItem>
+
+                <MudItem xs="6" sm="6">
+                    <MudTextField T="string" Label="ادرس اول " Required="true" For="@(() => ContactUs.Address1)"
+                    @bind-Value="ContactUs.Address1" />
+                </MudItem>
+
+                <MudItem xs="6" sm="6">
+                    <MudTextField T="string" Label="ادرس دوم " Required="true" For="@(() => ContactUs.Address2)"
+                    @bind-Value="ContactUs.Address2" />
+                </MudItem>
+
+                <MudItem xs="12" sm="12">
+                    <QuilltextEditor OnValueChanged="TextHandleValueChanged" ReceiveText="@Text" />
+                </MudItem>
+
+                <MudItem xs="12" sm="12">
+                    <FileUpload OnValueChanged="FileHandleValueChanged" />
+                </MudItem>
+
+                @if (!string.IsNullOrEmpty(ContactUs.ImageUrl))
+                {
+                    <MudItem xs="12" sm="12">
+                        <MudImage Src="@ContactUs.ImageUrl" Alt="@ContactUs.Title" Elevation="25" Width="100" Class="rounded-lg" />
                     </MudItem>
+                }
+              
 
-                    <MudItem md="6" sm="12" xs="12">
-                        <MudTextField T="string" Label="موبایل " Required="true" For="@(() => ContactUsDto.Mobile)"
-                        @bind-Value="ContactUsDto.Mobile" />
-                    </MudItem>
+            </MudGrid>
 
-                    <MudItem md="6" sm="12" xs="12">
-                        <MudTextField T="string" Label="تلفن " Required="true" For="@(() => ContactUsDto.PhoneNumber)"
-                        @bind-Value="ContactUsDto.PhoneNumber" />
-                    </MudItem>
+        </DialogContent>
 
-                     <MudItem md="6" sm="12" xs="12">
-                        <MudTextField T="string" Label="آدرس اول " Required="true" For="@(() => ContactUsDto.Address1)"
-                        @bind-Value="ContactUsDto.Address1" />
-                    </MudItem>                    
-                
+        <DialogActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true">                     
+                ذخیره
+            </MudButton>
+            <MudButton OnClick="Cancel" Color="Color.Error" Variant="Variant.Filled">لغو</MudButton>
+        </DialogActions>
 
-                    <MudItem md="6" sm="12" xs="12">
-                        <MudTextField T="string" Label="تصویر  " Required="true" For="@(() => ContactUsDto.Address2)"
-                        @bind-Value="ContactUsDto.Image" />
-                    </MudItem>
+    </MudDialog>
+</EditForm>
 
-                    <MudItem md="6" sm="12" xs="12">
-                        <MudTextField T="string" Label="نقشه  " Required="true" For="@(() => ContactUsDto.Map)"
-                        @bind-Value="ContactUsDto.Map" />
-                    </MudItem>
-
-                </MudGrid>
-
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
-                           DisableElevation="true" Class="mt-4">
-                    ذخیره
-                </MudButton>
-
-            </MudPaper>
-
-        </EditForm>
-
-    </DialogContent>
-
-    <DialogActions>
-        <MudButton OnClick="Cancel" Color="Color.Error" Variant="Variant.Filled">لغو</MudButton>
-    </DialogActions>
-
-</MudDialog>
 
 
 

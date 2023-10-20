@@ -12,7 +12,9 @@
 
 <h6>متن</h6>
 
-<BlazoredTextEditor @ref="@QuillHtml" EditorCssStyle="height:300px;">
+
+
+<BlazoredTextEditor @ref="@QuillHtml" EditorCssStyle="height:300px;" >
     <ToolbarContent>
         @((MarkupString)toolbar)
     </ToolbarContent>
@@ -20,6 +22,12 @@
         @((MarkupString)editorContent)
     </EditorContent>
 </BlazoredTextEditor>
+<MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Success" OnClick="ChangeText" Style="text-align:center">
+    اعمال تغییرات
+</MudButton>
+
+
+
 
 
 

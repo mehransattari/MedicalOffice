@@ -5,6 +5,7 @@ using MedicalOffice.Shared.DTO;
 using MedicalOffice.Shared.Entities;
 using MedicalOffice.Shared.Helper;
 using Microsoft.EntityFrameworkCore;
+using MedicalOffice.Server.Helpers;
 
 namespace MedicalOffice.Server.Controllers;
 
@@ -15,95 +16,160 @@ public class ContactUsController : Controller
     #region Constructor
     private readonly AppDbContext _appDbContext;
     private readonly ProtectPassword _protect;
+    private readonly FileHelper _fileHelper;
 
-    public ContactUsController(AppDbContext appDb, ProtectPassword protect)
+    public ContactUsController(AppDbContext appDb, ProtectPassword protect, FileHelper fileHelper)
     {
         _appDbContext = appDb;
         _protect = protect;
+        _fileHelper = fileHelper;
     }
     #endregion
 
     #region Methods
 
-
     [HttpGet]
     public async Task<List<ContactUs>> Get()
     {
-        var result = await _appDbContext.ContactUs.ToListAsync();
-        if (result != null && result.Count > 0)
+        try
         {
-            return result;
+            var result = await _appDbContext.ContactUs.ToListAsync();
+
+            if (result != null && result.Count > 0)
+            {
+                return result;
+            }
+
+            else
+            {
+                return new List<ContactUs>();
+            }
         }
-        else
+        catch (Exception)
         {
             return new List<ContactUs>();
         }
     }
 
-    [HttpGet("getAboutUsById/{id}")]
+    [HttpGet("{id}")]
     public async Task<ContactUs> Get(long id)
     {
-        var result = await _appDbContext.ContactUs.FirstOrDefaultAsync(x => x.Id == id);
-        if (result != null)
+        try
         {
-            return result;
+            var result = await _appDbContext.ContactUs.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (result != null)
+            {
+                return result;
+            }
+
+            else
+            {
+                return new ContactUs();
+            }
         }
-        else
+        catch (Exception)
         {
             return new ContactUs();
         }
     }
 
-    [HttpPost("createAboutUs")]
-    public async Task<bool> Create([FromBody]ContactUsDto model)
+    [HttpPost]
+    public async Task<bool> Create([FromForm] ContactUsDto model)
     {
-        var _model = model.Mapper();
-        await _appDbContext.ContactUs.AddAsync(_model);
-        var result = await _appDbContext.SaveChangesAsync();
-        if (result != 0)
+        try
         {
-            return true;
+            var _model = model.Mapper();
+
+            if (model.Image != null)
+            {
+                _model.Image = await _fileHelper.SaveFile(model.Image, "Images");
+            }
+
+            await _appDbContext.ContactUs.AddAsync(_model);
+
+            var result = await _appDbContext.SaveChangesAsync();
+
+            if (result != 0)
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
         }
-        else
+        catch (Exception)
         {
             return false;
         }
     }
 
-    [HttpPut("updateAboutUs")]
-    public async Task<bool> Update([FromBody]ContactUsDto model)
+    [HttpPut]
+    public async Task<bool> Update([FromForm] ContactUsDto model)
     {
-        var _model = model.Mapper();
-        _appDbContext.ContactUs.Update(_model);
-        var result = await _appDbContext.SaveChangesAsync();
-        if (result != 0)
+        try
         {
-            return true;
+            var _model = model.Mapper();
+
+            if (model.Image != null)
+            {
+                _model.Image = await _fileHelper.SaveFile(model.Image, "Images");
+            }
+
+            _appDbContext.ContactUs.Update(_model);
+
+            var result = await _appDbContext.SaveChangesAsync();
+
+            if (result != 0)
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
         }
-        else
+        catch (Exception)
         {
             return false;
         }
     }
 
-    [HttpDelete("deleteAboutUs/{Id}")]
+    [HttpDelete("{Id}")]
     public async Task<bool> Delete(long Id)
     {
-        var _model = await Get(Id);
-        _appDbContext.ContactUs.Remove(_model);
-        var result = await _appDbContext.SaveChangesAsync();
-        if (result != 0)
+        try
         {
-            return true;
+            var _model = await Get(Id);
+
+            _appDbContext.ContactUs.Remove(_model);
+
+            await _appDbContext.SaveChangesAsync();
+
+            var result = await _appDbContext.SaveChangesAsync();
+
+            if (result != 0)
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
         }
-        else
+        catch (Exception)
         {
             return false;
         }
+
     }
 
-    [HttpPost("deleteAboutUs")]
-    public async Task<bool> DeleteAboutUs([FromBody] IEnumerable<long> ids)
+    [HttpPost("deleteContactUs")]
+    public async Task<bool> Delete([FromBody] IEnumerable<long> ids)
     {
         var models = await _appDbContext.ContactUs.Where(u => ids.Contains(u.Id)).ToListAsync();
 
@@ -124,10 +190,6 @@ public class ContactUsController : Controller
 
         return true;
     }
-
-
-
-
 
     #endregion
 }

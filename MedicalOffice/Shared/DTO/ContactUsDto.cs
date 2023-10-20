@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace MedicalOffice.Shared.DTO;
@@ -7,9 +8,11 @@ public class ContactUsDto
 {
     public long Id { get; set; }
 
-    public string Title { get; set; }
+    public string Title { get; set; } 
 
-    public string? Image { get; set; }
+    public IFormFile? Image { get; set; }
+
+    public string? ImageUrl { get; set; }
 
     public string? Text { get; set; }
 

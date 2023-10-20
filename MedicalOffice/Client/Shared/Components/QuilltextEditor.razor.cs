@@ -8,10 +8,13 @@ public class QuilltextEditorBase : ComponentBase
     [Parameter]
     public Action<string> OnValueChanged { get; set; }
 
+    [Parameter]
+    public string ReceiveText { get; set; } = string.Empty;
+
+
     public BlazoredTextEditor QuillHtml = new BlazoredTextEditor();
 
     public string toolbar = """"...markup here..."""";
-    public string body = """"...markup here..."""";
     public string editorContent = "";
 
     protected override void OnInitialized()
@@ -63,13 +66,21 @@ public class QuilltextEditorBase : ComponentBase
 
            
             """";
-        body = "";
-       
+        editorContent = ReceiveText;
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        editorContent = ReceiveText;
+        var htmlValue = await QuillHtml.GetHTML();
+        OnValueChanged?.Invoke(htmlValue);
+    }
+  
+    public async Task ChangeText()
     {
         var htmlValue = await QuillHtml.GetHTML();
         OnValueChanged?.Invoke(htmlValue);
     }
-   
+
+
+
 }

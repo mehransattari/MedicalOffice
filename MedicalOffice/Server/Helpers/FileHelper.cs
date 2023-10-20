@@ -12,9 +12,38 @@ public class FileHelper
         _httpContext = httpContext;
         _env = env;
     }
-
-    public async Task<string> SaveFile(byte[] content , string extension , string folderName)
+    public  async Task<byte[]> GetBytesFromIFormFile(IFormFile file)
     {
+        using (var memoryStream = new MemoryStream())
+        {
+            await file.CopyToAsync(memoryStream);             
+             var res =   memoryStream.ToArray();
+            return res;
+        }
+    }
+    public async Task<string> SaveImageAsFromFile(IFormFile file)
+    {
+        var folderPath = Path.Combine(_env.WebRootPath, "Images");
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+        var filePath = Path.Combine(folderPath, fileName);
+
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        return filePath;
+    }
+    public async Task<string> SaveFile(IFormFile image,string folderName)
+    {
+        var content = await GetBytesFromIFormFile(image);
+        var extension = Path.GetExtension(image.FileName);
+
         // huny1234trvtc987.jpg
         var fileName = $"{Guid.NewGuid()}.{ extension }";
 
@@ -43,13 +72,13 @@ public class FileHelper
         return await Task.FromResult(true);
     }
 
-    public async Task<string> EditFile(byte[] content , string extension, string folderName ,  string oldFileName)
+    public async Task<string> EditFile(IFormFile image, string folderName ,  string oldFileName)
     {
         if (!string.IsNullOrEmpty(oldFileName))
         {
             await DeleteFile(oldFileName , folderName);
         }
 
-        return await SaveFile(content , extension , folderName);
+        return await SaveFile(image, folderName);
     }
 }

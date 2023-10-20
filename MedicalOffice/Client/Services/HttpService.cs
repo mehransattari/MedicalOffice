@@ -62,7 +62,34 @@ public class HttpService : IHttpService
             return new ResponseData<TResponse>(default, false, response);
         }
     }
+    public async Task<ResponseData<TResponse>> PostAsync<TResponse>(string url, MultipartFormDataContent data)
+    {
+  
+        var response = await _http.PostAsync(url, data);
+        if (response.IsSuccessStatusCode)
+        {
+            var responseDeserialized = await Deserialize<TResponse>(response, defaultJsonSerializerOptions);
+            return new ResponseData<TResponse>(responseDeserialized, true, response);
+        }
+        else
+        {
+            return new ResponseData<TResponse>(default, false, response);
+        }
+    }
+    public async Task<ResponseData<TResponse>> PutAsync<TResponse>(string url, MultipartFormDataContent data)
+    {
 
+        var response = await _http.PutAsync(url, data);
+        if (response.IsSuccessStatusCode)
+        {
+            var responseDeserialized = await Deserialize<TResponse>(response, defaultJsonSerializerOptions);
+            return new ResponseData<TResponse>(responseDeserialized, true, response);
+        }
+        else
+        {
+            return new ResponseData<TResponse>(default, false, response);
+        }
+    }
 
     public ResponseData<TResponse> Put<T, TResponse>(string url, T data)
     {
