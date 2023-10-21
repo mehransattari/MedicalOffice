@@ -9,6 +9,7 @@ public class AboutUsDto
 {
     public long Id { get; set; }
 
+    [Required(ErrorMessage = "عنوان را وارد کنید.")]
     public string Title { get; set; }
 
     public IFormFile? Image { get; set; }

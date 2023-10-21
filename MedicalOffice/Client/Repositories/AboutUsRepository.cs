@@ -30,8 +30,7 @@ public class AboutUsRepository : IAboutUsRepository
     }
 
     public async Task<ResponseData<bool>> UpdateAboutUs(MultipartFormDataContent model)
-    {
-       
+    {       
         var result = await _http.PutAsync<bool>($"{_URL}", model);
         return result;
     }

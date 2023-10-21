@@ -1,28 +1,28 @@
-﻿@page "/admin/aboutus"
+﻿@page "/admin/slider"
 @using MedicalOffice.Client.Repositories.Inteface;
 @using MedicalOffice.Shared.DTO;
-@inherits ListAboutUsBase
+@inherits ListSliderBase
 
 
 <MudIconButton OnClick="@OpenAddDialogAdd" Icon="@Icons.Material.Filled.Add"
-               Color="Color.Success" Disabled="disableButtonAdd"></MudIconButton>
+               Color="Color.Success" ></MudIconButton>
 
 <MudIconButton OnClick="@OpenAddDialogEdit" Icon="@Icons.Material.Filled.Edit"
                Color="Color.Warning"></MudIconButton>
 
 
-<MudIconButton  Icon="@Icons.Material.Filled.Delete" aria-label="delete" 
-                Color="Color.Error" OnClick="OnButtonClicked"></MudIconButton>
+<MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete"
+               Color="Color.Error" OnClick="OnButtonClicked"></MudIconButton>
 
-<MudTable ServerData="@(new Func<TableState, Task<TableData<AboutUsDto>>>(ServerReload))"
+<MudTable ServerData="@(new Func<TableState, Task<TableData<SliderDto>>>(ServerReload))"
           Dense="true"
           Hover="true"
-          @ref="AboutUsTable"
+          @ref="SliderTable"
           Bordered="true"
           CanCancelEdit="true"
           SortLabel="Sort By"
           CommitEditTooltip="Commit Edit"
-          OnCommitEditClick="@(() => Snackbar.Add("عملیات ویرایش با موفقیت انجام شد"))" 
+          OnCommitEditClick="@(() => Snackbar.Add("عملیات ویرایش با موفقیت انجام شد"))"
           RowEditPreview="BackupItem"
           RowEditCancel="ResetItemToOriginalValues"
           RowEditCommit="ItemHasBeenCommitted"
@@ -34,25 +34,26 @@
           MultiSelection="true"
           @bind-SelectOnRowClick="@_selectOnRowClick"
           @bind-SelectedItems="selectedItems"
-          T="AboutUsDto" Items="@listAboutUs">
+          T="SliderDto" Items="@listSlider">
 
 
-    <ToolBarContent >
-        <MudText Typo="Typo.h6"> درباره ما</MudText>
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">  اسلایدر ها</MudText>
         <MudSpacer />
 
     </ToolBarContent>
 
     <HeaderContent>
-         <MudTh><MudTableSortLabel SortLabel="FirstName_field" T="User">عنوان </MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="FirstName_field" T="User">عنوان </MudTableSortLabel></MudTh>
 
-         <MudTh><MudTableSortLabel SortLabel="LastName_field" T="User">تصویر </MudTableSortLabel></MudTh>
-      
+        <MudTh><MudTableSortLabel SortLabel="LastName_field" T="User">تصویر </MudTableSortLabel></MudTh>
+
     </HeaderContent>
 
     <RowTemplate>
 
         <MudTd DataLabel="Title">@context.Title</MudTd>
+
         @if (!string.IsNullOrEmpty(context.ImageUrl))
         {
             <MudImage Src="@context.ImageUrl" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
@@ -68,7 +69,7 @@
         <MudTd DataLabel="Title">
             <MudTextField @bind-Value="@context.Title" Required />
         </MudTd>
-
+ 
         @if (!string.IsNullOrEmpty(context.ImageUrl))
         {
             <MudTd DataLabel="Image">
@@ -107,11 +108,11 @@
     <MessageContent>
         آیا از حذف
         @(selectedItems == null ? "" :
-        string.Join(", ", selectedItems.OrderBy(x => x.Id).Select(x => x.Title)))
+            string.Join(", ", selectedItems.OrderBy(x => x.Id).Select(x => x.Title)))
         مطمئن هستید؟
     </MessageContent>
     <YesButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="DeleteAboutUss"
+        <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="DeleteSliders"
                    StartIcon="@Icons.Material.Filled.DeleteForever">حذف</MudButton>
     </YesButton>
 </MudMessageBox>

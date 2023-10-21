@@ -35,9 +35,15 @@ public partial class ListAboutUsBase : ComponentBase
         if (EditedAboutUs.Id != 0)
         {
             MultipartFormData.Add(new StringContent(EditedAboutUs.Title.ToString()), "Title");
-            MultipartFormData.Add(new StringContent(EditedAboutUs.Text.ToString()), "Text");
+            if (EditedAboutUs?.Text != null)
+            {
+                MultipartFormData.Add(new StringContent(EditedAboutUs.Text.ToString()), "Text");
+            }
             MultipartFormData.Add(new StringContent(EditedAboutUs.Id.ToString()), "Id");
-            MultipartFormData.Add(new StringContent(EditedAboutUs.ImageUrl.ToString()), "ImageUrl");
+            if (EditedAboutUs?.ImageUrl != null)
+            {
+                MultipartFormData.Add(new StringContent(EditedAboutUs.ImageUrl.ToString()), "ImageUrl");
+            }
 
             var result = await _aboutUsRepository.UpdateAboutUs(MultipartFormData);
             if (result.Response)

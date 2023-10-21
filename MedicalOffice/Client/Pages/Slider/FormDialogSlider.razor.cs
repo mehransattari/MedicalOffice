@@ -1,19 +1,17 @@
-﻿using Blazored.TextEditor;
-using MedicalOffice.Client.Repositories.Inteface;
+﻿using MedicalOffice.Client.Repositories.Inteface;
 using MedicalOffice.Client.Services;
 using MedicalOffice.Shared.DTO;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 
+namespace MedicalOffice.Client.Pages.Slider;
 
-namespace MedicalOffice.Client.Pages.AboutUss;
-
-public partial class FormDialogAboutUsBase : ComponentBase
+public partial class FormDialogSliderBase : ComponentBase
 {
     #region Inject 
     [Inject]
-    public IAboutUsRepository _aboutUsRepository { get; set; }
+    public ISliderRepository _sliderrepository { get; set; }
 
     [CascadingParameter]
     public MudDialogInstance MudDialog { get; set; }
@@ -31,8 +29,8 @@ public partial class FormDialogAboutUsBase : ComponentBase
     public IBrowserFile? Image { get; set; }
     [Parameter]
     public string? ImageUrl { get; set; }
-    [Parameter]   
-    public string? Text { get; set; }
+    [Parameter]
+    public string? Desc { get; set; }
 
     #endregion
 
@@ -40,9 +38,9 @@ public partial class FormDialogAboutUsBase : ComponentBase
     public MultipartFormDataContent MultipartFormData = new MultipartFormDataContent();
 
     public MudTextField<string>? multilineReference;
-    public string? AboutUsName { get; set; }
+    public string? SliderName { get; set; }
 
-    public AboutUsDto AboutUs = new AboutUsDto();
+    public SliderDto Slider = new SliderDto();
 
     #endregion
 
@@ -50,10 +48,11 @@ public partial class FormDialogAboutUsBase : ComponentBase
     {
         if (Id != 0)
         {
-            AboutUs.Id = Id;
-            AboutUs.Title = Title;
-            AboutUs.Text = Text;
-            AboutUs.ImageUrl = ImageUrl;
+            Slider.Id = Id;
+            Slider.Title = Title;
+            Slider.ImageUrl = ImageUrl;
+            Slider.Desc = Desc;
+
         }
     }
 
@@ -62,7 +61,7 @@ public partial class FormDialogAboutUsBase : ComponentBase
 /// <summary>
 /// Upload Image
 /// </summary>
-public partial class FormDialogAboutUsBase : ComponentBase
+public partial class FormDialogSliderBase : ComponentBase
 {
     public void FileHandleValueChanged(IList<IBrowserFile> _files)
     {
@@ -74,24 +73,9 @@ public partial class FormDialogAboutUsBase : ComponentBase
 }
 
 /// <summary>
-/// TextEditor
-/// </summary>
-public partial class FormDialogAboutUsBase : ComponentBase
-{
-    public BlazoredTextEditor richEditor = default!;
-    public string toolbar = """"...markup here..."""";
-    public string body = """"...markup here..."""";
-
-    public void TextHandleValueChanged(string text)
-    {
-        AboutUs.Text = text;
-    }
-}
-
-/// <summary>
 /// OnValidSubmit
 /// </summary>
-public partial class FormDialogAboutUsBase : ComponentBase
+public partial class FormDialogSliderBase : ComponentBase
 {
     public bool success;
     public void Submit() => MudDialog.Close(DialogResult.Ok(true));
@@ -100,27 +84,25 @@ public partial class FormDialogAboutUsBase : ComponentBase
     {
         success = true;
 
-        MultipartFormData.Add(new StringContent(AboutUs.Id.ToString()), "Id");
-        MultipartFormData.Add(new StringContent(AboutUs.Title.ToString()), "Title");
-
-        if (AboutUs?.Text != null)
+        MultipartFormData.Add(new StringContent(Slider.Id.ToString()), "Id");
+        MultipartFormData.Add(new StringContent(Slider.Title.ToString()), "Title");
+        if(Slider.Desc!=null)
         {
-            MultipartFormData.Add(new StringContent(AboutUs.Text.ToString()), "Text");
+            MultipartFormData.Add(new StringContent(Slider.Desc.ToString()), "Desc");
         }
 
-        if (Image == null && !string.IsNullOrEmpty(AboutUs.ImageUrl))
+        if (Image == null && !string.IsNullOrEmpty(Slider.ImageUrl))
         {
-            MultipartFormData.Add(new StringContent(AboutUs.ImageUrl.ToString()), "ImageUrl");
+            MultipartFormData.Add(new StringContent(Slider.ImageUrl.ToString()), "ImageUrl");
         }
 
         if (Id != 0)
         {
-            await _aboutUsRepository.UpdateAboutUs(MultipartFormData);
+            await _sliderrepository.UpdateSlider(MultipartFormData);
         }
-
         else
         {
-            await _aboutUsRepository.CreateAboutUs(MultipartFormData);
+            await _sliderrepository.CreateSlider(MultipartFormData);
         }
 
         StateHasChanged();

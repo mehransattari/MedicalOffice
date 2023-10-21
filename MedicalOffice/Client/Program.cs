@@ -32,6 +32,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IAboutUsRepository, AboutUsRepository>();
 builder.Services.AddScoped<IContactUsRepository, ContactUsRepository>();
+builder.Services.AddScoped<ISliderRepository, SliderRepository>();
+
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<AuthenticationStateProvider, JWTService>(
     option => option.GetRequiredService<JWTService>()
