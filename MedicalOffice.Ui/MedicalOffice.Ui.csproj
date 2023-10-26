@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\fonts\Feather144f.svg" />
+    <None Include="wwwroot\assets\js\bootstrap-datetimepicker.min.js" />
+    <None Include="wwwroot\assets\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\assets\js\circle-progress.min.js" />
+    <None Include="wwwroot\assets\js\fa.js" />
+    <None Include="wwwroot\assets\js\jquery-1.11.0.min.js" />
+    <None Include="wwwroot\assets\js\jquery-3.6.0.min.js" />
+    <None Include="wwwroot\assets\js\jquery-migrate-1.2.1.min.js" />
+    <None Include="wwwroot\assets\js\map.js" />
+    <None Include="wwwroot\assets\js\moment-jalaali.js" />
+    <None Include="wwwroot\assets\js\moment.min.js" />
+    <None Include="wwwroot\assets\js\persian-date.js" />
+    <None Include="wwwroot\assets\js\persian-datepicker.js" />
+    <None Include="wwwroot\assets\js\profile-settings.js" />
+    <None Include="wwwroot\assets\js\script.js" />
+    <None Include="wwwroot\assets\js\slick.js" />
+    <None Include="wwwroot\assets\plugins\bootstrap-tagsinput\js\bootstrap-tagsinput.js" />
+    <None Include="wwwroot\assets\plugins\daterangepicker\daterangepicker.js" />
+    <None Include="wwwroot\assets\plugins\dropzone\dropzone.min.js" />
+    <None Include="wwwroot\assets\plugins\fancybox\jquery.fancybox.min.js" />
+    <None Include="wwwroot\assets\plugins\fontawesome\webfonts\fa-brands-400.svg" />
+    <None Include="wwwroot\assets\plugins\fontawesome\webfonts\fa-regular-400.svg" />
+    <None Include="wwwroot\assets\plugins\fontawesome\webfonts\fa-solid-900.svg" />
+    <None Include="wwwroot\assets\plugins\fullcalendar\fullcalendar.min.js" />
+    <None Include="wwwroot\assets\plugins\fullcalendar\jquery.fullcalendar.js" />
+    <None Include="wwwroot\assets\plugins\Jcal\bootstrap-datepicker.fa.min.js" />
+    <None Include="wwwroot\assets\plugins\Jcal\daterangepicker.js" />
+    <None Include="wwwroot\assets\plugins\Jcal\fa.js" />
+    <None Include="wwwroot\assets\plugins\Jcal\fullcalendar.js" />
+    <None Include="wwwroot\assets\plugins\Jcal\moment-jalaali.js" />
+    <None Include="wwwroot\assets\plugins\Jcal\moment.js" />
+    <None Include="wwwroot\assets\plugins\Jcal\moment.min.js" />
+    <None Include="wwwroot\assets\plugins\Jcal\persian-date.js" />
+    <None Include="wwwroot\assets\plugins\Jcal\persian-datepicker.js" />
+    <None Include="wwwroot\assets\plugins\jquery-ui\jquery-ui.min.js" />
+    <None Include="wwwroot\assets\plugins\select2\js\select2.min.js" />
+    <None Include="wwwroot\assets\plugins\theia-sticky-sidebar\ResizeSensor.js" />
+    <None Include="wwwroot\assets\plugins\theia-sticky-sidebar\theia-sticky-sidebar.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.9" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.11" />
+
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MedicalOffice\Shared\MedicalOffice.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

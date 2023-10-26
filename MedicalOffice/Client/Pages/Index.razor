@@ -1,6 +1,23 @@
 ﻿@page "/"
 @inherits IndexBase
 
-<PageTitle>Index</PageTitle>
+<PageTitle>داشبورد</PageTitle>
 
 
+
+
+
+<MudGrid Justify="Justify.Center">
+
+    <MudItem>
+        <div>
+            <MudChart ChartType="ChartType.Bar" ChartSeries="@Series"
+            @bind-SelectedIndex="Dashbord"
+                      XAxisLabels="@XAxisLabels"
+                      Width="100%"
+                      Height="350px">
+            </MudChart>
+        </div>
+    </MudItem>
+
+</MudGrid>

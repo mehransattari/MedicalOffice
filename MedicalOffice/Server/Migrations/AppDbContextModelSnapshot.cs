@@ -87,6 +87,36 @@ namespace MedicalOffice.Server.Migrations
                     b.ToTable("ContactUs");
                 });
 
+            modelBuilder.Entity("MedicalOffice.Shared.Entities.ProvidingService", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Desc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("ShortDesc")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProvidingServices");
+                });
+
             modelBuilder.Entity("MedicalOffice.Shared.Entities.Role", b =>
                 {
                     b.Property<long>("Id")

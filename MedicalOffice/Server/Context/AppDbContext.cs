@@ -37,6 +37,7 @@ public class AppDbContext : DbContext
     public DbSet<AboutUs> AboutUs { get; set; }
     public DbSet<ContactUs> ContactUs { get; set; }
     public DbSet<Slider> Sliders { get; set; }
+    public DbSet<ProvidingService> ProvidingServices { get; set; }
 
 
     

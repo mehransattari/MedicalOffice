@@ -1,0 +1,52 @@
+﻿@inherits FormDialogProvidingServiceBase
+
+<EditForm Model="@ProvidingService" OnValidSubmit="OnValidSubmit">
+    <MudDialog>
+        <DialogContent>
+            <DataAnnotationsValidator />
+
+            <MudGrid>
+
+                <MudItem xs="6" sm="6">
+                    <MudTextField T="string" Label="عنوان " Required="true" For="@(() => ProvidingService.Title)"
+                    @bind-Value="ProvidingService.Title" />
+                </MudItem>
+
+                <MudItem xs="6" sm="6">
+                    <MudTextField T="string" Label="توضیح کوتاه " Lines="3" Required="true" For="@(() => ProvidingService.ShortDesc)"
+                    @bind-Value="ProvidingService.ShortDesc" />
+                </MudItem>
+
+                <MudItem xs="12" sm="12">
+                    <QuilltextEditor OnValueChanged="TextHandleValueChanged" ReceiveText="@Desc" />
+                </MudItem>
+
+                <MudItem xs="12" sm="12">
+                    <FileUpload OnValueChanged="FileHandleValueChanged" />
+                </MudItem>
+
+                @if (!string.IsNullOrEmpty(ProvidingService.ImageUrl))
+                {
+                    <MudItem xs="12" sm="12">
+                        <MudImage Src="@ProvidingService.ImageUrl" Alt="@ProvidingService.Title" Elevation="25" Width="100" Class="rounded-lg" />
+                    </MudItem>
+                }
+
+
+            </MudGrid>
+
+        </DialogContent>
+
+        <DialogActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true">
+                ذخیره
+            </MudButton>
+            <MudButton OnClick="Cancel" Color="Color.Error" Variant="Variant.Filled">لغو</MudButton>
+        </DialogActions>
+
+    </MudDialog>
+</EditForm>
+
+
+
+

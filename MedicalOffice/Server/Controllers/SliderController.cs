@@ -11,7 +11,7 @@ namespace MedicalOffice.Server.Controllers;
 
 [ApiController]
 [Route("api/slider")]
-public class SliderController :  Controller
+public class SliderController : ControllerBase
 {
     #region Constructor
     private readonly AppDbContext _appDbContext;

@@ -1,0 +1,38 @@
+﻿@inherits MyServiciesComponentBase
+
+<section class="our-service">
+    <div class="container">
+        <div>
+            <i class="fas fa-paw title-icon"></i>
+            <p class="title-top"> آنچه ما ارائه می دهیم </p>
+            <h2 class="section-title">خدمات ما</h2>
+        </div>
+        <div class="our-service-slider slider">
+            @foreach (var service in ProvidingServices)
+            {
+                <div class="service-widgets">
+                    <div class="white-widget">
+                        <div class="card">
+                            <div>
+                                <img src=" @service.Image" alt="Behaviour" class="img-fluid" />
+                            </div>
+                            <h3>
+                                @service.Title
+                            </h3>
+                            <p>
+                                @service.ShortDesc
+                            </p>
+                        </div>
+                    </div>
+                    <div class="orange-widget">
+                        <a href="#" class="btn btn-primary">بیشتر بخوانید</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+
+

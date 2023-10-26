@@ -32,6 +32,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ClockSkew = TimeSpan.Zero,
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:7084") // Allow requests from this origin
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
@@ -44,6 +54,8 @@ else
     app.UseExceptionHandler("/Error"); 
     app.UseHsts();
 }
+
+app.UseCors("AllowSpecificOrigin"); // Apply the CORS policy
 
 app.UseHttpsRedirection();
 

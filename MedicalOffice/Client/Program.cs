@@ -33,6 +33,7 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IAboutUsRepository, AboutUsRepository>();
 builder.Services.AddScoped<IContactUsRepository, ContactUsRepository>();
 builder.Services.AddScoped<ISliderRepository, SliderRepository>();
+builder.Services.AddScoped<IProvidingServiceRepository, ProvidingServiceRepository>();
 
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<AuthenticationStateProvider, JWTService>(

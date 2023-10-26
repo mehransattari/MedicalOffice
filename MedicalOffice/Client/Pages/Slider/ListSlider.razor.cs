@@ -35,10 +35,12 @@ public partial class ListSliderBase : ComponentBase
         {
             MultipartFormData.Add(new StringContent(EditedSlider?.Title?.ToString()), "Title");
             MultipartFormData.Add(new StringContent(EditedSlider.Id.ToString()), "Id");
+
             if(EditedSlider?.Desc!=null)
             {
                 MultipartFormData.Add(new StringContent(EditedSlider?.Desc?.ToString()), "Desc");
             }
+
             if (EditedSlider?.ImageUrl != null)
             {
                 MultipartFormData.Add(new StringContent(EditedSlider?.ImageUrl?.ToString()), "ImageUrl");

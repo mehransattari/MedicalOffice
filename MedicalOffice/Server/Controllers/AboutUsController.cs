@@ -11,7 +11,7 @@ namespace MedicalOffice.Server.Controllers;
 
 [ApiController]
 [Route("api/aboutus")]
-public class AboutUsController : Controller
+public class AboutUsController : ControllerBase
 {
     #region Constructor
     private readonly AppDbContext _appDbContext;

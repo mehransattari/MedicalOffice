@@ -1,0 +1,73 @@
+﻿
+@page "/reservation_times"
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index-2.html">خانه</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">‌تقویم</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">‌تقویم</h2>
+            </div>
+            <div class="col-auto text-end float-end ms-auto">
+                <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                   data-bs-target="#add_event">ساخت رویداد</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">رویداد را بگیرید و بیاندازید</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="calendar-events" class="mb-3">
+                            <div class="calendar-events" data-class="bg-info">
+                                <i class="fas fa-circle text-info"></i> رویداد یک
+                            </div>
+                            <div class="calendar-events" data-class="bg-success">
+                                <i class="fas fa-circle text-success"></i> رویداد دو
+                            </div>
+                            <div class="calendar-events" data-class="bg-danger">
+                                <i class="fas fa-circle text-danger"></i> رویداد سه
+                            </div>
+                            <div class="calendar-events" data-class="bg-warning">
+                                <i class="fas fa-circle text-warning"></i>رویداد چهار
+                            </div>
+                        </div>
+                        <div class="checkbox mb-3">
+                            <input id="drop-remove" type="checkbox">
+                            <label for="drop-remove">
+                                حذف بعد از انداختن
+                            </label>
+                        </div>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#add_new_event"
+                           class="btn btn-primary w-100">
+                            <i class="fas fa-plus"></i> افزودن دسته بندی
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-7 col-lg-8 col-xl-9">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
