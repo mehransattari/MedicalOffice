@@ -9,6 +9,6 @@ public interface IProvidingServiceRepository
     Task<ResponseData<bool>> CreateProvidingService(MultipartFormDataContent model);
     Task<ResponseData<bool>> DeleteProvidingServiceByIds(IEnumerable<long> ids);
     Task<ResponseData<IEnumerable<ProvidingService>>> GetProvidingService();
-    Task<ResponseData<ProvidingServiceDto>> GetProvidingServiceById(long Id);
+    Task<ResponseData<ProvidingService>> GetProvidingServiceById(long Id);
     Task<ResponseData<bool>> UpdateProvidingService(MultipartFormDataContent model);
 }

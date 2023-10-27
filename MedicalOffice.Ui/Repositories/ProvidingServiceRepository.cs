@@ -45,9 +45,9 @@ public class ProvidingServiceRepository : IProvidingServiceRepository
         return result;
     }
 
-    public async Task<ResponseData<ProvidingServiceDto>> GetProvidingServiceById(long Id)
+    public async Task<ResponseData<ProvidingService>> GetProvidingServiceById(long Id)
     {
-        var result = await _http.PostAsync<long, ProvidingServiceDto>($"{_URL}", Id);
+        var result = await _http.Get<ProvidingService>($"{_URL}/{Id}");
         return result;
     }
 

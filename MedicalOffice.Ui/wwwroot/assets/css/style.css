@@ -2483,10 +2483,14 @@ html.menu-opened body {
 	color: #f79a6d;
 	margin-top: 15px;
 }
-.white-widget .card p {
-	font-size: 14px;
-	margin: 0px;
-}
+	.white-widget .card p {
+		font-size: 14px;
+		margin: 0px;
+		height: 200px;
+		overflow-x: auto;
+		text-align: justify;
+		padding: 14px;
+	}
 .orange-widget {
 	background-color: #f79a6d;
     border-radius: 5px;
