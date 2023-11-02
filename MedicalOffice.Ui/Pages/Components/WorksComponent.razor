@@ -1,19 +1,15 @@
-﻿<div class="gallery-section">
+﻿@inherits WorksComponentBase
+
+<div class="gallery-section">
+
     <div class="gallery-slider slider">
-        <div class="img-sec">
-            <img src="assets/img/gal-01.jpg" class="img-fluid" alt="Gallery" />
-        </div>
-        <div class="img-sec">
-            <img src="assets/img/gal-02.jpg" class="img-fluid" alt="Gallery" />
-        </div>
-        <div class="img-sec">
-            <img src="assets/img/gal-03.jpg" class="img-fluid" alt="Gallery" />
-        </div>
-        <div class="img-sec">
-            <img src="assets/img/gal-04.jpg" class="img-fluid" alt="Gallery" />
-        </div>
-        <div class="img-sec">
-            <img src="assets/img/gal-05.jpg" class="img-fluid" alt="Gallery" />
-        </div>
+
+        @foreach (var project in Projects)
+        {
+            <div class="img-sec">
+                <img src="@project.Image" class="img-fluid" alt="@project.Title" />
+            </div>
+        }         
+      
     </div>
 </div>

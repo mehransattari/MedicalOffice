@@ -33,7 +33,8 @@
                 </MudItem>
 
                 <MudItem xs="12" sm="12">
-                    <QuilltextEditor OnValueChanged="TextHandleValueChanged" ReceiveText="@Text" />
+                    <MudTextField T="string" Label="توضیح  " Lines="3" Required="true" For="@(() => ContactUs.Text)"
+                    @bind-Value="ContactUs.Text" />
                 </MudItem>
 
                 <MudItem xs="12" sm="12">

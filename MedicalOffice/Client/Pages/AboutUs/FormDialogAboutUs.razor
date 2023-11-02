@@ -14,14 +14,13 @@
                     <MudTextField T="string" Label="عنوان " Required="true" For="@(() => AboutUs.Title)"
                     @bind-Value="AboutUs.Title" />
                 </MudItem>
-                <MudSpacer />
-              
+
 
                 <MudItem xs="12" sm="12">
-                    <QuilltextEditor OnValueChanged="TextHandleValueChanged" ReceiveText="@Text" />
+                    <MudTextField T="string" Label="توضیح  " Lines="3" Required="true" For="@(() => AboutUs.Text)"
+                    @bind-Value="AboutUs.Text" />
                 </MudItem>
-
-                <MudSpacer />
+              
 
                 <MudItem xs="12" sm="12">
                     <FileUpload OnValueChanged="FileHandleValueChanged" />   

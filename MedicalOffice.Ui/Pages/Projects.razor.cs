@@ -3,9 +3,9 @@ using MedicalOffice.Ui.Repositories.Inteface;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace MedicalOffice.Ui.Pages.Components;
+namespace MedicalOffice.Ui.Pages;
 
-public class WorksComponentBase: ComponentBase
+public class ProjectsBase:ComponentBase
 {
     [Inject]
     public IJSRuntime _jSRuntime { get; set; }
@@ -15,10 +15,7 @@ public class WorksComponentBase: ComponentBase
 
     public IEnumerable<Project> Projects { get; set; } = new List<Project>();
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await _jSRuntime.InvokeVoidAsync("gallery_Slider", Projects.Count());
-    }
+
 
     protected override async Task OnInitializedAsync()
     {

@@ -25,8 +25,8 @@
             <div class="col-md-12 text-center">
                 <h3 class="mb-4">‌تماس با ما</h3>
                 <p>
-                    پزشک عالی اگر برای اعضای خانواده خود نیاز دارید تا از کمک های فوری ، معالجه اضطراری یا یک
-                    مشاوره ساده استفاده کنید.
+                    
+                    @ContactUs.Title
                 </p>
             </div>
         </div>
@@ -40,7 +40,7 @@
                     </div>
                     <div class="infor-details text-center">
                         <label>شماره تماس</label>
-                        <p>+152 534-468-854</p>
+                        <p>@ContactUs.PhoneNumber</p>
                     </div>
                 </div>
             </div>
@@ -52,10 +52,9 @@
                         </div>
                     </div>
                     <div class="infor-details text-center">
-                        <label>ایمیل</label>
+                        <label>موبایل</label>
                         <p>
-                            <a href="https://template.doccure.io/cdn-cgi/l/email-protection" class="__cf_email__"
-                               data-cfemail="83e0ecedf7e2e0f7c3e6fbe2eef3efe6ade0ecee">[email&#160;protected]</a>
+                            @ContactUs.Mobile
                         </p>
                     </div>
                 </div>
@@ -69,7 +68,21 @@
                     </div>
                     <div class="infor-details text-center">
                         <label>آدرس</label>
-                        <p>آزادراه شمال غربی ، هوستون ، ایالات متحده </p>
+                        @if (!string.IsNullOrEmpty(ContactUs.Address1))
+                        {
+                            <p>
+                                @ContactUs.Address1
+                            </p>
+                        }
+                        @if (!string.IsNullOrEmpty(ContactUs.Address2))
+                        {
+                            <p>
+                                @ContactUs.Address2
+                            </p>
+                        }
+                     
+
+                    
                     </div>
                 </div>
             </div>
@@ -77,47 +90,6 @@
     </div>
 </section>
 
-<section class="contact-form">
-    <div class="container">
-        <div class="section-header text-center">
-            <h2>در تماس باشید</h2>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <form action="#">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>نام شما<span>*</span></label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>ایمیل شما<span>*</span></label>
-                                <input type="text" class="form-control form-email">
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>موضوع</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>نظر <span>*</span></label>
-                                <textarea class="form-control">
-</textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn bg-primary">ارسال پیام</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
 
 
 <section class="contact-map d-flex">

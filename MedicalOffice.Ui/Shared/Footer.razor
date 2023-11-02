@@ -1,111 +1,146 @@
-﻿     <footer class="footer">
+﻿@inherits FooterBase
 
-            <div class="footer-top">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
+<footer class="footer">
 
-                            <div class="footer-widget footer-about">
-                                <div class="footer-logo">
-                                    <img src="assets/img/logo-white.png" alt="logo">
-                                </div>
-                                <div class="footer-about-content">
-                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                        گرافیک است. </p>
-                                    <div class="social-icon">
-                                        <ul>
-                                            <li>
-                                                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" target="_blank"><i class="fab fa-google-plus-g"></i> </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
 
+                    <div class="footer-widget footer-about">
+                        <div class="footer-logo">
+                            @if (!string.IsNullOrEmpty(Settings.Logo))
+                            {
+                                <img src="@Settings.Logo" alt="@Settings.SiteName">
+                            }
                         </div>
-                        <div class="col-lg-3 col-md-6">
+                        <div class="footer-about-content">
+                            @if (!string.IsNullOrEmpty(Settings.Logo))
+                            {
+                                <p>
+                                    @Settings.ShortDescription
+                                </p>
+                            }
 
-                            <div class="footer-widget footer-menu">
-                                <h2 class="footer-title">برای بیماران</h2>
+                            <div class="social-icon">
                                 <ul>
-                                    <li><a href="search.html">جستجو پزشک</a></li>
-                                    <li><a href="login.html">‌ورود</a></li>
-                                    <li><a href="register.html">‌ثبت‌نام</a></li>
-                                    <li><a href="booking.html">رزرو نوبت</a></li>
-                                    <li><a href="patient-dashboard.html">دشبرد مراجعه‌کننده</a></li>
+                                    @if (!string.IsNullOrEmpty(Settings.Whatsapp))
+                                    {
+                                        <li>
+                                            <a href="@Settings.Whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                        </li>
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(Settings.Instagram))
+                                    {
+                                        <li>
+                                            <a href="@Settings.Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                                        </li>
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(Settings.Telegram))
+                                    {
+                                        <li>
+                                            <a href="@Settings.Telegram" target="_blank"><i class="fab fa-telegram"></i></a>
+                                        </li>
+                                    }
+                                   
                                 </ul>
                             </div>
-
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-
-                            <div class="footer-widget footer-menu">
-                                <h2 class="footer-title">برای پزشکان</h2>
-                                <ul>
-                                    <li><a href="appointments.html">نوبت‌دهی</a></li>
-                                    <li><a href="chat.html">چت</a></li>
-                                    <li><a href="login.html">‌ورود</a></li>
-                                    <li><a href="doctor-register.html">‌ثبت‌نام</a></li>
-                                    <li><a href="doctor-dashboard.html">داشبرد پزشک</a></li>
-                                </ul>
-                            </div>
-
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-
-                            <div class="footer-widget footer-menu">
-                                <h2 class="footer-title">‌تماس با ما</h2>
-                                <ul>
-                                    <li>
-                                        <p>
-                                            <i class="far fa-compass"></i>
-                                            سن فرانسیسکو استریت. بیلچ استریت کالیفرنیا94108
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <p>
-                                            <i class="fas fa-mobile-alt"></i>
-                                            +1 315 369 5943
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <p>
-                                            <i class="far fa-envelope-open"></i>
-                                            <a href="https://template.doccure.io/cdn-cgi/l/email-protection"
-                                                class="__cf_email__"
-                                                data-cfemail="12767d717167607752776a737f627e773c717d7f">[email&#160;protected]</a>
-                                        </p>
-                                    </li>
-                                </ul>
-                            </div>
-
                         </div>
                     </div>
+
                 </div>
-            </div>
+                <div class="col-lg-3 col-md-6">
 
-
-            <div class="footer-bottom">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12 d-flex justify-content-between">
-                            <p>© 1401 داک کیور. تمامی حقوق محفوظ است.</p>
-                            <a href="term-condition.html">قوانین و مقررات</a>
-                        </div>
+                    <div class="footer-widget footer-menu">
+                        <h2 class="footer-title">برای بیماران</h2>
+                        <ul>
+                            <li><a href="search.html">جستجو پزشک</a></li>
+                            <li><a href="login.html">‌ورود</a></li>
+                            <li><a href="register.html">‌ثبت‌نام</a></li>
+                            <li><a href="booking.html">رزرو نوبت</a></li>
+                            <li><a href="patient-dashboard.html">دشبرد مراجعه‌کننده</a></li>
+                        </ul>
                     </div>
+
+                </div>
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="footer-widget footer-menu">
+                        <h2 class="footer-title">برای پزشکان</h2>
+                        <ul>
+                            <li><a href="appointments.html">نوبت‌دهی</a></li>
+                            <li><a href="chat.html">چت</a></li>
+                            <li><a href="login.html">‌ورود</a></li>
+                            <li><a href="doctor-register.html">‌ثبت‌نام</a></li>
+                            <li><a href="doctor-dashboard.html">داشبرد پزشک</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="footer-widget footer-menu">
+                        <h2 class="footer-title">‌تماس با ما</h2>
+                        <ul>
+
+                            @if (@ContactUs.Address1 != null)
+                            {
+                                <li>
+                                    <p>
+                                        <i class="far fa-compass"></i>
+                                        @ContactUs.Address1
+                                    </p>
+                                </li>
+                            }
+                            @if (@ContactUs.Address2 != null)
+                            {
+                                <li>
+                                    <p>
+                                        <i class="far fa-compass"></i>
+                                        @ContactUs.Address2
+                                    </p>
+                                </li>
+                            }
+                            @if (@ContactUs.Mobile != null)
+                            {
+                                <li>
+                                    <p>
+                                        <i class="fas fa-mobile-alt"></i>
+                                        @ContactUs.Mobile
+                                    </p>
+                                </li>
+                            }
+                            @if (@ContactUs.PhoneNumber != null)
+                            {
+                                <li>
+                                    <p>
+                                        <i class="fas fa-mobile-alt"></i>
+                                        @ContactUs.PhoneNumber
+                                    </p>
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+
                 </div>
             </div>
+        </div>
+    </div>
 
-        </footer>
+
+
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-between">
+                    <p>© 1401  تمامی حقوق محفوظ است</p>
+                    <a href="https://mehransattary.ir"> برنامه نویس : مهران ستاری </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>

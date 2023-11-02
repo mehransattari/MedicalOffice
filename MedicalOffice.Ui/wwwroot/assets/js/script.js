@@ -247,8 +247,8 @@ function testimonial_slider() {
         });
     }
 }
-function gallery_Slider() {
-    if ($('.gallery-slider').length > 0) {
+function gallery_Slider(count) {
+    if (count > 0) {
         $('.gallery-slider').slick({
             dots: false,
             autoplay: false,

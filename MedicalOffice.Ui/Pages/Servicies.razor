@@ -1,0 +1,33 @@
+﻿@page "/services"
+@inherits Serviciesbase
+<section class="comp-section comp-cards">
+    <div class="comp-header">
+        <h3 class="comp-title"> خدمات ما</h3>
+        <div class="line"></div>
+    </div>
+    <div class="row">
+        @foreach (var service in ProvidingServices)
+        {
+            <div class="col-12 col-md-6 col-lg-4 d-flex">
+                <div class="card flex-fill">
+                    <a href="/detailservice/@service.Id">
+                        <img alt="Card Image" src="@service.Image" class="card-img-top">
+
+                    </a>
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">@service.Title</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            @service.ShortDesc
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    </div>
+
+</section>

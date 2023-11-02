@@ -1,27 +1,38 @@
-﻿<div class="top-header">
+﻿@inherits HeaderBase
+<div class="top-header">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 d-flex justify-content-between">
                 <ul class="d-flex justify-content-between align-items-center">
                     <li>
                         <i class="fas fa-phone-alt"></i>
-                        شماره تماس : 090 98763456
+                        شماره تماس :
+                        @if (!string.IsNullOrEmpty(ContactUs.Mobile))
+                        {
+                            @ContactUs.Mobile
+                        }
+                        
+                        @if (!string.IsNullOrEmpty(ContactUs.PhoneNumber))
+                        {
+                            <span> - </span>
+                            @ContactUs.PhoneNumber
+                        }
+
                     </li>
-                    <li>
-                        <i class="fas fa-map-marker-alt"></i>
-                        آدرس : والز جنوبی 22, نیویورک
-                    </li>
+                  
                 </ul>
                 <ul class="d-flex justify-content-between align-items-center">
-                    <li>دوشنبه - جمعه: 09:00 صبح تا 05:00 عصر</li>
                     <li>
-                        <div class="form-group">
-                            <select class="form-select form-control" id="exampleFormControlSelect1">
-                                <option>انگلیسی</option>
-                                <option>عربی</option>
-                                <option>ترکی</option>
-                            </select>
-                        </div>
+                        <i class="fas fa-map-marker-alt"></i>
+                        @if (!string.IsNullOrEmpty(ContactUs.Address1))
+                        {
+                            @ContactUs.Address1
+                        }
+                        @if (!string.IsNullOrEmpty(ContactUs.Address2))
+                        {
+                            <span> - </span>
+                            @ContactUs.Address2
+                        }
                     </li>
                 </ul>
             </div>
@@ -41,7 +52,7 @@
                 </span>
             </a>
             <a href="index-2.html" class="navbar-brand logo">
-                <img src="assets/img/logo.png" class="img-fluid" alt="Logo">
+                <img src="@Logo" class="img-fluid" alt="Logo">
             </a>
         </div>
         <div class="main-menu-wrapper ms-auto">
@@ -58,10 +69,11 @@
                     <a href="/">خانه</a>
                 </li>              
                 <li>
-                    <a href="admin/index.html" >‌ خدمات و هزینه ها</a>
+                    <a href="/services" >‌ خدمات و هزینه ها</a>
                 </li>
                 <li>
-                    <a href="admin/index.html" >‌ نمونه کار ها</a>
+                    <a href="/prjects">‌ نمونه کار ها</a>
+
                 </li>
                 <li>
                     <a href="/reservation_times">‌ زمان های رزرو نوبت</a>

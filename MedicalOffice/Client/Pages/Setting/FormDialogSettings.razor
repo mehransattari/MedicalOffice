@@ -1,0 +1,70 @@
+﻿@inherits FormDialogSettingsBase
+
+<EditForm Model="@Settings" OnValidSubmit="OnValidSubmit">
+
+    <MudDialog>
+
+        <DialogContent>
+
+            <DataAnnotationsValidator />
+
+            <MudGrid>
+
+                <MudItem xs="12" sm="12">
+                    <MudTextField T="string" Label="نام سایت " Required="true" For="@(() => Settings.SiteName)"
+                    @bind-Value="Settings.SiteName" />
+                </MudItem>
+
+                <MudItem xs="12" sm="12">
+                    <MudTextField T="string" Label="واتس اپ" Required="true" For="@(() => Settings.Whatsapp)"
+                    @bind-Value="Settings.Whatsapp" />
+                </MudItem>
+
+
+                <MudItem xs="12" sm="12">
+                    <MudTextField T="string" Label=" تگرام" Required="true" For="@(() => Settings.Telegram)"
+                    @bind-Value="Settings.Telegram" />
+                </MudItem>
+
+
+                <MudItem xs="12" sm="12">
+                    <MudTextField T="string" Label=" اینستاگرام" Required="true" For="@(() => Settings.Instagram)"
+                    @bind-Value="Settings.Instagram" />
+                </MudItem>
+
+
+                <MudItem xs="12" sm="12">
+                    <MudTextField T="string" Label="توضیح کوتاه " Lines="3" Required="true" For="@(() => Settings.ShortDescription)"
+                    @bind-Value="Settings.ShortDescription" />
+                </MudItem>
+
+
+                <MudItem xs="12" sm="12">
+                    <FileUpload OnValueChanged="FileHandleValueChangedLogo" Name="آپلود لوگو"/>
+                </MudItem>
+
+
+                <MudItem xs="12" sm="12">
+
+                    @if (!string.IsNullOrEmpty(Settings.Logo))
+                    {
+                        <MudImage Src="@Settings.Logo" Alt="@Settings.SiteName" Elevation="25" Width="100" Class="rounded-lg" />
+                    }
+
+                </MudItem>
+
+            </MudGrid>
+
+
+        </DialogContent>
+
+        <DialogActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
+                       DisableElevation="true">
+                ذخیره
+            </MudButton>
+            <MudButton OnClick="Cancel" Color="Color.Error" Variant="Variant.Filled">لغو</MudButton>
+        </DialogActions>
+
+    </MudDialog>
+</EditForm>

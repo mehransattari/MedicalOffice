@@ -1,7 +1,7 @@
-﻿@page "/admin/slider"
+﻿@page "/admin/settings"
 @using MedicalOffice.Client.Repositories.Inteface;
 @using MedicalOffice.Shared.DTO;
-@inherits ListSliderBase
+@inherits ListSettingsBase
 
 
 <MudIconButton OnClick="@OpenAddDialogAdd" Icon="@Icons.Material.Filled.Add"
@@ -14,10 +14,10 @@
 <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete"
                Color="Color.Error" OnClick="OnButtonClicked"></MudIconButton>
 
-<MudTable ServerData="@(new Func<TableState, Task<TableData<SliderDto>>>(ServerReload))"
+<MudTable ServerData="@(new Func<TableState, Task<TableData<SettingsDto>>>(ServerReload))"
           Dense="true"
           Hover="true"
-@ref="SliderTable"
+@ref="SettingsTable"
           Bordered="true"
           CanCancelEdit="true"
           SortLabel="Sort By"
@@ -34,54 +34,51 @@
           MultiSelection="true"
 @bind-SelectOnRowClick="@_selectOnRowClick"
 @bind-SelectedItems="selectedItems"
-          T="SliderDto" Items="@listSlider">
+          T="SettingsDto" Items="@listSettings">
 
 
     <ToolBarContent>
-        <MudText Typo="Typo.h6">  اسلایدر ها</MudText>
+
+        <MudText Typo="Typo.h6">   خدمات   </MudText>
         <MudSpacer />
 
     </ToolBarContent>
 
     <HeaderContent>
-        <MudTh><MudTableSortLabel SortLabel="FirstName_field" T="User">عنوان </MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="Title_field" T="User">عنوان </MudTableSortLabel></MudTh>
 
-        <MudTh><MudTableSortLabel SortLabel="LastName_field" T="User">تصویر </MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="ImageUrl_field" T="User">لوگو </MudTableSortLabel></MudTh>
 
     </HeaderContent>
 
     <RowTemplate>
 
-        <MudTd DataLabel="Title">@context.Title</MudTd>
+        <MudTd DataLabel="Title">@context.SiteName</MudTd>
 
-        <MudTd DataLabel="ImageUrl">
-            @if (!string.IsNullOrEmpty(context.ImageUrl))
+        <MudTd DataLabel="Logo">
+            @if (!string.IsNullOrEmpty(context.Logo))
             {
-                <MudImage Src="@context.ImageUrl" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
-            }
-            else
-            {
-                <MudImage Src="empty.jpg" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
+                <MudImage Src="@context.Logo" Alt="@context.SiteName" Elevation="25" Width="100" Class="rounded-lg" />
             }
         </MudTd>
-
 
     </RowTemplate>
 
     <RowEditingTemplate>
-        <MudTd DataLabel="Title">
-            <MudTextField @bind-Value="@context.Title" Required />
+
+        <MudTd DataLabel="SiteName">
+            <MudTextField @bind-Value="@context.SiteName" Required />
         </MudTd>
 
-        @if (!string.IsNullOrEmpty(context.ImageUrl))
+        @if (!string.IsNullOrEmpty(context.Logo))
         {
             <MudTd DataLabel="Image">
-                <MudImage Src="@context.ImageUrl" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
+                <MudImage Src="@context.Logo" Alt="@context.Logo" Elevation="25" Width="100" Class="rounded-lg" />
             </MudTd>
         }
         else
         {
-            <MudImage Src="empty.jpg" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
+            <MudImage Src="empty.jpg" Alt="@context.Logo" Elevation="25" Width="100" Class="rounded-lg" />
         }
 
     </RowEditingTemplate>
@@ -111,19 +108,11 @@
     <MessageContent>
         آیا از حذف
         @(selectedItems == null ? "" :
-            string.Join(", ", selectedItems.OrderBy(x => x.Id).Select(x => x.Title)))
+            string.Join(", ", selectedItems.OrderBy(x => x.Id).Select(x => x.Logo)))
         مطمئن هستید؟
     </MessageContent>
     <YesButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="DeleteSliders"
+        <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="DeleteSettingss"
                    StartIcon="@Icons.Material.Filled.DeleteForever">حذف</MudButton>
     </YesButton>
 </MudMessageBox>
-
-
-
-
-
-
-
-

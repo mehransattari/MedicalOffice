@@ -11,18 +11,18 @@
                Color="Color.Warning"></MudIconButton>
 
 
-<MudIconButton  Icon="@Icons.Material.Filled.Delete" aria-label="delete" 
-                Color="Color.Error" OnClick="OnButtonClicked"></MudIconButton>
+<MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete"
+               Color="Color.Error" OnClick="OnButtonClicked"></MudIconButton>
 
 <MudTable ServerData="@(new Func<TableState, Task<TableData<AboutUsDto>>>(ServerReload))"
           Dense="true"
           Hover="true"
-          @ref="AboutUsTable"
+@ref="AboutUsTable"
           Bordered="true"
           CanCancelEdit="true"
           SortLabel="Sort By"
           CommitEditTooltip="Commit Edit"
-          OnCommitEditClick="@(() => Snackbar.Add("عملیات ویرایش با موفقیت انجام شد"))" 
+          OnCommitEditClick="@(() => Snackbar.Add("عملیات ویرایش با موفقیت انجام شد"))"
           RowEditPreview="BackupItem"
           RowEditCancel="ResetItemToOriginalValues"
           RowEditCommit="ItemHasBeenCommitted"
@@ -32,35 +32,41 @@
           EditTrigger="@TableEditTrigger.EditButton"
           OnRowClick="@OnRowClick"
           MultiSelection="true"
-          @bind-SelectOnRowClick="@_selectOnRowClick"
-          @bind-SelectedItems="selectedItems"
+@bind-SelectOnRowClick="@_selectOnRowClick"
+@bind-SelectedItems="selectedItems"
           T="AboutUsDto" Items="@listAboutUs">
 
 
-    <ToolBarContent >
+    <ToolBarContent>
         <MudText Typo="Typo.h6"> درباره ما</MudText>
         <MudSpacer />
 
     </ToolBarContent>
 
     <HeaderContent>
-         <MudTh><MudTableSortLabel SortLabel="FirstName_field" T="User">عنوان </MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="FirstName_field" T="User">عنوان </MudTableSortLabel></MudTh>
 
-         <MudTh><MudTableSortLabel SortLabel="LastName_field" T="User">تصویر </MudTableSortLabel></MudTh>
-      
+        <MudTh><MudTableSortLabel SortLabel="LastName_field" T="User">تصویر </MudTableSortLabel></MudTh>
+
     </HeaderContent>
 
     <RowTemplate>
 
         <MudTd DataLabel="Title">@context.Title</MudTd>
-        @if (!string.IsNullOrEmpty(context.ImageUrl))
-        {
-            <MudImage Src="@context.ImageUrl" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
-        }
-        else
-        {
-            <MudImage Src="empty.jpg" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
-        }
+
+        <MudTd DataLabel="ImageUrl">
+
+            @if (!string.IsNullOrEmpty(context.ImageUrl))
+            {
+                <MudImage Src="@context.ImageUrl" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
+            }
+            else
+            {
+                <MudImage Src="empty.jpg" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
+            }
+
+        </MudTd>
+
 
     </RowTemplate>
 
@@ -107,7 +113,7 @@
     <MessageContent>
         آیا از حذف
         @(selectedItems == null ? "" :
-        string.Join(", ", selectedItems.OrderBy(x => x.Id).Select(x => x.Title)))
+            string.Join(", ", selectedItems.OrderBy(x => x.Id).Select(x => x.Title)))
         مطمئن هستید؟
     </MessageContent>
     <YesButton>

@@ -1,0 +1,42 @@
+﻿@inherits FormDialogProjectBase
+<EditForm Model="@Project" OnValidSubmit="OnValidSubmit">
+    <MudDialog>
+        <DialogContent>
+            <DataAnnotationsValidator />
+
+            <MudGrid>
+
+                <MudItem xs="12" sm="12">
+                    <MudTextField T="string" Label="عنوان " Required="true" For="@(() => Project.Title)"
+                    @bind-Value="Project.Title" />
+                </MudItem>
+
+                <MudItem xs="12" sm="12">
+                    <MudTextField T="string" Label="توضیحات" Required="true" For="@(() => Project.Desc)"
+                    @bind-Value="Project.Desc" />
+                </MudItem>
+             
+                <MudItem xs="12" sm="12">
+                    <FileUpload OnValueChanged="FileHandleValueChanged" />
+                </MudItem>
+
+                @if (!string.IsNullOrEmpty(Project.ImageUrl))
+                {
+                    <MudItem xs="12" sm="12">
+                        <MudImage Src="@Project.ImageUrl" Alt="@Project.Title" Elevation="25" Width="100" Class="rounded-lg" />
+                    </MudItem>
+                }
+
+            </MudGrid>
+
+        </DialogContent>
+
+        <DialogActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true">
+                ذخیره
+            </MudButton>
+            <MudButton OnClick="Cancel" Color="Color.Error" Variant="Variant.Filled">لغو</MudButton>
+        </DialogActions>
+
+    </MudDialog>
+</EditForm>

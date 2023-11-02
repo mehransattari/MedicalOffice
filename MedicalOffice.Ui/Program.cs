@@ -32,6 +32,8 @@ builder.Services.AddScoped<IAboutUsRepository, AboutUsRepository>();
 builder.Services.AddScoped<IContactUsRepository, ContactUsRepository>();
 builder.Services.AddScoped<ISliderRepository, SliderRepository>();
 builder.Services.AddScoped<IProvidingServiceRepository, ProvidingServiceRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<ISettingsRepository, SettingsRepository>();
 
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<AuthenticationStateProvider, JWTService>(
