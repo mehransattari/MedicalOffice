@@ -4,6 +4,7 @@ using MedicalOffice.Shared.DTO;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
+using System.ComponentModel.DataAnnotations;
 
 namespace MedicalOffice.Client.Pages.Slider;
 
@@ -32,6 +33,23 @@ public partial class FormDialogSliderBase : ComponentBase
     [Parameter]
     public string? Desc { get; set; }
 
+    [Parameter]
+    public string? Property1 { get; set; }
+    [Parameter]
+    public string? ShortDesc1 { get; set; }
+
+    [Parameter]
+    public string? Property2 { get; set; }
+
+    [Parameter]
+    public string? ShortDesc2 { get; set; }
+
+    [Parameter]
+    public string? Property3 { get; set; }
+
+    [Parameter]
+    public string? ShortDesc3 { get; set; }
+
     #endregion
 
     #region Fields
@@ -52,6 +70,12 @@ public partial class FormDialogSliderBase : ComponentBase
             Slider.Title = Title;
             Slider.ImageUrl = ImageUrl;
             Slider.Desc = Desc;
+            Slider.ShortDesc1 = ShortDesc1;
+            Slider.ShortDesc2 = ShortDesc2;
+            Slider.ShortDesc3 = ShortDesc3;
+            Slider.Property1 = Property1;
+            Slider.Property2 = Property2;
+            Slider.Property3 = Property3;
 
         }
     }
@@ -86,9 +110,39 @@ public partial class FormDialogSliderBase : ComponentBase
 
         MultipartFormData.Add(new StringContent(Slider.Id.ToString()), "Id");
         MultipartFormData.Add(new StringContent(Slider.Title.ToString()), "Title");
-        if(Slider.Desc!=null)
+        if (Slider.Desc != null)
         {
             MultipartFormData.Add(new StringContent(Slider.Desc.ToString()), "Desc");
+        }
+
+        if (Slider.ShortDesc1 != null)
+        {
+            MultipartFormData.Add(new StringContent(Slider.ShortDesc1.ToString()), "ShortDesc1");
+        }
+
+        if (Slider.ShortDesc2 != null)
+        {
+            MultipartFormData.Add(new StringContent(Slider.ShortDesc2.ToString()), "ShortDesc2");
+        }
+
+        if (Slider.ShortDesc3 != null)
+        {
+            MultipartFormData.Add(new StringContent(Slider.ShortDesc3.ToString()), "ShortDesc3");
+        }
+
+        if (Slider.Property1 != null)
+        {
+            MultipartFormData.Add(new StringContent(Slider.Property1.ToString()), "Property1");
+        }
+
+        if (Slider.Property2 != null)
+        {
+            MultipartFormData.Add(new StringContent(Slider.Property2.ToString()), "Property2");
+        }
+
+        if (Slider.Property3 != null)
+        {
+            MultipartFormData.Add(new StringContent(Slider.Property3.ToString()), "Property3");
         }
 
         if (Image == null && !string.IsNullOrEmpty(Slider.ImageUrl))

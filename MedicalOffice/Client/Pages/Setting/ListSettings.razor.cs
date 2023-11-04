@@ -17,6 +17,9 @@ public partial class ListSettingsBase : ComponentBase
     public ISnackbar Snackbar { get; set; }
     [Inject]
     public IDialogService DialogService { get; set; }
+
+    public bool disableButtonAdd { get; set; } = false;
+
     #endregion
 
     #region Properties
@@ -25,7 +28,6 @@ public partial class ListSettingsBase : ComponentBase
     public IEnumerable<SettingsDto> pagedData = new List<SettingsDto>();
     public MultipartFormDataContent MultipartFormData = new MultipartFormDataContent();
     public MudTable<SettingsDto>? SettingsTable;
-    public bool disableButtonAdd { get; set; } = false;
 
     #endregion
 

@@ -19,6 +19,24 @@ public class Slider
     [MaxLength(1000)]
     public string? Desc { get; set; }
 
+    [MaxLength(200)]
+    public string? Property1 { get; set; }
+
+    [MaxLength(500)]
+    public string? ShortDesc1 { get; set; }
+
+    [MaxLength(200)]
+    public string? Property2 { get; set; }
+
+    [MaxLength(500)]
+    public string? ShortDesc2 { get; set; }
+
+    [MaxLength(200)]
+    public string? Property3 { get; set; }
+
+    [MaxLength(500)]
+    public string? ShortDesc3 { get; set; }
+
 }
 
 

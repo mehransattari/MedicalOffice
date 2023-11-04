@@ -1,31 +1,34 @@
 ﻿@page "/prjects"
 @inherits ProjectsBase
 
-<section class="comp-section comp-cards">
-    <div class="comp-header">
-        <h3 class="comp-title">نمونه کار ها</h3>
-        <div class="line"></div>
-    </div>
-    <div class="row">
-        @foreach (var item in Projects)
-        {
-            <div class="col-12 col-md-6 col-lg-4 d-flex">
-                <div class="card flex-fill">
-                    <img alt="Card Image" src="@item.Image" class="card-img-top">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">@item.Title</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            @item.Desc
-                        </p>
+<div class="container mt-3">
+    <section class="comp-section comp-cards">
+        <div class="comp-header">
+            <h3 class="comp-title">نمونه کار ها</h3>
+            <div class="line"></div>
+        </div>
+        <div class="row">
 
+            @foreach (var item in Projects)
+            {
+                <div class="col-12 col-md-6 col-lg-4 d-flex">
+                    <div class="card flex-fill">
+                        <img alt="Card Image" src="@item.Image" class="card-img-top">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">@item.Title</h5>
+                        </div>
+                        <div class="card-body" style="text-align: justify; overflow: auto;">
+                            <p class="card-text">
+                                @item.Desc
+                            </p>
+
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
 
 
-    </div>
+        </div>
+    </section>
+</div>
 
-</section>

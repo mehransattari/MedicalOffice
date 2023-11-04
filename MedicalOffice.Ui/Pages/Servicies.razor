@@ -1,11 +1,18 @@
 ﻿@page "/services"
 @inherits Serviciesbase
+
+<div class="container mt-3"> 
+
+
 <section class="comp-section comp-cards">
+
     <div class="comp-header">
         <h3 class="comp-title"> خدمات ما</h3>
         <div class="line"></div>
     </div>
+
     <div class="row">
+
         @foreach (var service in ProvidingServices)
         {
             <div class="col-12 col-md-6 col-lg-4 d-flex">
@@ -17,8 +24,8 @@
                     <div class="card-header">
                         <h5 class="card-title mb-0">@service.Title</h5>
                     </div>
-                    <div class="card-body">
-                        <p class="card-text">
+                        <div class="card-body" style="text-align: justify; overflow: auto;">
+                            <p class="card-text" >   
                             @service.ShortDesc
                         </p>
 
@@ -31,3 +38,4 @@
     </div>
 
 </section>
+</div>

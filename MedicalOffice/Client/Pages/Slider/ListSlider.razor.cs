@@ -110,14 +110,24 @@ public partial class ListSliderBase : ComponentBase
         var Title = selectedItems.Select(x => x.Title).FirstOrDefault();
         var ImageUrl = selectedItems.Select(x => x.ImageUrl).FirstOrDefault();
         var Desc = selectedItems.Select(x => x.Desc).FirstOrDefault();
+        var ShortDesc1 = selectedItems.Select(x => x.ShortDesc1).FirstOrDefault();
+        var ShortDesc2 = selectedItems.Select(x => x.ShortDesc2).FirstOrDefault();
+        var ShortDesc3 = selectedItems.Select(x => x.ShortDesc3).FirstOrDefault();
+        var Property1 = selectedItems.Select(x => x.Property1).FirstOrDefault();
+        var Property2 = selectedItems.Select(x => x.Property2).FirstOrDefault();
+        var Property3 = selectedItems.Select(x => x.Property3).FirstOrDefault();
 
 
         parameters.Add(x => x.Id, Id);
         parameters.Add(x => x.Title, Title);
         parameters.Add(x => x.ImageUrl, ImageUrl);
         parameters.Add(x => x.Desc, Desc);
-
-
+        parameters.Add(x => x.ShortDesc1, ShortDesc1);
+        parameters.Add(x => x.ShortDesc2, ShortDesc2);
+        parameters.Add(x => x.ShortDesc3, ShortDesc3);
+        parameters.Add(x => x.Property1, Property1);
+        parameters.Add(x => x.Property2, Property2);
+        parameters.Add(x => x.Property3, Property3);
         DialogOptions closeOnEscapeKey = new DialogOptions()
         {
             CloseOnEscapeKey = true,

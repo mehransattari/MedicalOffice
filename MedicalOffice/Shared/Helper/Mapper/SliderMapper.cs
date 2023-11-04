@@ -12,7 +12,14 @@ public static class SliderMapper
         {
             Id = model.Id,
             Title = model.Title,
-            Image = model.ImageUrl
+            Image = model.ImageUrl,
+            ShortDesc1 = model.ShortDesc1,
+            ShortDesc2 = model.ShortDesc2,
+            ShortDesc3= model.ShortDesc3,
+            Property1= model.Property1,
+            Property2= model.Property2, 
+            Property3= model.Property3,
+            Desc= model.Desc,
 
         };
 
@@ -25,7 +32,14 @@ public static class SliderMapper
         {
             Id = model.Id,
             Title = model.Title,
-            ImageUrl=model.Image
+            ImageUrl=model.Image,
+            ShortDesc1 = model.ShortDesc1,
+            ShortDesc2 = model.ShortDesc2,
+            ShortDesc3 = model.ShortDesc3,
+            Property1 = model.Property1,
+            Property2 = model.Property2,
+            Property3 = model.Property3,
+            Desc = model.Desc,
         };
 
         return result;
@@ -39,7 +53,14 @@ public static class SliderMapper
         {
             Id = model.Id,
             Title = model.Title,
-            ImageUrl = model.Image
+            ImageUrl = model.Image,
+            ShortDesc1 = model.ShortDesc1,
+            ShortDesc2 = model.ShortDesc2,
+            ShortDesc3 = model.ShortDesc3,
+            Property1 = model.Property1,
+            Property2 = model.Property2,
+            Property3 = model.Property3,
+            Desc = model.Desc,
         });
 
         return result;
@@ -52,6 +73,13 @@ public static class SliderMapper
             Id = model.Id,
             Title = model.Title,
             Image = model.ImageUrl,
+            ShortDesc1 = model.ShortDesc1,
+            ShortDesc2 = model.ShortDesc2,
+            ShortDesc3 = model.ShortDesc3,
+            Property1 = model.Property1,
+            Property2 = model.Property2,
+            Property3 = model.Property3,
+            Desc = model.Desc,
         });
 
         return result;

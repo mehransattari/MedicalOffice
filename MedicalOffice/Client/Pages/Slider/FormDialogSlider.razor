@@ -14,7 +14,7 @@
                 <MudItem xs="12" sm="12">
                     <MudTextField T="string" Label="عنوان " Required="true" For="@(() => Slider.Title)"
                     @bind-Value="Slider.Title" />
-                </MudItem>                          
+                </MudItem>
 
                 <MudItem xs="12" sm="12">
                     <FileUpload OnValueChanged="FileHandleValueChanged" />
@@ -27,13 +27,43 @@
                         <MudImage Src="@Slider.ImageUrl" Alt="@Slider.Title" Elevation="25" Width="100" Class="rounded-lg" />
                     }
 
-                </MudItem>             
+                </MudItem>
 
                 <MudItem xs="12" sm="12">
                     <MudTextField T="string" Label="توضیحات " Lines="5" Required="true" For="@(() => Slider.Desc)"
                     @bind-Value="Slider.Desc" />
                 </MudItem>
-       
+
+                <MudItem xs="12" sm="12">
+                    <MudTextField T="string" Label="ویژگی 1 " Required="true" For="@(() => Slider.Property1)"
+                    @bind-Value="Slider.Property1" />
+                </MudItem>
+
+                <MudItem xs="12" sm="12">
+                    <MudTextField T="string" Label="توضیحات  1" Lines="5" Required="true" For="@(() => Slider.ShortDesc1)"
+                    @bind-Value="Slider.ShortDesc1" />
+                </MudItem>
+
+                <MudItem xs="12" sm="12">
+                    <MudTextField T="string" Label="ویژگی 2 " Required="true" For="@(() => Slider.Property2)"
+                    @bind-Value="Slider.Property2" />
+                </MudItem>
+
+                <MudItem xs="12" sm="12">
+                    <MudTextField T="string" Label="توضیحات 2" Lines="5" Required="true" For="@(() => Slider.ShortDesc2)"
+                    @bind-Value="Slider.ShortDesc2" />
+                </MudItem>
+
+                <MudItem xs="12" sm="12">
+                    <MudTextField T="string" Label="ویژگی 3 " Required="true" For="@(() => Slider.Property3)"
+                    @bind-Value="Slider.Property3" />
+                </MudItem>
+
+
+                <MudItem xs="12" sm="12">
+                    <MudTextField T="string" Label="توضیحات 3" Lines="5" Required="true" For="@(() => Slider.ShortDesc3)"
+                    @bind-Value="Slider.ShortDesc3" />
+                </MudItem>
             </MudGrid>
 
 

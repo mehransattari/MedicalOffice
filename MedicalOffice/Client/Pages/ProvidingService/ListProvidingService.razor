@@ -54,10 +54,13 @@
     <RowTemplate>
 
         <MudTd DataLabel="Title">@context.Title</MudTd>
-        @if (!string.IsNullOrEmpty(context.ImageUrl))
-        {
-            <MudImage Src="@context.ImageUrl" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
-        }
+
+         <MudTd DataLabel="Title">
+            @if (!string.IsNullOrEmpty(context.ImageUrl))
+            {
+                <MudImage Src="@context.ImageUrl" Alt="@context.Title" Elevation="25" Width="100" Class="rounded-lg" />
+            }
+        </MudTd>
 
     </RowTemplate>
 

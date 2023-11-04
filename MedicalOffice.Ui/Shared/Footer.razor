@@ -44,7 +44,7 @@
                                             <a href="@Settings.Telegram" target="_blank"><i class="fab fa-telegram"></i></a>
                                         </li>
                                     }
-                                   
+
                                 </ul>
                             </div>
                         </div>
@@ -54,13 +54,19 @@
                 <div class="col-lg-3 col-md-6">
 
                     <div class="footer-widget footer-menu">
-                        <h2 class="footer-title">برای بیماران</h2>
+                        <h2 class="footer-title">
+                            دسترسی ها
+                        </h2>
                         <ul>
-                            <li><a href="search.html">جستجو پزشک</a></li>
-                            <li><a href="login.html">‌ورود</a></li>
-                            <li><a href="register.html">‌ثبت‌نام</a></li>
-                            <li><a href="booking.html">رزرو نوبت</a></li>
-                            <li><a href="patient-dashboard.html">دشبرد مراجعه‌کننده</a></li>
+                            <li>
+                                <a href="/aboutus">‌ درباره ما</a>
+                            </li>
+                            <li>
+                                <a href="/contactus">‌ تماس ما</a>
+                            </li>
+                            <li class="login-link">
+                                <a href="/login">‌ورود / ثبت‌نام</a>
+                            </li>
                         </ul>
                     </div>
 
@@ -68,13 +74,21 @@
                 <div class="col-lg-3 col-md-6">
 
                     <div class="footer-widget footer-menu">
-                        <h2 class="footer-title">برای پزشکان</h2>
+                        <h2 class="footer-title">
+                            خدمات
+                        </h2>
                         <ul>
-                            <li><a href="appointments.html">نوبت‌دهی</a></li>
-                            <li><a href="chat.html">چت</a></li>
-                            <li><a href="login.html">‌ورود</a></li>
-                            <li><a href="doctor-register.html">‌ثبت‌نام</a></li>
-                            <li><a href="doctor-dashboard.html">داشبرد پزشک</a></li>
+                            <li>
+                                <a href="/services">‌ خدمات و هزینه ها</a>
+                            </li>
+                            <li>
+                                <a href="/prjects">‌ نمونه کار ها</a>
+
+                            </li>
+                            <li>
+                                <a href="/reservation_times">‌ زمان های رزرو نوبت</a>
+                            </li>
+
                         </ul>
                     </div>
 
@@ -103,44 +117,41 @@
                                     </p>
                                 </li>
                             }
-                            @if (@ContactUs.Mobile != null)
-                            {
                                 <li>
-                                    <p>
-                                        <i class="fas fa-mobile-alt"></i>
-                                        @ContactUs.Mobile
-                                    </p>
-                                </li>
-                            }
-                            @if (@ContactUs.PhoneNumber != null)
-                            {
-                                <li>
-                                    <p>
-                                        <i class="fas fa-mobile-alt"></i>
-                                        @ContactUs.PhoneNumber
-                                    </p>
-                                </li>
-                            }
+                                    <p>                                       
+                                        @if (@ContactUs.Mobile != null)
+                                        {
 
-                        </ul>
+                                            <i class="fas fa-mobile-alt"></i>
+                                            @ContactUs.Mobile
+
+                                        }
+                                        @if (@ContactUs.PhoneNumber != null)
+                                        {
+                                            <span> - </span>
+                                            @ContactUs.PhoneNumber
+                                        }
+                                    </p>
+                                </li>
+                           
+                            </ul>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
-    </div>
 
 
 
-    <div class="footer-bottom">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 d-flex justify-content-between">
-                    <p>© 1401  تمامی حقوق محفوظ است</p>
-                    <a href="https://mehransattary.ir"> برنامه نویس : مهران ستاری </a>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 d-flex justify-content-between">
+                        <p> Created : 2023 </p>
+                        <a href="https://mehransattary.ir"> برنامه نویس : مهران ستاری </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</footer>
+    </footer>
