@@ -1,6 +1,5 @@
 ﻿using MedicalOffice.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace MedicalOffice.Server.Context;
 
@@ -28,7 +27,16 @@ public class AppDbContext : DbContext
           .WithOne(u => u.Role)
           .OnDelete(DeleteBehavior.Restrict);
 
+        modelBuilder.Entity<DaysReserve>()
+          .HasMany(r => r.TimesReserves) 
+          .WithOne(x=>x.DaysReserve)
+          .OnDelete(DeleteBehavior.Restrict);
 
+
+        modelBuilder.Entity<TimesReserve>()
+        .HasOne(r => r.DaysReserve)
+        .WithMany(x => x.TimesReserves)
+        .OnDelete(DeleteBehavior.Restrict);
     }
  
     public DbSet<Role> Roles { get; set; } 
@@ -40,7 +48,7 @@ public class AppDbContext : DbContext
     public DbSet<ProvidingService> ProvidingServices { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<Settings> Settings { get; set; }
-
-    
+    public DbSet<TimesReserve> TimesReserves { get; set; }
+    public DbSet<DaysReserve> DaysReserves { get; set; }
 
 }

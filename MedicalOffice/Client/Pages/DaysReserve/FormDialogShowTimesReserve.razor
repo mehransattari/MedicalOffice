@@ -1,0 +1,120 @@
+﻿@inherits FormDialogShowTimesReserveBase
+
+<style>
+    .mud-dialog-width-full {
+        width: calc(100% - 64px);
+        height: 70%;
+    }
+
+    .mud-dialog-actions {
+        float: right;
+        position: absolute;
+        bottom: 0;
+    }
+</style>
+
+<MudGrid>
+
+    <MudItem xs="12" sm="6" md="6">
+        <EditForm Model="@TimesReserve" OnValidSubmit="OnValidSubmit">
+            <MudCard Class="pa-4 m-3">
+                <MudCardContent>
+
+                    <h4>
+                        @FormTitle
+                    </h4>
+
+                    <DataAnnotationsValidator />
+                    <MudDialog>
+
+                        <DialogContent>
+
+                            <MudGrid>
+
+                                <MudItem xs="12" sm="12" md="12">
+
+                                    <MudGrid>
+                                        <MudItem xs="12" sm="12" md="12">
+                                            <MudTimePicker PickerVariant="PickerVariant.Dialog" Label="24 hours" @bind-Time="fromTime" />
+                                        </MudItem>
+
+                                        <MudItem xs="12" sm="12" md="12">
+                                            <MudTimePicker PickerVariant="PickerVariant.Dialog" Label="24 hours" @bind-Time="toTime" />
+                                        </MudItem>
+                                    </MudGrid>
+
+                                </MudItem>
+
+                            </MudGrid>
+
+                            <MudDialog @bind-IsVisible="nestedVisible">
+
+                                <DialogContent>
+                                    <MudText Class="nested">
+                                        @MessageForm
+                                    </MudText>
+                                </DialogContent>
+
+                            </MudDialog>
+
+                        </DialogContent>
+
+                    </MudDialog>
+
+                </MudCardContent>
+
+                <MudCardActions>
+
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
+                               DisableElevation="true">
+                        @FormButton
+                    </MudButton>
+
+                    <MudSpacer />
+
+                    @if (IsFormEdit)
+                    {
+                        <MudButton OnClick="ChangeFormToNew" Color="Color.Success" Variant="Variant.Filled">جدید</MudButton>
+                    }
+
+                    <MudButton OnClick="Cancel" Color="Color.Error" Variant="Variant.Filled">لغو</MudButton>
+
+                </MudCardActions>
+
+            </MudCard>
+        </EditForm>
+    </MudItem>
+
+    <MudItem xs="12" sm="6" md="6">
+        <MudTable Items="@TimesReserves" Hover="true" LoadingProgressColor="Color.Info" Class="pa-4 m-3">
+
+            <HeaderContent>
+
+                <MudTh>از ساعت</MudTh>
+                <MudTh>تا ساعت</MudTh>
+                <MudTh><MudTableSortLabel SortLabel="Days_field" T="User"> عملیات </MudTableSortLabel></MudTh>
+
+            </HeaderContent>
+
+            <RowTemplate>
+
+                <MudTd DataLabel="name_FromTime">@context.FromTime</MudTd>
+
+                    <MudTd DataLabel="name_ToTime">@context.ToTime</MudTd>
+
+                    <MudTd DataLabel="name_ToTime">
+
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                       OnClick="()=>DeleteTime(context.Id)" />
+
+                        <MudIconButton Icon="@Icons.Material.Filled.EditCalendar"
+                                       OnClick="()=>ShowEditTimeOnForm(context.Id)" />
+
+                    </MudTd>
+
+                </RowTemplate>
+
+            </MudTable>
+        </MudItem>
+
+    </MudGrid>

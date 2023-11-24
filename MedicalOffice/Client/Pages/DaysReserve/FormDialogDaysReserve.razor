@@ -1,0 +1,35 @@
+﻿@inherits FormDialogDaysReserveBase
+
+<EditForm Model="@DaysReserve" OnValidSubmit="OnValidSubmit">
+    <MudDialog >
+        <DialogContent>
+            <DataAnnotationsValidator />
+
+            <MudGrid>
+
+                <MudItem xs="12" sm="12">
+
+                    <MudDatePicker Label="تاریخ رزرو" @bind-Date="date"
+                                   Culture="@GetPersianCulture()" UseShortNames="false"
+                                   TitleDateFormat="dddd, dd MMMM" />
+                                   
+                </MudItem>
+
+            </MudGrid>
+
+        </DialogContent>
+
+        <DialogActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
+                       DisableElevation="true">
+                ذخیره
+            </MudButton>
+            <MudButton OnClick="Cancel" Color="Color.Error" Variant="Variant.Filled">لغو</MudButton>
+        </DialogActions>
+
+    </MudDialog>
+</EditForm>
+
+
+
+

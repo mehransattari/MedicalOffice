@@ -4,6 +4,7 @@ using MedicalOffice.Server.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalOffice.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231108173629_reservationmodels")]
+    partial class reservationmodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,22 +88,6 @@ namespace MedicalOffice.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ContactUs");
-                });
-
-            modelBuilder.Entity("MedicalOffice.Shared.Entities.DaysReserve", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DaysReserves");
                 });
 
             modelBuilder.Entity("MedicalOffice.Shared.Entities.Project", b =>
@@ -284,30 +271,6 @@ namespace MedicalOffice.Server.Migrations
                     b.ToTable("Status");
                 });
 
-            modelBuilder.Entity("MedicalOffice.Shared.Entities.TimesReserve", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("DaysReserveId")
-                        .HasColumnType("bigint");
-
-                    b.Property<TimeSpan>("FromTime")
-                        .HasColumnType("time");
-
-                    b.Property<TimeSpan>("ToTime")
-                        .HasColumnType("time");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DaysReserveId");
-
-                    b.ToTable("TimesReserves");
-                });
-
             modelBuilder.Entity("MedicalOffice.Shared.Entities.User", b =>
                 {
                     b.Property<long>("Id")
@@ -348,17 +311,6 @@ namespace MedicalOffice.Server.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("MedicalOffice.Shared.Entities.TimesReserve", b =>
-                {
-                    b.HasOne("MedicalOffice.Shared.Entities.DaysReserve", "DaysReserve")
-                        .WithMany("TimesReserves")
-                        .HasForeignKey("DaysReserveId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("DaysReserve");
-                });
-
             modelBuilder.Entity("MedicalOffice.Shared.Entities.User", b =>
                 {
                     b.HasOne("MedicalOffice.Shared.Entities.Role", "Role")
@@ -374,11 +326,6 @@ namespace MedicalOffice.Server.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("Status");
-                });
-
-            modelBuilder.Entity("MedicalOffice.Shared.Entities.DaysReserve", b =>
-                {
-                    b.Navigation("TimesReserves");
                 });
 
             modelBuilder.Entity("MedicalOffice.Shared.Entities.Role", b =>
