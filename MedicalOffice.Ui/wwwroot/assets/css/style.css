@@ -2355,14 +2355,14 @@ html.menu-opened body {
 	margin-bottom: 30px;
 	height: 100%;
 }
-.banner-wrapper .banner-header h1 {
-	margin-bottom: 10px;
-    font-size: 56px;
-    font-weight: 600;
-    color: #019b87;
-	text-transform: uppercase;
-	line-height: 55px;
-}
+	.banner-wrapper .banner-header h1 {
+		margin-bottom: 10px;
+		font-size: 56px;
+		font-weight: 600;
+		color: #9af7eb;
+		text-transform: uppercase;
+		line-height: 55px;
+	}
 .banner-wrapper .banner-header h1>span {
 	font-weight: 800;
     color: #f79a6f;

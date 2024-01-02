@@ -51,6 +51,7 @@ public partial class FormDialogShowTimesReserveBase : ComponentBase
     {
         await LoadTimesByDay();
     }
+
     public async Task LoadTimesByDay()
     {
         if (dayId != 0)
@@ -100,7 +101,7 @@ public partial class FormDialogShowTimesReserveBase : ComponentBase
             }
             else
             {
-                
+                MultipartFormData = new();
                 MultipartFormData
                        .Add(new StringContent(dayId.ToString()), "DaysReserveId");
 

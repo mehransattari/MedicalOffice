@@ -6,7 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+
+
   <ItemGroup>
+    <None Include="Pages\Dialogs\FormDialogShowReserve.razor" />
     <None Include="wwwroot\assets\fonts\Feather144f.svg" />
     <None Include="wwwroot\assets\js\bootstrap-datetimepicker.min.js" />
     <None Include="wwwroot\assets\js\bootstrap.bundle.min.js" />
@@ -51,12 +54,20 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.9" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.11" />
-
+    <PackageReference Include="MudBlazor" Version="6.10.0" />
 
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MedicalOffice\Shared\MedicalOffice.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Dialogs\FormDialogShowReserve.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Dialogs\FormDialogShowReserve.razor" />
   </ItemGroup>
 
 </Project>

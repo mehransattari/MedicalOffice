@@ -14,7 +14,6 @@ public class DaysReserveRepository : IDaysReserveRepository
     public DaysReserveRepository( IHttpService http)
     {
         _http = http;
-
     }
 
     #endregion

@@ -18,12 +18,14 @@ public partial class ListDaysReserveBase : ComponentBase
 {
 
     #region Inject
+
     [Inject]
     public IDaysReserveRepository _DaysReserveRepository { get; set; }
     [Inject]
     public ISnackbar Snackbar { get; set; }
     [Inject]
     public IDialogService DialogService { get; set; }
+
     #endregion
 
     #region Properties
