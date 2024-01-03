@@ -72,6 +72,27 @@ public class DaysReserveController : ControllerBase
         }
     }
 
+    [HttpGet("GetTimesDayReserve")]
+    public async Task<List<DaysReserve>> GetTimesDayReserve()
+    {
+        try
+        {
+            var result = await _appDbContext.DaysReserves.Include(x=>x.TimesReserves).ToListAsync();
+
+            if (result != null)
+            {
+                return result;
+            }
+            else
+            {
+                return new List<DaysReserve>();
+            }
+        }
+        catch (Exception)
+        {
+            return new List<DaysReserve>();
+        }
+    }
     [HttpPost]
     public async Task<bool> Create([FromForm] DaysReserveDto model)
     {

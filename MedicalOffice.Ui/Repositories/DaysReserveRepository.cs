@@ -32,6 +32,10 @@ public class DaysReserveRepository : IDaysReserveRepository
         var result = await _http.Get<DaysReserveDto>($"{_URL}/{Id}");
         return result;
     }
-
+    public async Task<ResponseData<List<DaysReserve>>> GetTimesDayReserve()
+    {
+        var result = await _http.Get<List<DaysReserve>>($"{_URL}/GetTimesDayReserve");
+        return result;
+    }
     #endregion
 }

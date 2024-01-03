@@ -13,13 +13,13 @@ namespace MedicalOffice.Ui.Pages.Components;
 public class SliderComponentBase : ComponentBase
 {
     [Inject]
-    public IJSRuntime _jSRuntime { get; set; }
+    public required IJSRuntime _jSRuntime { get; set; }
 
     [Inject]
-    public ISliderRepository _sliderRepository { get; set; }
+    public required ISliderRepository _sliderRepository { get; set; }
 
     [Inject]
-    public IDialogService DialogService { get; set; }
+    public required IDialogService DialogService { get; set; }
 
     public Slider Slider { get; set; } = new Slider();
 
@@ -38,23 +38,26 @@ public class SliderComponentBase : ComponentBase
         await _jSRuntime.InvokeVoidAsync("gallery_Slider");
     }
 
-    public async Task ShowReserveDate()
+    public void ShowReserveDate()
     {
-        var parameters = new DialogParameters<FormDialogShowReserveBase>();
-        DialogOptions closeOnEscapeKey = new DialogOptions()
-        {
-            CloseOnEscapeKey = true,
-            MaxWidth = MaxWidth.ExtraExtraLarge,
-            FullWidth = true,
-        };
+        //var parameters = new DialogParameters<FormDialogShowReserveBase>();
+        //DialogOptions closeOnEscapeKey = new DialogOptions()
+        //{
+        //    CloseOnEscapeKey = true,
+        //    MaxWidth = MaxWidth.ExtraExtraLarge,
+        //    FullWidth = true,
+        //};
 
-        var result = await DialogService
-                           .Show<FormDialogShowReserve>("روزهای رزرو", parameters, closeOnEscapeKey)
-                           .Result;
+        //var result = await DialogService
+        //                   .Show<FormDialogShowReserve>("روزهای رزرو", parameters, closeOnEscapeKey)
+        //                   .Result;
 
-        if (!result.Canceled)
-        {
-            StateHasChanged();          
-        }
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<FormDialogShowReserve>("Simple Dialog", options);
+
+        //if (!result.Canceled)
+        //{
+        //    StateHasChanged();          
+        //}
     }
 }

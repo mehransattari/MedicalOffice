@@ -15,10 +15,10 @@ public partial class FormDialogSliderBase : ComponentBase
     public ISliderRepository _sliderrepository { get; set; }
 
     [CascadingParameter]
-    public MudDialogInstance MudDialog { get; set; }
+    public required MudDialogInstance MudDialog { get; set; }
 
     [Inject]
-    public IFileUpload fileUpload { get; set; }
+    public required IFileUpload fileUpload { get; set; }
     #endregion
 
     #region Parameter
@@ -58,7 +58,7 @@ public partial class FormDialogSliderBase : ComponentBase
     public MudTextField<string>? multilineReference;
     public string? SliderName { get; set; }
 
-    public SliderDto Slider = new SliderDto();
+    public SliderDto Slider = new();
 
     #endregion
 

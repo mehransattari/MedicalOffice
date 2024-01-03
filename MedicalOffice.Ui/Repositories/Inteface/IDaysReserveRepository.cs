@@ -9,5 +9,6 @@ public interface IDaysReserveRepository
 
     Task<ResponseData<IEnumerable<DaysReserve>>> GetDaysReserve();
     Task<ResponseData<DaysReserveDto>> GetDaysReserveById(long Id);
+    Task<ResponseData<List<DaysReserve>>> GetTimesDayReserve();
 
 }

@@ -2,6 +2,7 @@
 using MedicalOffice.Shared.Entities;
 using MedicalOffice.Ui.Repositories.Inteface;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace MedicalOffice.Ui.Pages.Dialogs
 {
@@ -11,6 +12,10 @@ namespace MedicalOffice.Ui.Pages.Dialogs
     public partial class FormDialogShowReserveBase : ComponentBase
     {
         #region Constructor
+        [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+        public void Submit() => MudDialog.Close(DialogResult.Ok(true));
+        public void Cancel() => MudDialog.Cancel();
 
         [Inject]
         public required IDaysReserveRepository daysReserveRepository { get; set; }

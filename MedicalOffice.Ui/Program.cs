@@ -8,6 +8,7 @@ using MedicalOffice.Ui.Services.Interface;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using MudBlazor.Services;
 
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -15,7 +16,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7117/") });
-
+builder.Services.AddMudServices();
 
 builder.Services.AddScoped<IHttpService, HttpService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
@@ -34,6 +35,9 @@ builder.Services.AddScoped<ISliderRepository, SliderRepository>();
 builder.Services.AddScoped<IProvidingServiceRepository, ProvidingServiceRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ISettingsRepository, SettingsRepository>();
+builder.Services.AddScoped<IDaysReserveRepository, DaysReserveRepository>();
+builder.Services.AddScoped<ITimesRepository, TimesRepository>();
+
 
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<AuthenticationStateProvider, JWTService>(
