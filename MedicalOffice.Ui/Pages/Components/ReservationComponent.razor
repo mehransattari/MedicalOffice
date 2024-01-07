@@ -67,18 +67,15 @@
 
                             <div class="time-slot">
                                 <ul class="clearfix">
-                                    @foreach (var time in TimesReserves)
+                                    @foreach (var timeGroup in TimesReserves)
                                     {
                                         <li>
-                                            <a class="timing" href="#">
-                                                <span>9:00</span> <span>صبح</span>
-                                            </a>
-                                            <a class="timing" href="#">
-                                                <span>10:00</span> <span>صبح</span>
-                                            </a>
-                                            <a class="timing" href="#">
-                                                <span>11:00</span> <span>صبح</span>
-                                            </a>
+                                            @foreach (var time in timeGroup)
+                                            {
+                                                <a class="timing " href="#" style="direction: ltr;">
+                                                    @time.FromTime.ToString("hh\\:mm") - @time.ToTime.ToString("hh\\:mm")
+                                                </a>
+                                            }
                                         </li>
                                     }
                                  

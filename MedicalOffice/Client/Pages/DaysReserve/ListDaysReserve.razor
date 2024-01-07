@@ -50,12 +50,15 @@
     <HeaderContent>
 
         <MudTh><MudTableSortLabel SortLabel="Days_field" T="User">روز </MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="Days_field" T="User">تاریخ </MudTableSortLabel></MudTh>
+
         <MudTh><MudTableSortLabel SortLabel="Days_field" T="User"> عملیات </MudTableSortLabel></MudTh>
 
     </HeaderContent>
 
     <RowTemplate>
        
+        <MudTd DataLabel="Day">@context.Day.ToDayShamsi()</MudTd>
 
         <MudTd DataLabel="Day">@context.Day.ToShamsi()</MudTd>
 

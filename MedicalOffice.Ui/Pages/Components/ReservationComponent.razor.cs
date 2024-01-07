@@ -22,7 +22,7 @@ namespace MedicalOffice.Ui.Pages.Components
         public PersianDayOfWeek? CurrentNameDay { get; set; }
         public  string? CurrentDateDay { get; set; }
         public List<DaysReserve>? DaysReserves { get; set; }
-        public List<TimesReserve>? TimesReserves { get; set; }
+        public List<IGrouping<long,TimesReserve>>? TimesReserves { get; set; }
         #endregion
 
         #region Methods
@@ -31,7 +31,7 @@ namespace MedicalOffice.Ui.Pages.Components
             var currentDate = DateTime.Now;
             CurrentDateDay = currentDate.ToShamsi();
             CurrentNameDay = currentDate.ToDayShamsi();
-           await ShowDays();
+            await ShowDays();
         }
 
         public async Task ShowDays()
@@ -41,7 +41,11 @@ namespace MedicalOffice.Ui.Pages.Components
             {
                 var res = dates.Response.ToList();
                 DaysReserves = res;
-                TimesReserves = res.SelectMany(x => x.TimesReserves).ToList();
+               // TimesReserves = res.SelectMany(x => x.TimesReserves).GroupBy(x=>x.DaysReserveId).ToList();
+               TimesReserves = res
+                                .SelectMany(x => x.TimesReserves)
+                                .GroupBy(x => x.DaysReserveId)
+                                .ToList();
             }
         }
 

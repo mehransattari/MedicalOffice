@@ -33,7 +33,7 @@ public class DaysReserveController : ControllerBase
     {
         try
         {
-            var result = await _appDbContext.DaysReserves.ToListAsync();
+            var result = await _appDbContext.DaysReserves.OrderByDescending(x=>x.Day).ToListAsync();
 
             if (result != null && result.Count > 0)
             {

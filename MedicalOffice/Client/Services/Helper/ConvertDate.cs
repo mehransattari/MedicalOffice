@@ -16,6 +16,23 @@ namespace MedicalOffice.Client.Services.Helper
             return pc.GetYear((value)) + "/" + pc.GetMonth((value)).ToString("00") + "/" +
                    pc.GetDayOfMonth((value)).ToString("00");
         }
-    }
+        public static PersianDayOfWeek ToDayShamsi(this DateTime value)
+        {
+            PersianCalendar pc = new PersianCalendar();
+            int dayOfWeek = (int)pc.GetDayOfWeek(value);
+            dayOfWeek = (dayOfWeek + 1) % 7;
 
+            return (PersianDayOfWeek)dayOfWeek;
+        }
+    }
+    public enum PersianDayOfWeek
+    {
+        شنبه,
+        یک‌شنبه,
+        دو‌شنبه,
+        سه‌شنبه,
+        چهار‌شنبه,
+        پنج‌شنبه,
+        جمعه
+    }
 }
