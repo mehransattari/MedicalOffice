@@ -15,6 +15,8 @@ public class WorksComponentBase: ComponentBase
 
     public IEnumerable<Project> Projects { get; set; } = new List<Project>();
 
+    [Parameter]
+    public bool IsComponentLoading { get; set; }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await _jSRuntime.InvokeVoidAsync("gallery_Slider", Projects.Count());
@@ -28,6 +30,6 @@ public class WorksComponentBase: ComponentBase
         {
             Projects = result.Response.ToList();
         }
-
+        IsComponentLoading = false;
     }
 }

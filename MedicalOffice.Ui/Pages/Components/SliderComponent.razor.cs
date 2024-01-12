@@ -21,6 +21,9 @@ public class SliderComponentBase : ComponentBase
     [Inject]
     public required IDialogService DialogService { get; set; }
 
+    [Parameter]
+    public bool IsComponentLoading { get; set; }
+
     public Slider Slider { get; set; } = new Slider();
 
     protected override async Task OnInitializedAsync()
@@ -31,6 +34,7 @@ public class SliderComponentBase : ComponentBase
         {
             Slider = result?.Response?.FirstOrDefault();
         }
+        IsComponentLoading = false;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -40,24 +44,7 @@ public class SliderComponentBase : ComponentBase
 
     public void ShowReserveDate()
     {
-        //var parameters = new DialogParameters<FormDialogShowReserveBase>();
-        //DialogOptions closeOnEscapeKey = new DialogOptions()
-        //{
-        //    CloseOnEscapeKey = true,
-        //    MaxWidth = MaxWidth.ExtraExtraLarge,
-        //    FullWidth = true,
-        //};
-
-        //var result = await DialogService
-        //                   .Show<FormDialogShowReserve>("روزهای رزرو", parameters, closeOnEscapeKey)
-        //                   .Result;
-
         var options = new DialogOptions { CloseOnEscapeKey = true };
         DialogService.Show<FormDialogShowReserve>("Simple Dialog", options);
-
-        //if (!result.Canceled)
-        //{
-        //    StateHasChanged();          
-        //}
     }
 }

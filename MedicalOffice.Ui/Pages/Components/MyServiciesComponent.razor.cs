@@ -15,6 +15,8 @@ public class MyServiciesComponentBase : ComponentBase
 
     public IEnumerable<ProvidingService> ProvidingServices { get; set; } = new List<ProvidingService>();
 
+    [Parameter]
+    public bool IsComponentLoading { get; set; }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await _jSRuntime.InvokeVoidAsync("our_service_slider", ProvidingServices.Count());
@@ -28,7 +30,7 @@ public class MyServiciesComponentBase : ComponentBase
         {
             ProvidingServices =  result.Response.ToList();
         }
-
+        IsComponentLoading = false;
     }
 
 }

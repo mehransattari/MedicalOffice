@@ -9,6 +9,9 @@ public class InformationComponentBase : ComponentBase
     [Inject]
     public IAboutUsRepository aboutUsRepository { get; set; }
     public AboutUs aboutUs { get; set; } = new AboutUs();
+
+    [Parameter]
+    public bool IsComponentLoading { get; set; }
     protected override async Task OnInitializedAsync()
     {
         var res = await aboutUsRepository.GetAboutUs();
@@ -17,5 +20,6 @@ public class InformationComponentBase : ComponentBase
         {
             aboutUs = res?.Response?.FirstOrDefault();
         }
+        IsComponentLoading = false;
     }
 }

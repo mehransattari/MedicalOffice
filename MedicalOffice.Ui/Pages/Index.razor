@@ -4,11 +4,72 @@
     دندان پزشکی
 </PageTitle>
 
-<SliderComponent/>
-<ReservationComponent />
-<InformationComponent />
-<MyServiciesComponent />
-<WorksComponent />
+@if (IsPageLoading)
+{
+    <div class="loader-container">
+        <div class="loader"></div>
+    </div>
+}
+
+
+<SliderComponent IsComponentLoading="IsSliderLoading" />
+<ReservationComponent IsComponentLoading="IsReservationLoading" />
+<InformationComponent IsComponentLoading="IsInformationLoading" />
+<MyServiciesComponent IsComponentLoading="IsServicesLoading" />
+<WorksComponent IsComponentLoading="IsWorksLoading" />
+
+@code {
+
+    private bool IsPageLoading = true;
+    private bool IsSliderLoading = true;
+    private bool IsReservationLoading = true;
+    private bool IsInformationLoading = true;
+    private bool IsServicesLoading = true;
+    private bool IsWorksLoading = true;
+
+    private bool IsLoading = true;  
+
+    protected override async Task OnInitializedAsync()
+    {     
+        await LoadComponentAsync();
+    }
+
+    private async Task LoadComponentAsync()
+    {
+        // // شبیه‌سازی لودینگ با تاخیر 3 ثانیه
+        await Task.Delay(2000);
+
+        // وقتی که لودینگ تمام کامپوننت‌ها تکمیل شد، متغیر IsPageLoading به false تغییر می‌دهیم
+        IsPageLoading = false;
+    }
+
+    private void SliderLoadComplete()
+    {
+        IsSliderLoading = IsSliderLoading && IsReservationLoading &&
+                            IsInformationLoading && IsInformationLoading && 
+                            IsServicesLoading && IsWorksLoading;
+    }
+
+    private void ReservationLoadComplete()
+    {
+        IsReservationLoading = false;
+    }
+
+    private void InformationLoadComplete()
+    {
+        IsInformationLoading = false;
+    }
+
+    private void ServicesLoadComplete()
+    {
+        IsServicesLoading = false;
+    }
+
+    private void WorksLoadComplete()
+    {
+        IsWorksLoading = false;
+    }
+}
 
 
 

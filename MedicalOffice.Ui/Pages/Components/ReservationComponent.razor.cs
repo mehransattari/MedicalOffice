@@ -25,6 +25,9 @@ namespace MedicalOffice.Ui.Pages.Components
 
         private TimesReserve SelectedTime { get; set; } = new();
         public string FinishInfo { get; set; } = "d-none";
+
+        [Parameter]
+        public bool IsComponentLoading { get; set; }
         #endregion
 
         #region Methods
@@ -34,6 +37,7 @@ namespace MedicalOffice.Ui.Pages.Components
             CurrentDateDay = currentDate.ToShamsi();
             CurrentNameDay = currentDate.ToDayShamsi();
             await ShowDays();
+            IsComponentLoading = false;
         }
 
         /// <summary>

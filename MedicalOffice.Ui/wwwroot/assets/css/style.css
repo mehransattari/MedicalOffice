@@ -8700,3 +8700,72 @@ span.call-duration.float-end {
 .daterangepicker .ranges li{
 	font-family: iransans-ulight;
 }
+
+
+
+.loading-progress {
+	position: relative;
+	display: block;
+	width: 8rem;
+	height: 8rem;
+	margin: 20vh auto 1rem auto;
+}
+
+	.loading-progress circle {
+		fill: none;
+		stroke: #e0e0e0;
+		stroke-width: 0.6rem;
+		transform-origin: 50% 50%;
+		transform: rotate(-90deg);
+	}
+
+		.loading-progress circle:last-child {
+			stroke: #1b6ec2;
+			stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
+			transition: stroke-dasharray 0.05s ease-in-out;
+		}
+
+.loading-progress-text {
+	position: absolute;
+	text-align: center;
+	font-weight: bold;
+	inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+}
+
+	.loading-progress-text:after {
+		content: var(--blazor-load-percentage-text, "Loading");
+	}
+
+/* این قسمت می‌تواند در یک فایل CSS جداگانه قرار بگیرد */
+.loader-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.7); /* پس‌زمینه نیمه شفاف برای لودر */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 999; /* تا لودر در بالا باشد */
+}
+
+.loader {
+	border: 4px solid #f3f3f3;
+	border-top: 4px solid #3498db;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	animation: spin 1s linear infinite;
+	text-align: center;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
