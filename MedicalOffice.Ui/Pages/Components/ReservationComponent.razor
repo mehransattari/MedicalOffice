@@ -1,4 +1,4 @@
-﻿@using MedicalOffice.Ui.Services.Helper
+﻿
 @inherits ReservationComponentBase
 
 <div class="container">
@@ -14,13 +14,7 @@
                         @CurrentNameDay
                     </p>
                 </div>
-                <div class="col-12 col-sm-8 col-md-6 text-sm-end">
-                    <div class="bookingrange btn btn-white btn-sm mb-3">
-                        <i class="far fa-calendar-alt me-2"></i>
-                        <span></span>
-                        <i class="fas fa-chevron-down ms-2"></i>
-                    </div>
-                </div>
+           
             </div>
 
             <div class="card booking-schedule schedule-widget">
@@ -31,11 +25,7 @@
 
                             <div class="day-slot">
                                 <ul>
-                                    <li class="left-arrow">
-                                        <a href="#">
-                                            <i class="fa fa-chevron-left"></i>
-                                        </a>
-                                    </li>
+                                 
                                     @foreach (var day in DaysReserves)
                                     {
                                         <li>
@@ -46,13 +36,7 @@
                                         </li>
                                     }
 
-                              
-                                
-                                    <li class="right-arrow">
-                                        <a href="#">
-                                            <i class="fa fa-chevron-right"></i>
-                                        </a>
-                                    </li>
+                             
                                 </ul>
                             </div>
 
@@ -72,7 +56,7 @@
                                         <li>
                                             @foreach (var time in timeGroup)
                                             {
-                                                <a class="timing " href="#" style="direction: ltr;">
+                                                <a class="timing  @SelectedClass(time)" @onclick="() => SetSelectedTime(time)" >
                                                     @time.FromTime.ToString("hh\\:mm") - @time.ToTime.ToString("hh\\:mm")
                                                 </a>
                                             }
@@ -91,7 +75,20 @@
 
 
             <div class="submit-section proceed-btn text-end">
-                <a href="checkout.html" class="btn btn-primary submit-btn">ادامه فرایند خرید</a>
+                <a @onclick="ContinuePurchaseProcess" class="btn btn-primary submit-btn">ادامه فرایند خرید</a>
+            </div>
+
+            <div class="card @FinishInfo">
+                <div class="card-header">
+                    <h4 class="card-title">
+                        تکمیل اطلاعات
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="avatar-group">
+                       
+                    </div>
+                </div>
             </div>
 
         </div>
