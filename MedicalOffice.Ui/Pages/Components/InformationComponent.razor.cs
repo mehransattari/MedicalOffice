@@ -11,7 +11,7 @@ public class InformationComponentBase : ComponentBase
     public AboutUs aboutUs { get; set; } = new AboutUs();
 
     [Parameter]
-    public bool IsComponentLoading { get; set; }
+    public EventCallback<bool> IsComponentLoading { get; set; }
     protected override async Task OnInitializedAsync()
     {
         var res = await aboutUsRepository.GetAboutUs();
@@ -19,7 +19,9 @@ public class InformationComponentBase : ComponentBase
         if (res.Success)
         {
             aboutUs = res?.Response?.FirstOrDefault();
+            await IsComponentLoading.InvokeAsync(false);
+
         }
-        IsComponentLoading = false;
+
     }
 }

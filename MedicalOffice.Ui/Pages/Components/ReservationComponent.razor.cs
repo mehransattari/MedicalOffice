@@ -27,7 +27,7 @@ namespace MedicalOffice.Ui.Pages.Components
         public string FinishInfo { get; set; } = "d-none";
 
         [Parameter]
-        public bool IsComponentLoading { get; set; }
+        public EventCallback<bool> IsComponentLoading { get; set; }
         #endregion
 
         #region Methods
@@ -37,7 +37,7 @@ namespace MedicalOffice.Ui.Pages.Components
             CurrentDateDay = currentDate.ToShamsi();
             CurrentNameDay = currentDate.ToDayShamsi();
             await ShowDays();
-            IsComponentLoading = false;
+            await IsComponentLoading.InvokeAsync(false);
         }
 
         /// <summary>

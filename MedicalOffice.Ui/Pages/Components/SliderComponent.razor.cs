@@ -22,7 +22,7 @@ public class SliderComponentBase : ComponentBase
     public required IDialogService DialogService { get; set; }
 
     [Parameter]
-    public bool IsComponentLoading { get; set; }
+    public EventCallback<bool> IsComponentLoading { get; set; }
 
     public Slider Slider { get; set; } = new Slider();
 
@@ -33,8 +33,9 @@ public class SliderComponentBase : ComponentBase
         if (result.Success)
         {
             Slider = result?.Response?.FirstOrDefault();
+            await IsComponentLoading.InvokeAsync(false);
+
         }
-        IsComponentLoading = false;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

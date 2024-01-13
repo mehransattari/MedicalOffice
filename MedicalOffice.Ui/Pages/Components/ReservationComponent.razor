@@ -4,92 +4,85 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-          
-            <div class="row">
-                <div class="col-12 col-sm-4 col-md-6">
-                    <h4 class="mb-1">  
-                        @CurrentDateDay
-                    </h4>
-                    <p class="text-muted">
-                        @CurrentNameDay
-                    </p>
+
+            <div class="tab-pane show" id="solid-rounded-justified-tab1">
+                <div class="row">
+                    <div class="col-12 col-sm-4 col-md-6">
+                        <h4 class="mb-1">
+                            @CurrentDateDay
+                        </h4>
+                        <p class="text-muted">
+                            @CurrentNameDay
+                        </p>
+                    </div>
+
                 </div>
-           
-            </div>
 
-            <div class="card booking-schedule schedule-widget">
+                <div class="card booking-schedule schedule-widget">
 
-                <div class="schedule-header">
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="schedule-header">
+                        <div class="row">
+                            <div class="col-md-12">
 
-                            <div class="day-slot">
-                                <ul>
-                                 
-                                    @foreach (var day in DaysReserves)
-                                    {
-                                        <li>
-                                            <span>@day.Day.ToDayShamsi()</span>
-                                            <span class="slot-date">
-                                                @day.Day.ToShamsi()
-                                            </span>
-                                        </li>
-                                    }
+                                <div class="day-slot">
+                                    <ul>
 
-                             
-                                </ul>
+                                        @foreach (var day in DaysReserves)
+                                        {
+                                            <li>
+                                                <span>@day.Day.ToDayShamsi()</span>
+                                                <span class="slot-date">
+                                                    @day.Day.ToShamsi()
+                                                </span>
+                                            </li>
+                                        }
+
+
+                                    </ul>
+                                </div>
+
                             </div>
-
                         </div>
                     </div>
-                </div>
 
 
-                <div class="schedule-cont">
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="schedule-cont">
+                        <div class="row">
+                            <div class="col-md-12">
 
-                            <div class="time-slot">
-                                <ul class="clearfix">
-                                    @foreach (var timeGroup in TimesReserves)
-                                    {
-                                        <li>
-                                            @foreach (var time in timeGroup)
-                                            {
-                                                <a class="timing  @SelectedClass(time)" @onclick="() => SetSelectedTime(time)" >
-                                                    @time.FromTime.ToString("hh\\:mm") - @time.ToTime.ToString("hh\\:mm")
-                                                </a>
-                                            }
-                                        </li>
-                                    }
-                                 
-                                 
-                                </ul>
+                                <div class="time-slot">
+                                    <ul class="clearfix">
+                                        @foreach (var timeGroup in TimesReserves)
+                                        {
+                                            <li>
+                                                @foreach (var time in timeGroup)
+                                                {
+                                                    <a class="timing  @SelectedClass(time)" @onclick="() => SetSelectedTime(time)">
+                                                        @time.FromTime.ToString("hh\\:mm") - @time.ToTime.ToString("hh\\:mm")
+                                                    </a>
+                                                }
+                                            </li>
+                                        }
+
+
+                                    </ul>
+                                </div>
+
                             </div>
-
                         </div>
                     </div>
+
+                </div>
+
+                <div class="submit-section proceed-btn text-end">
+                    <a @onclick="ContinuePurchaseProcess" class="btn btn-primary submit-btn">ادامه فرایند رزرو</a>
                 </div>
 
             </div>
+     
 
+            @FinishInfo
 
-            <div class="submit-section proceed-btn text-end">
-                <a @onclick="ContinuePurchaseProcess" class="btn btn-primary submit-btn">ادامه فرایند خرید</a>
-            </div>
-
-            <div class="card @FinishInfo">
-                <div class="card-header">
-                    <h4 class="card-title">
-                        تکمیل اطلاعات
-                    </h4>
-                </div>
-                <div class="card-body">
-                    <div class="avatar-group">
-                       
-                    </div>
-                </div>
-            </div>
 
         </div>
     </div>

@@ -12,63 +12,75 @@
 }
 
 
-<SliderComponent IsComponentLoading="IsSliderLoading" />
-<ReservationComponent IsComponentLoading="IsReservationLoading" />
-<InformationComponent IsComponentLoading="IsInformationLoading" />
-<MyServiciesComponent IsComponentLoading="IsServicesLoading" />
-<WorksComponent IsComponentLoading="IsWorksLoading" />
+<SliderComponent IsComponentLoading="GetIsSliderLoading" />
+ <ReservationComponent IsComponentLoading="GetIsReservationLoading" />
+<InformationComponent IsComponentLoading="GetIsInformationLoading" />
+<MyServiciesComponent IsComponentLoading="GetIsServicesLoading" />
+<WorksComponent IsComponentLoading="GetIsWorksLoading" /> 
 
 @code {
 
-    private bool IsPageLoading = true;
+
     private bool IsSliderLoading = true;
     private bool IsReservationLoading = true;
     private bool IsInformationLoading = true;
     private bool IsServicesLoading = true;
     private bool IsWorksLoading = true;
 
-    private bool IsLoading = true;  
+    public bool IsPageLoading { get; set; } = true;
 
     protected override async Task OnInitializedAsync()
-    {     
-        await LoadComponentAsync();
-    }
-
-    private async Task LoadComponentAsync()
     {
-        // // شبیه‌سازی لودینگ با تاخیر 3 ثانیه
-        await Task.Delay(2000);
-
-        // وقتی که لودینگ تمام کامپوننت‌ها تکمیل شد، متغیر IsPageLoading به false تغییر می‌دهیم
-        IsPageLoading = false;
+        UpdatePageLoading();
     }
 
-    private void SliderLoadComplete()
+
+
+    private void GetIsSliderLoading(bool value)
     {
-        IsSliderLoading = IsSliderLoading && IsReservationLoading &&
-                            IsInformationLoading && IsInformationLoading && 
-                            IsServicesLoading && IsWorksLoading;
+        IsSliderLoading = value;
+        UpdatePageLoading();
     }
 
-    private void ReservationLoadComplete()
+    private void GetIsReservationLoading(bool value)
     {
-        IsReservationLoading = false;
+        IsReservationLoading = value;
+        UpdatePageLoading();
     }
 
-    private void InformationLoadComplete()
+    private void GetIsInformationLoading(bool value)
     {
-        IsInformationLoading = false;
+        IsInformationLoading = value;
+        UpdatePageLoading();
     }
 
-    private void ServicesLoadComplete()
+    private void GetIsServicesLoading(bool value)
     {
-        IsServicesLoading = false;
+        IsServicesLoading = value;
+        UpdatePageLoading();
     }
 
-    private void WorksLoadComplete()
+    private void GetIsWorksLoading(bool value)
     {
-        IsWorksLoading = false;
+        IsWorksLoading = value;
+        UpdatePageLoading();
     }
+
+    private void UpdatePageLoading()
+    {
+       
+        IsPageLoading = IsSliderLoading &&
+                        IsReservationLoading &&
+                        IsInformationLoading &&
+                        IsServicesLoading &&
+                        IsWorksLoading;
+
+        // هر بار که متغیرها تغییر می‌کنند، این متد فراخوانی شود.
+        StateHasChanged();
+    }
+
+
+
 }
 
 
