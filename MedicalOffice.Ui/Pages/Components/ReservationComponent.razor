@@ -1,11 +1,11 @@
-﻿
-@inherits ReservationComponentBase
+﻿@inherits ReservationComponentBase
 
 <div class="container">
     <div class="row">
         <div class="col-12">
 
             <div class="tab-pane show" id="solid-rounded-justified-tab1">
+
                 <div class="row">
                     <div class="col-12 col-sm-4 col-md-6">
                         <h4 class="mb-1">
@@ -15,7 +15,6 @@
                             @CurrentNameDay
                         </p>
                     </div>
-
                 </div>
 
                 <div class="card booking-schedule schedule-widget">
@@ -45,7 +44,6 @@
                         </div>
                     </div>
 
-
                     <div class="schedule-cont">
                         <div class="row">
                             <div class="col-md-12">
@@ -74,15 +72,72 @@
 
                 </div>
 
-                <div class="submit-section proceed-btn text-end">
-                    <a @onclick="ContinuePurchaseProcess" class="btn btn-primary submit-btn">ادامه فرایند رزرو</a>
+                <div class="submit-section proceed-btn text-end @ButtonContinueReserve">
+                    <a @onclick="ContinuePurchaseProcess" class="btn btn-primary submit-btn">
+                        ادامه فرایند رزرو
+                    </a>
                 </div>
+                <section class="section section-featurebox @FinishInfo">
+                    <div class="container">
+                        <div class="section-header text-center">
+                            <h2> تکمیل اطلاعات  </h2>
+                            <p class="sub-title">
+                                لطفا اطلاعات شخصی خود را پر نمائید سپس دکمه پرداخت را کلیک کنید.
+                            </p>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="feature-col-list">
+                                <form>
+                                    <div class="row form-row">
+                                  
+                                        <div class="col-12 col-md-6">
+                                            <div class="form-group">
+                                                <label>نام</label>
+                                                <input type="text" class="form-control" value="ریچارد">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="form-group">
+                                                <label>نام خانوادگی</label>
+                                                <input type="text" class="form-control" value="ویلسون">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <div class="form-group">
+                                                <label>موبایل</label>
+                                                <input type="tel"  class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <div class="form-group">
+                                                <label>کد ملی</label>
+                                                <input type="number"  class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                   <div class="row">
+                                        <div class="col-3 col-md-3">
+                                            <button type="button"
+                                                    class="btn w-100 btn-outline-success active">
+                                                ذخیره وپرداخت
+                                            </button>
+                                        </div>
+                                        <div class="col-3 col-md-3">
+                                            <button @onclick="CancellReserve" type="button" class="btn w-100 btn-outline-danger active">لغو</button>
+                                        </div>
+                                   </div>
+                               
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+             
 
             </div>
-     
-
-            @FinishInfo
-
 
         </div>
     </div>
