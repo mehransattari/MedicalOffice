@@ -1,4 +1,5 @@
-﻿using MedicalOffice.Shared.Entities;
+﻿using MedicalOffice.Shared.DTO;
+using MedicalOffice.Shared.Entities;
 using MedicalOffice.Ui.Repositories.Inteface;
 using MedicalOffice.Ui.Services.Helper;
 using Microsoft.AspNetCore.Components;
@@ -28,7 +29,7 @@ namespace MedicalOffice.Ui.Pages.Components
         public string d_block { get; set; } = "d-block";
         public string d_none { get; set; } = "d-none";
 
-        public PersianDayOfWeek? CurrentNameDay { get; set; }
+        public string? CurrentNameDay { get; set; }
         public string? CurrentDateDay { get; set; }
         public List<DaysReserve> DaysReserves { get; set; } = new();
         public List<IGrouping<long, TimesReserve>> TimesReserves { get; set; } = new();
@@ -38,7 +39,7 @@ namespace MedicalOffice.Ui.Pages.Components
         public string FinishInfo { get; set; }
         public string ButtonContinueReserve { get; set; }
 
-
+        public UserRegisterReserveDto UserRegisterReserveDto { get; set; } = new();
         [Parameter]
         public EventCallback<bool> IsComponentLoading { get; set; }
         #endregion
@@ -75,11 +76,13 @@ namespace MedicalOffice.Ui.Pages.Components
 
             }
         }
+
         public void SetSelectedTime(TimesReserve selectTime)
         {
             SelectedTime = selectTime;
             ButtonContinueReserve = d_block;
         }
+
         public string SelectedClass(TimesReserve time) => time == SelectedTime ? "selected" : string.Empty;
 
         public void ContinuePurchaseProcess()
@@ -97,6 +100,11 @@ namespace MedicalOffice.Ui.Pages.Components
             FinishInfo = d_none;
             ButtonContinueReserve = d_block;
         }
+
+        public void SaveInfoAndConnectToPay()
+        {
+        }
+
         #endregion
     }
 
