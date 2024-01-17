@@ -109,6 +109,8 @@ public class ListUserBase : ComponentBase
             LastName = ((UserDto)User).LastName,
             Mobile = ((UserDto)User).Mobile,
             RoleId = ((UserDto)User).RoleId,
+            NationalCode = ((UserDto)User).NationalCode,
+
         };
     }
     /// <summary>

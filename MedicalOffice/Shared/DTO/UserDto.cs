@@ -6,21 +6,29 @@ namespace MedicalOffice.Shared.DTO;
 public class UserDto
 {
     public long Id { get; set; }
-    [Required(ErrorMessage ="لطفا نام را وارد نمائید.")]
-    public string? FirstName { get; set; }
 
-    [Required(ErrorMessage = "لطفا نام خانوادگی را وارد نمائید.")]
-    public string? LastName { get; set; }
+    [MaxLength(100)]
+    [Required]
+    public  string FirstName { get; set; }
 
-    [Required(ErrorMessage = "لطفا موبایل را وارد نمائید.")]
-    public string Mobile { get; set; }
- 
-    public string? Password { get; set; }
+    [MaxLength(100)]
+    [Required]
+    public  string LastName { get; set; }
 
-    public int Number { get; set; }
+    [Required]
+    [MaxLength(11)]
+    public  string Mobile { get; set; }
+
+    [DataType(DataType.Password, ErrorMessage = "کلمه عبور را بدرستی وارد کنید")] 
+    public  string? Password { get; set; }
+
+    [Required]
+    public  string NationalCode { get; set; }
 
     public long RoleId { get; set; }
 
     public string? RoleName { get; set; }
+
+    public int Number { get; set; }  
 
 }

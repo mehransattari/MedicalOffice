@@ -1,5 +1,10 @@
 ﻿@inherits ReservationComponentBase
 
+<style>
+    .validation-message{
+        color:red;
+    }
+</style>
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -89,17 +94,24 @@
                             <div class="feature-col-list">
                                 <form>
                                     <EditForm Model="@UserRegisterReserveDto" OnValidSubmit="SaveInfoAndConnectToPay">
+
+                                        <DataAnnotationsValidator/>
+                                        <ValidationSummary />
+                                     
                                         <div class="row form-row">
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>نام</label>
                                                     <InputText @bind-Value="UserRegisterReserveDto.FirstName" class="form-control" />
+                                                    <ValidationMessage For="()=>UserRegisterReserveDto.FirstName" />
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>نام خانوادگی</label>
-                                                    <InputText @bind-Value="UserRegisterReserveDto.lastName" class="form-control" />
+                                                    <InputText @bind-Value="UserRegisterReserveDto.LastName" class="form-control" />
+                                                    <ValidationMessage For="()=>UserRegisterReserveDto.LastName" />
+
                                                 </div>
                                             </div>
 
@@ -107,35 +119,43 @@
                                                 <div class="form-group">
                                                     <label>موبایل</label>
                                                     <InputText @bind-Value="UserRegisterReserveDto.Mobile" class="form-control" />
+                                                    <ValidationMessage For="()=>UserRegisterReserveDto.Mobile" />
+
                                                 </div>
                                             </div>
 
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>کد ملی</label>
-                                                    <InputNumber @bind-Value="UserRegisterReserveDto.NationalCode" class="form-control" />
+                                                    <InputText @bind-Value="UserRegisterReserveDto.NationalCode" class="form-control" />
+                                                    <ValidationMessage For="()=>UserRegisterReserveDto.NationalCode" />
+
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-3 col-md-3">
-                                                <button type="submit" class="btn w-100 btn-outline-success active">
+                                            <div class="col-12 col-md-12">
+
+                                                <button type="submit" class="btn  btn-success">
                                                     ذخیره و پرداخت
                                                 </button>
+
+                                                <button type="button" @onclick="CancellReserve" class="btn  btn-danger float-end">
+                                                    لغو
+                                                </button>
+
                                             </div>
-                                            <div class="col-3 col-md-3">
-                                                <button type="button" @onclick="CancellReserve" class="btn w-100 btn-outline-danger active">لغو</button>
-                                            </div>
+
                                         </div>
                                     </EditForm>
                                 </form>
-                   
+
                             </div>
                         </div>
                     </div>
                 </section>
-             
+
 
             </div>
 

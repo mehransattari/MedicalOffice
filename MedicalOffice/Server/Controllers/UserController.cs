@@ -53,14 +53,17 @@ public class UserController : ControllerBase
         return true;
     }
 
+
+
     [HttpPost("registerUser")]
     public async Task<bool> RegisterUser([FromBody] RegisterDTO user)
     {
         var role = _appDbContext.Roles.FirstOrDefault(p => p.EnCaption == "user");
-        User newUser = new User
+        var newUser = new User
         {
             Mobile = user.Mobile,
-            RoleId = role.Id
+            RoleId = role.Id ,
+            NationalCode="0"
         };
         if (!string.IsNullOrEmpty(user.Password))
             newUser.Password = _protect.HashPassword(user.Password);

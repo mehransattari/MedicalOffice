@@ -1,5 +1,7 @@
 ﻿using MedicalOffice.Shared.DTO;
 using MedicalOffice.Shared.Entities;
+using MedicalOffice.Shared.Enum;
+using MedicalOffice.Shared.Helper.Mapper;
 using MedicalOffice.Ui.Repositories.Inteface;
 using MedicalOffice.Ui.Services.Helper;
 using Microsoft.AspNetCore.Components;
@@ -15,6 +17,10 @@ namespace MedicalOffice.Ui.Pages.Components
 
         [Inject]
         public ITimesRepository timesRepository { get; set; }
+
+        [Inject]
+        public IUserRepository userRepository { get; set; }
+
         #endregion
 
         #region Constructor
@@ -40,6 +46,7 @@ namespace MedicalOffice.Ui.Pages.Components
         public string ButtonContinueReserve { get; set; }
 
         public UserRegisterReserveDto UserRegisterReserveDto { get; set; } = new();
+
         [Parameter]
         public EventCallback<bool> IsComponentLoading { get; set; }
         #endregion
@@ -101,8 +108,12 @@ namespace MedicalOffice.Ui.Pages.Components
             ButtonContinueReserve = d_block;
         }
 
-        public void SaveInfoAndConnectToPay()
+        public async Task SaveInfoAndConnectToPay()
         {
+            var user= UserRegisterReserveDto.Mapper();
+            user.Password = UserRegisterReserveDto.NationalCode;
+            user.RoleId = (long)RoleEnum.user;
+            await userRepository.CreateUser(user);
         }
 
         #endregion

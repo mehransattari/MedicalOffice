@@ -28,5 +28,21 @@ public static class UserMapper
             RoleId = user.RoleId,
         };
         return _user;
+    } 
+   
+}
+public static class UserRegisterReserveMapper
+{
+    public static UserDto Mapper(this UserRegisterReserveDto user)
+    {
+        var _user = new UserDto()
+        {
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Mobile = user.Mobile,
+            NationalCode = user.NationalCode,
+        };
+        return _user;
     }
+
 }

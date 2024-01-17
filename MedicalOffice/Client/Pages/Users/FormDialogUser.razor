@@ -39,6 +39,11 @@
                         @bind-Value="User.LastName" />
                     </MudItem>
 
+                     <MudItem md="6" sm="12" xs="12">
+                        <MudTextField T="string" Label="کد ملی" Required="true" For="@(() => User.NationalCode)"
+                        @bind-Value="User.NationalCode" />
+                    </MudItem>
+
                     <MudItem md="6" sm="12" xs="12">
                         <MudTextField T="string" Label="موبایل" Required="true" For="@(() => User.Mobile)"
                         @bind-Value="User.Mobile" />

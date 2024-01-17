@@ -29,6 +29,8 @@ public class FormDialogUserBase : ComponentBase
     public int Number { get; set; }
     [Parameter]
     public long RoleId { get; set; }
+    [Parameter]
+    public long NationalCode { get; set; }
     #endregion
 
     #region Fields
