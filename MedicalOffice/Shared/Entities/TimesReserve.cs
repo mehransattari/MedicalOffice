@@ -12,4 +12,5 @@ public class TimesReserve
     public TimeSpan FromTime { get; set; }
     public TimeSpan ToTime { get; set; }
     public DaysReserve? DaysReserve { get; set; }
+    public ICollection<Reservation>? Reservations { get; set; }
 }

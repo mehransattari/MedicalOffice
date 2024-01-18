@@ -4,6 +4,7 @@ using MedicalOffice.Server.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalOffice.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240118161936_changeUser")]
+    partial class changeUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,29 +160,6 @@ namespace MedicalOffice.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProvidingServices");
-                });
-
-            modelBuilder.Entity("MedicalOffice.Shared.Entities.Reservation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("TimesReserveId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TimesReserveId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("MedicalOffice.Shared.Entities.Role", b =>
@@ -377,25 +357,6 @@ namespace MedicalOffice.Server.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("MedicalOffice.Shared.Entities.Reservation", b =>
-                {
-                    b.HasOne("MedicalOffice.Shared.Entities.TimesReserve", "TimesReserve")
-                        .WithMany("Reservations")
-                        .HasForeignKey("TimesReserveId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("MedicalOffice.Shared.Entities.User", "User")
-                        .WithMany("Reservations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("TimesReserve");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("MedicalOffice.Shared.Entities.TimesReserve", b =>
                 {
                     b.HasOne("MedicalOffice.Shared.Entities.DaysReserve", "DaysReserve")
@@ -432,16 +393,6 @@ namespace MedicalOffice.Server.Migrations
             modelBuilder.Entity("MedicalOffice.Shared.Entities.Role", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("MedicalOffice.Shared.Entities.TimesReserve", b =>
-                {
-                    b.Navigation("Reservations");
-                });
-
-            modelBuilder.Entity("MedicalOffice.Shared.Entities.User", b =>
-                {
-                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

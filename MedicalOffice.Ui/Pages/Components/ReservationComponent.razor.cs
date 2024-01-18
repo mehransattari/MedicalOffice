@@ -45,7 +45,7 @@ namespace MedicalOffice.Ui.Pages.Components
         public string FinishInfo { get; set; }
         public string ButtonContinueReserve { get; set; }
 
-        public UserRegisterReserveDto UserRegisterReserveDto { get; set; } = new();
+        public ReserveDto ReserveDto { get; set; } = new();
 
         [Parameter]
         public EventCallback<bool> IsComponentLoading { get; set; }
@@ -110,10 +110,21 @@ namespace MedicalOffice.Ui.Pages.Components
 
         public async Task SaveInfoAndConnectToPay()
         {
-            var user= UserRegisterReserveDto.Mapper();
-            user.Password = UserRegisterReserveDto.NationalCode;
-            user.RoleId = (long)RoleEnum.user;
-            await userRepository.CreateUser(user);
+            ReserveDto.TimesReserveId = SelectedTime.Id; 
+            ReserveDto.Password = ReserveDto.NationalCode;
+            ReserveDto.RoleId = (long)RoleEnum.user;
+
+            var res = await userRepository.AddReserve(ReserveDto);
+            if(res.Success)
+            {
+                if(res.Response)
+                {
+                    FinishInfo = d_none;
+                    ButtonContinueReserve = d_none;
+                    SelectedTime = new();
+                }              
+            }
+       
         }
 
         #endregion

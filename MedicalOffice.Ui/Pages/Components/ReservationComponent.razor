@@ -77,11 +77,14 @@
 
                 </div>
 
+                <!--دکمه ادامه رزرو-->
                 <div class="submit-section proceed-btn text-end @ButtonContinueReserve">
                     <a @onclick="ContinuePurchaseProcess" class="btn btn-primary submit-btn">
                         ادامه فرایند رزرو
                     </a>
                 </div>
+
+                <!--  باکس ادامه پر کردن اطلاعات واتصال به درگاه-->
                 <section class="section section-featurebox @FinishInfo">
                     <div class="container">
                         <div class="section-header text-center">
@@ -93,7 +96,7 @@
                         <div class="row justify-content-center">
                             <div class="feature-col-list">
                                 <form>
-                                    <EditForm Model="@UserRegisterReserveDto" OnValidSubmit="SaveInfoAndConnectToPay">
+                                    <EditForm Model="@ReserveDto" OnValidSubmit="SaveInfoAndConnectToPay">
 
                                         <DataAnnotationsValidator/>
                                         <ValidationSummary />
@@ -102,15 +105,15 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>نام</label>
-                                                    <InputText @bind-Value="UserRegisterReserveDto.FirstName" class="form-control" />
-                                                    <ValidationMessage For="()=>UserRegisterReserveDto.FirstName" />
+                                                    <InputText @bind-Value="ReserveDto.FirstName" class="form-control" />
+                                                    <ValidationMessage For="()=>ReserveDto.FirstName" />
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>نام خانوادگی</label>
-                                                    <InputText @bind-Value="UserRegisterReserveDto.LastName" class="form-control" />
-                                                    <ValidationMessage For="()=>UserRegisterReserveDto.LastName" />
+                                                    <InputText @bind-Value="ReserveDto.LastName" class="form-control" />
+                                                    <ValidationMessage For="()=>ReserveDto.LastName" />
 
                                                 </div>
                                             </div>
@@ -118,8 +121,8 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>موبایل</label>
-                                                    <InputText @bind-Value="UserRegisterReserveDto.Mobile" class="form-control" />
-                                                    <ValidationMessage For="()=>UserRegisterReserveDto.Mobile" />
+                                                    <InputText @bind-Value="ReserveDto.Mobile" class="form-control" />
+                                                    <ValidationMessage For="()=>ReserveDto.Mobile" />
 
                                                 </div>
                                             </div>
@@ -127,8 +130,8 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>کد ملی</label>
-                                                    <InputText @bind-Value="UserRegisterReserveDto.NationalCode" class="form-control" />
-                                                    <ValidationMessage For="()=>UserRegisterReserveDto.NationalCode" />
+                                                    <InputText @bind-Value="ReserveDto.NationalCode" class="form-control" />
+                                                    <ValidationMessage For="()=>ReserveDto.NationalCode" />
 
                                                 </div>
                                             </div>
@@ -155,6 +158,8 @@
                         </div>
                     </div>
                 </section>
+
+                <!--پیغام-->
 
 
             </div>

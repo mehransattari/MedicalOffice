@@ -16,4 +16,8 @@ public interface IUserRepository
     Task<ResponseData<UserDto>> GetUserById(long Id);
     Task<ResponseData<List<Role>>> Roles();
     Task<ResponseData<bool>> UpdateUser(UserDto user);
+
+    Task<ResponseData<bool>> AddReserve(ReserveDto reserveDto);
+
+
 }

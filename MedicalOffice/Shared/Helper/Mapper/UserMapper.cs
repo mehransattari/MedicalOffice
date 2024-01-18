@@ -14,6 +14,7 @@ public static class UserMapper
             LastName = userDto.LastName,
             Mobile = userDto.Mobile,
             RoleId = userDto.RoleId,
+            NationalCode=userDto.NationalCode
         };
         return user;
     }
@@ -26,6 +27,7 @@ public static class UserMapper
             LastName = user.LastName,
             Mobile = user.Mobile,
             RoleId = user.RoleId,
+            NationalCode=user.NationalCode
         };
         return _user;
     } 

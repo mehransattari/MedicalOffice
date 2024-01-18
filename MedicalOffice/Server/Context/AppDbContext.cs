@@ -34,9 +34,19 @@ public class AppDbContext : DbContext
 
 
         modelBuilder.Entity<TimesReserve>()
-        .HasOne(r => r.DaysReserve)
-        .WithMany(x => x.TimesReserves)
-        .OnDelete(DeleteBehavior.Restrict);
+          .HasOne(r => r.DaysReserve)
+          .WithMany(x => x.TimesReserves)
+          .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Reservation>()
+          .HasOne(r => r.TimesReserve)        
+          .WithMany(x => x.Reservations)
+          .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Reservation>()
+          .HasOne(r => r.User)
+          .WithMany(x => x.Reservations)
+          .OnDelete(DeleteBehavior.Restrict);
     }
  
     public DbSet<Role> Roles { get; set; } 
@@ -50,5 +60,6 @@ public class AppDbContext : DbContext
     public DbSet<Settings> Settings { get; set; }
     public DbSet<TimesReserve> TimesReserves { get; set; }
     public DbSet<DaysReserve> DaysReserves { get; set; }
+    public DbSet<Reservation> Reservations { get; set; }
 
 }

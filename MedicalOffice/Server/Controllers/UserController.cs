@@ -42,18 +42,62 @@ public class UserController : ControllerBase
     [HttpPost("createUser")]
     public async Task<bool> CreateUser([FromBody] UserDto user)
     {
+        if (await checkDuplicateUserByNationalCode(user.NationalCode , user.Mobile))
+        {
+            return false;
+        }
+
         var _user = user.Mapper();
         if (!string.IsNullOrEmpty(user.Password))
         {
             _user.Password = _protect.HashPassword(user.Password);
         }
+
         await _appDbContext.Users.AddAsync(_user);
         await _appDbContext.SaveChangesAsync();
 
         return true;
     }
+    public async Task<bool> checkDuplicateUserByNationalCode(string nationalCode,string mobile)
+    {
+        var res = await _appDbContext.Users.AnyAsync(x => x.NationalCode == nationalCode && x.Mobile == mobile);
 
+        return res;
+    }
 
+    [HttpPost("ReserveUser")]
+    public async Task<bool> ReserveUser([FromBody] ReserveDto reserve)
+    {
+        if (await checkDuplicateUserByNationalCode(reserve.NationalCode, reserve.Mobile))
+        {
+            return false;
+        }
+
+        var _user = new User()
+        {
+            FirstName = reserve.FirstName,
+            LastName = reserve.LastName,
+            Mobile = reserve.Mobile,
+            NationalCode = reserve.NationalCode,
+            Password = !string.IsNullOrEmpty(reserve.Password) ? _protect.HashPassword(reserve.Password) : "0",
+            RoleId = reserve.RoleId
+        };
+
+        await _appDbContext.Users.AddAsync(_user);
+
+        var _reserve = new Reservation()
+        {
+            TimesReserveId= reserve.TimesReserveId,
+            User= _user,
+            UserId= _user.Id
+        };
+
+        await _appDbContext.Reservations.AddAsync(_reserve);
+
+        await _appDbContext.SaveChangesAsync();
+
+        return true;
+    }
 
     [HttpPost("registerUser")]
     public async Task<bool> RegisterUser([FromBody] RegisterDTO user)
@@ -62,9 +106,10 @@ public class UserController : ControllerBase
         var newUser = new User
         {
             Mobile = user.Mobile,
-            RoleId = role.Id ,
-            NationalCode="0"
+            RoleId = role.Id,
+            NationalCode = "0"
         };
+
         if (!string.IsNullOrEmpty(user.Password))
             newUser.Password = _protect.HashPassword(user.Password);
 
@@ -81,11 +126,11 @@ public class UserController : ControllerBase
 
         if (!string.IsNullOrEmpty(search))
         {
-            var  users = await _appDbContext.Users.Where(x => x.FirstName.Contains(search) ||
+            var users = await _appDbContext.Users.Where(x => x.FirstName.Contains(search) ||
                               x.LastName.Contains(search) ||
                               x.Mobile.Contains(search))
                              .Include(x => x.Role)
-                             .OrderByDescending(p => p.Id)                 
+                             .OrderByDescending(p => p.Id)
                              .ToListAsync();
 
             var _users = users.Select((user, index) => new UserDto
@@ -99,10 +144,10 @@ public class UserController : ControllerBase
                 Number = index + 1,
             })
              .ToList();
-                    
-      
-        return _users;
-       }
+
+
+            return _users;
+        }
         return new List<UserDto>();
     }
 
@@ -120,19 +165,19 @@ public class UserController : ControllerBase
                       .Include(x => x.Role)
                       .OrderByDescending(p => p.Id)
                       .Skip(skip)
-                      .Take(pagesize)                      
+                      .Take(pagesize)
                       .ToListAsync();
 
         var _users = users.Select((user, index) => new UserDto
-                         {
-                             Id = user.Id,
-                             FirstName = user.FirstName,
-                             LastName = user.LastName,
-                             Mobile = user.Mobile,
-                             RoleId = user.RoleId,
-                             RoleName = user.Role.FaCaption,
-                             Number = index + 1,
-                         })
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Mobile = user.Mobile,
+            RoleId = user.RoleId,
+            RoleName = user.Role.FaCaption,
+            Number = index + 1,
+        })
                          .ToList();
 
         return _users;
@@ -156,7 +201,7 @@ public class UserController : ControllerBase
     [HttpPost("updateUser")]
     public async Task<bool> UpdateUser([FromBody] UserDto user)
     {
-        var _user =await _appDbContext.Users.FirstOrDefaultAsync(x=>x.Id==user.Id);
+        var _user = await _appDbContext.Users.FirstOrDefaultAsync(x => x.Id == user.Id);
         _user.FirstName = user.FirstName;
         _user.LastName = user.LastName;
         _user.Mobile = user.Mobile;

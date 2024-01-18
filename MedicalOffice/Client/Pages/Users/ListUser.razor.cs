@@ -123,6 +123,7 @@ public class ListUserBase : ComponentBase
         EditedUser = res.Mapper();
         UserTable.ReloadServerData();
     }
+
     /// <summary>
     /// کنسل کردن  اطلاعات در هنگام ویرایش سطری
     /// </summary>

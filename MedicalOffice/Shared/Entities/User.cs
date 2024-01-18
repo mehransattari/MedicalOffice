@@ -33,4 +33,7 @@ public class User
 
     public virtual Status? Status { get; set; }
 
+    public ICollection<Reservation>? Reservations { get; set; }
+
+
 }

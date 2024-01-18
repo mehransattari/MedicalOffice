@@ -79,5 +79,13 @@ public class UserRepository : IUserRepository
 
         return result;
     }
-    #endregion  
+
+
+    public async Task<ResponseData<bool>> AddReserve(ReserveDto reserveDto)
+    {
+        var result = await _http.PostAsync<ReserveDto, bool>($"{_URL}/ReserveUser", reserveDto);
+
+        return result;
+    }
+    #endregion
 }
