@@ -88,16 +88,7 @@ public class SliderController : ControllerBase
             await _appDbContext.Sliders.AddAsync(_model);
 
             var result = await _appDbContext.SaveChangesAsync();
-
-            if (result != 0)
-            {
-                return true;
-            }
-
-            else
-            {
-                return false;
-            }
+            return result != 0;
         }
         catch (Exception)
         {
@@ -121,15 +112,7 @@ public class SliderController : ControllerBase
 
             var result = await _appDbContext.SaveChangesAsync();
 
-            if (result != 0)
-            {
-                return true;
-            }
-
-            else
-            {
-                return false;
-            }
+            return result != 0;
         }
         catch (Exception)
         {
@@ -147,15 +130,7 @@ public class SliderController : ControllerBase
             await _appDbContext.SaveChangesAsync();
             var result = await _appDbContext.SaveChangesAsync();
 
-            if (result != 0)
-            {
-                return true;
-            }
-
-            else
-            {
-                return false;
-            }
+            return result != 0;
         }
         catch (Exception)
         {

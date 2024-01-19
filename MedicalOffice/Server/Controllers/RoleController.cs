@@ -58,15 +58,8 @@ public class RoleController : ControllerBase
     {
         var _role = role.Mapper();
         await _appDbContext.Roles.AddAsync(_role);
-        var result = await  _appDbContext.SaveChangesAsync();    
-        if (result != 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        var result = await  _appDbContext.SaveChangesAsync();
+        return result != 0;
     }
 
     [HttpPut("updateRole")]
@@ -75,14 +68,7 @@ public class RoleController : ControllerBase
         var _role = role.Mapper();
          _appDbContext.Roles.Update(_role);
         var result = await _appDbContext.SaveChangesAsync();
-        if (result != 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return result != 0;
     }
 
     [HttpDelete("deleteRole/{Id}")]
@@ -91,14 +77,7 @@ public class RoleController : ControllerBase
          var _role =await Get(Id);
          _appDbContext.Roles.Remove(_role);
          var result = await _appDbContext.SaveChangesAsync();
-        if (result != 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return result != 0;
     }
 
     [HttpPost("deleteRoles")]

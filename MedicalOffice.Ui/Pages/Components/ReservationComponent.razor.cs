@@ -9,19 +9,6 @@ namespace MedicalOffice.Ui.Pages.Components;
 
 
 /// <summary>
-/// Constructor
-/// </summary>
-public partial class ReservationComponentBase : ComponentBase
-{
-    public ReservationComponentBase()
-    {
-        FinishInfo = d_none;
-        ButtonContinueReserve = d_none;
-        MessageInfo = d_none;
-    }
-}
-
-/// <summary>
 /// Inject
 /// </summary>
 public partial class ReservationComponentBase : ComponentBase
@@ -34,6 +21,9 @@ public partial class ReservationComponentBase : ComponentBase
 
     [Inject]
     public IUserRepository userRepository { get; set; }
+
+    [Inject]
+    public IReserveRepository reserveRepository { get; set; }
 }
 
 /// <summary>
@@ -90,6 +80,7 @@ public partial class ReservationComponentBase : ComponentBase
         CurrentNameDay = currentDate.ToDayShamsi();
         await ShowDays();
         await IsComponentLoading.InvokeAsync(false);
+        DoDisplayNone();
     }
 
     /// <summary>
@@ -164,7 +155,7 @@ public partial class ReservationComponentBase : ComponentBase
         ReserveDto.Password = ReserveDto.NationalCode;
         ReserveDto.RoleId = (long)RoleEnum.user;
 
-        var res = await userRepository.AddReserve(ReserveDto);
+        var res = await reserveRepository.AddReserve(ReserveDto);
 
         if (res.Success && res.Response)
         {
@@ -210,5 +201,14 @@ public partial class ReservationComponentBase: ComponentBase
         IsLoader = !IsLoader;
     }
 
+    /// <summary>
+    /// Do None Display For Fields And Button
+    /// </summary>
+    private void DoDisplayNone()
+    {
+        FinishInfo = d_none;
+        ButtonContinueReserve = d_none;
+        MessageInfo = d_none;
+    }
    
 }

@@ -1,7 +1,7 @@
 ﻿using Blazored.TextEditor;
 using Microsoft.AspNetCore.Components;
 
-namespace MedicalOffice.Client.Shared;
+namespace MedicalOffice.Client.Shared.Components;
 
 public class QuilltextEditorBase : ComponentBase
 {
@@ -74,7 +74,7 @@ public class QuilltextEditorBase : ComponentBase
         var htmlValue = await QuillHtml.GetHTML();
         OnValueChanged?.Invoke(htmlValue);
     }
-  
+
     public async Task ChangeText()
     {
         var htmlValue = await QuillHtml.GetHTML();

@@ -89,15 +89,7 @@ public class ProvidingServiceController : ControllerBase
 
             var result = await _appDbContext.SaveChangesAsync();
 
-            if (result != 0)
-            {
-                return true;
-            }
-
-            else
-            {
-                return false;
-            }
+            return result != 0;
         }
         catch (Exception)
         {
@@ -121,15 +113,7 @@ public class ProvidingServiceController : ControllerBase
 
             var result = await _appDbContext.SaveChangesAsync();
 
-            if (result != 0)
-            {
-                return true;
-            }
-
-            else
-            {
-                return false;
-            }
+            return result != 0;
         }
         catch (Exception)
         {
@@ -147,15 +131,7 @@ public class ProvidingServiceController : ControllerBase
             await _appDbContext.SaveChangesAsync();
             var result = await _appDbContext.SaveChangesAsync();
 
-            if (result != 0)
-            {
-                return true;
-            }
-
-            else
-            {
-                return false;
-            }
+            return result != 0;
         }
         catch (Exception)
         {

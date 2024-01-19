@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
-namespace MedicalOffice.Client.Upload;
+namespace MedicalOffice.Client.Shared.Components;
 
 public class FileUploadBase : ComponentBase
 {
-  
+
     [Parameter]
     public Action<IList<IBrowserFile>> OnValueChanged { get; set; }
 

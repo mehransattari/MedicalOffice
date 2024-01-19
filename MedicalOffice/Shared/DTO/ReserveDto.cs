@@ -5,7 +5,8 @@ namespace MedicalOffice.Shared.DTO
 {
     public class ReserveDto
     {
-      
+
+
         //UserInfo
         public string FirstName { get; set; }
 
@@ -20,7 +21,11 @@ namespace MedicalOffice.Shared.DTO
         public long RoleId { get; set; }
 
         //Reserve
+        public long Id { get; set; }
         public long TimesReserveId { get; set; }
         public long UserId { get; set; }
+
+
+        public int Number { get; set; }
     }
 }

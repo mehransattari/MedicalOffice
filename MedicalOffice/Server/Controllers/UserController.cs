@@ -65,48 +65,7 @@ public class UserController : ControllerBase
         return res;
     }
 
-    [HttpPost("ReserveUser")]
-    public async Task<bool> ReserveUser([FromBody] ReserveDto reserve)
-    {
-        User _user = new User();
-        if (await checkDuplicateUserByNationalCode(reserve.NationalCode, reserve.Mobile))
-        {
-            _user = await _appDbContext.Users.FirstOrDefaultAsync(x=>x.NationalCode== reserve.NationalCode && x.Mobile== reserve.Mobile);
-        }
-        else
-        {
-            _user = new User()
-            {
-                FirstName = reserve.FirstName,
-                LastName = reserve.LastName,
-                Mobile = reserve.Mobile,
-                NationalCode = reserve.NationalCode,
-                Password = !string.IsNullOrEmpty(reserve.Password) ? _protect.HashPassword(reserve.Password) : "0",
-                RoleId = reserve.RoleId
-            };
 
-            await _appDbContext.Users.AddAsync(_user);
-        }
-
-  
-        if(_user!=null)
-        {
-            var _reserve = new Reservation()
-            {
-                TimesReserveId = reserve.TimesReserveId,
-                User = _user,
-                UserId = _user.Id
-            };
-
-            await _appDbContext.Reservations.AddAsync(_reserve);
-
-            await _appDbContext.SaveChangesAsync();
-
-            return true;
-        }
-
-        return false;
-    }
 
     [HttpPost("registerUser")]
     public async Task<bool> RegisterUser([FromBody] RegisterDTO user)

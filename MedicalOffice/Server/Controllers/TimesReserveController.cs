@@ -102,14 +102,7 @@ public class TimesReserveController : ControllerBase
 
             var result = await _appDbContext.SaveChangesAsync();
 
-            if (result != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return result != 0;
         }
         catch (Exception)
         {
@@ -128,14 +121,7 @@ public class TimesReserveController : ControllerBase
 
             var result = await _appDbContext.SaveChangesAsync();
 
-            if (result != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return result != 0;
         }
         catch (Exception)
         {
@@ -155,15 +141,7 @@ public class TimesReserveController : ControllerBase
             await _appDbContext.SaveChangesAsync();
 
             var result = await _appDbContext.SaveChangesAsync();
-
-            if (result != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return result != 0;
         }
         catch (Exception)
         {
