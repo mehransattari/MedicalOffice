@@ -77,6 +77,13 @@
 
                 </div>
 
+                @if (IsLoader)
+                {
+                    <div class="loader-container">
+                        <div class="loader"></div>
+                    </div>
+                }
+
                 <!--دکمه ادامه رزرو-->
                 <div class="submit-section proceed-btn text-end @ButtonContinueReserve">
                     <a @onclick="ContinuePurchaseProcess" class="btn btn-primary submit-btn">
@@ -160,7 +167,12 @@
                 </section>
 
                 <!--پیغام-->
-
+                <div class="alert alert-@MessageColor alert-dismissible fade show @MessageInfo" role="alert">
+                    <strong>
+                        @MessageText
+                    </strong>  
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
 
             </div>
 

@@ -1,134 +1,214 @@
 ﻿using MedicalOffice.Shared.DTO;
 using MedicalOffice.Shared.Entities;
 using MedicalOffice.Shared.Enum;
-using MedicalOffice.Shared.Helper.Mapper;
 using MedicalOffice.Ui.Repositories.Inteface;
 using MedicalOffice.Ui.Services.Helper;
 using Microsoft.AspNetCore.Components;
 
-namespace MedicalOffice.Ui.Pages.Components
+namespace MedicalOffice.Ui.Pages.Components;
+
+
+/// <summary>
+/// Constructor
+/// </summary>
+public partial class ReservationComponentBase : ComponentBase
 {
-    public class ReservationComponentBase : ComponentBase
+    public ReservationComponentBase()
     {
+        FinishInfo = d_none;
+        ButtonContinueReserve = d_none;
+        MessageInfo = d_none;
+    }
+}
 
-        #region Inject
-        [Inject]
-        public IDaysReserveRepository daysReserveRepository { get; set; }
+/// <summary>
+/// Inject
+/// </summary>
+public partial class ReservationComponentBase : ComponentBase
+{
+    [Inject]
+    public IDaysReserveRepository daysReserveRepository { get; set; }
 
-        [Inject]
-        public ITimesRepository timesRepository { get; set; }
+    [Inject]
+    public ITimesRepository timesRepository { get; set; }
 
-        [Inject]
-        public IUserRepository userRepository { get; set; }
+    [Inject]
+    public IUserRepository userRepository { get; set; }
+}
 
-        #endregion
+/// <summary>
+/// Parameters
+/// </summary>
+public partial class ReservationComponentBase : ComponentBase
+{
+    [Parameter]
+    public EventCallback<bool> IsComponentLoading { get; set; }
+}
 
-        #region Constructor
-        public ReservationComponentBase()
-        {
-            FinishInfo = d_none;
-            ButtonContinueReserve = d_none;
-        }
-        #endregion
+/// <summary>
+/// Properties
+/// </summary>
+public partial class ReservationComponentBase : ComponentBase
+{
+    public ReserveDto ReserveDto { get; set; } = new();
+    public List<DaysReserve> DaysReserves { get; set; } = new();
+    public List<IGrouping<long, TimesReserve>> TimesReserves { get; set; } = new();
+    private TimesReserve SelectedTime { get; set; } = new();
+}
 
-        #region Fields
-        public string d_block { get; set; } = "d-block";
-        public string d_none { get; set; } = "d-none";
+/// <summary>
+/// Fields
+/// </summary>
+public partial class ReservationComponentBase : ComponentBase
+{
+    public string d_block { get; set; } = "d-block";
+    public string d_none { get; set; } = "d-none";
 
-        public string? CurrentNameDay { get; set; }
-        public string? CurrentDateDay { get; set; }
-        public List<DaysReserve> DaysReserves { get; set; } = new();
-        public List<IGrouping<long, TimesReserve>> TimesReserves { get; set; } = new();
-        public string Selected { get; set; } = string.Empty;
+    public string? CurrentNameDay { get; set; }
+    public string? CurrentDateDay { get; set; }
 
-        private TimesReserve SelectedTime { get; set; } = new();
-        public string FinishInfo { get; set; }
-        public string ButtonContinueReserve { get; set; }
+    public string FinishInfo { get; set; }
+    public string ButtonContinueReserve { get; set; }
+    public string MessageInfo { get; set; }
+    public string MessageText { get; set; } = string.Empty;
+    public string MessageColor { get; set; } = string.Empty;
 
-        public ReserveDto ReserveDto { get; set; } = new();
+    public string Selected { get; set; } = string.Empty;
 
-        [Parameter]
-        public EventCallback<bool> IsComponentLoading { get; set; }
-        #endregion
+    public bool IsLoader { get; set; } = false;
+}
 
-        #region Methods
-        protected override async Task OnInitializedAsync()
-        {
-            var currentDate = DateTime.Now;
-            CurrentDateDay = currentDate.ToShamsi();
-            CurrentNameDay = currentDate.ToDayShamsi();
-            await ShowDays();
-            await IsComponentLoading.InvokeAsync(false);
-        }
-
-        /// <summary>
-        /// Show Dates With Times
-        /// </summary>
-        /// <returns></returns>
-        public async Task ShowDays()
-        {
-            var dates = await daysReserveRepository.GetTimesDayReserve();
-            if (dates.Success)
-            {
-                var res = dates.Response.ToList();
-                DaysReserves = res;
-
-                var times = res.SelectMany(x => x.TimesReserves);
-
-                if (times.Any())
-                {
-                    TimesReserves = times.GroupBy(x => x.DaysReserveId).ToList();
-                }
-
-
-            }
-        }
-
-        public void SetSelectedTime(TimesReserve selectTime)
-        {
-            SelectedTime = selectTime;
-            ButtonContinueReserve = d_block;
-        }
-
-        public string SelectedClass(TimesReserve time) => time == SelectedTime ? "selected" : string.Empty;
-
-        public void ContinuePurchaseProcess()
-        {
-            if (SelectedTime.Id == 0)
-            {
-                return;
-            }
-            FinishInfo = d_block;
-            ButtonContinueReserve = d_none;
-        }
-
-        public void CancellReserve()
-        {          
-            FinishInfo = d_none;
-            ButtonContinueReserve = d_block;
-        }
-
-        public async Task SaveInfoAndConnectToPay()
-        {
-            ReserveDto.TimesReserveId = SelectedTime.Id; 
-            ReserveDto.Password = ReserveDto.NationalCode;
-            ReserveDto.RoleId = (long)RoleEnum.user;
-
-            var res = await userRepository.AddReserve(ReserveDto);
-            if(res.Success)
-            {
-                if(res.Response)
-                {
-                    FinishInfo = d_none;
-                    ButtonContinueReserve = d_none;
-                    SelectedTime = new();
-                }              
-            }
-       
-        }
-
-        #endregion
+/// <summary>
+///  Methods
+/// </summary>
+public partial class ReservationComponentBase : ComponentBase
+{  
+    protected override async Task OnInitializedAsync()
+    {
+        var currentDate = DateTime.Now;
+        CurrentDateDay = currentDate.ToShamsi();
+        CurrentNameDay = currentDate.ToDayShamsi();
+        await ShowDays();
+        await IsComponentLoading.InvokeAsync(false);
     }
 
+    /// <summary>
+    /// Show Dates With Times
+    /// </summary>
+    /// <returns></returns>
+    public async Task ShowDays()
+    {
+        var dates = await daysReserveRepository.GetTimesDayReserve();
+        if (dates.Success)
+        {
+            var res = dates.Response.ToList();
+            DaysReserves = res;
 
+            var times = res.SelectMany(x => x.TimesReserves);
+
+            if (times.Any())
+            {
+                TimesReserves = times.GroupBy(x => x.DaysReserveId).ToList();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Set  selectTime
+    /// </summary>
+    /// <param name="selectTime"></param>
+    public void SetSelectedTime(TimesReserve selectTime)
+    {
+        SelectedTime = selectTime;
+        ButtonContinueReserve = d_block;
+    }
+
+    /// <summary>
+    /// Time Selected and put class  selected
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    public string SelectedClass(TimesReserve time) => time == SelectedTime ? "selected" : string.Empty;
+
+    /// <summary>
+    /// Button Save  ContinuePurchaseProcess
+    /// </summary>
+    public void ContinuePurchaseProcess()
+    {
+        if (SelectedTime.Id == 0)
+        {
+            return;
+        }
+        FinishInfo = d_block;
+        ButtonContinueReserve = d_none;
+    }
+
+    /// <summary>
+    /// cancell reserve and reset fields
+    /// </summary>
+    public void CancellReserve()
+    {
+        FinishInfo = d_none;
+        ButtonContinueReserve = d_block;
+    }
+
+    /// <summary>
+    /// Save Form user information and reservation
+    /// </summary>
+    /// <returns></returns>
+    public async Task SaveInfoAndConnectToPay()
+    {
+        IsLoader = !IsLoader;
+
+        ReserveDto.TimesReserveId = SelectedTime.Id;
+        ReserveDto.Password = ReserveDto.NationalCode;
+        ReserveDto.RoleId = (long)RoleEnum.user;
+
+        var res = await userRepository.AddReserve(ReserveDto);
+
+        if (res.Success && res.Response)
+        {
+            SuccessAction();
+        }
+        else
+        {
+            FailedAction();
+        }
+
+    }
+}
+
+/// <summary>
+/// Private Methods
+/// </summary>
+public partial class ReservationComponentBase: ComponentBase
+{
+    /// <summary>
+    /// Changes for successful operations
+    /// </summary>
+    private void SuccessAction()
+    {
+        FinishInfo = d_none;
+        ButtonContinueReserve = d_none;
+        SelectedTime = new();
+        ReserveDto = new();
+        MessageText = "رزرو شما با موفقیت ثبت گردید";
+        MessageColor = "success";
+        MessageInfo = d_block;
+        IsLoader = !IsLoader;
+
+    }
+
+    /// <summary>
+    ///  Changes for failure operations
+    /// </summary>
+    private void FailedAction()
+    {
+        MessageText = "رزرو شما با شکست مواجه گردید";
+        MessageColor = "danger";
+        MessageInfo = d_block;
+        IsLoader = !IsLoader;
+    }
+
+   
 }
