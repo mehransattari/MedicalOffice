@@ -1,0 +1,43 @@
+﻿@inherits FormDialogReserveBase
+<EditForm Model="@Reserve" OnValidSubmit="OnValidSubmit">
+    <MudDialog>
+        <DialogContent>
+            <DataAnnotationsValidator />
+
+            <MudGrid>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField T="string" Label="نام " Required="true" For="@(() => Reserve.FirstName)"
+                                  @bind-Value="Reserve.FirstName" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField T="string" Label="نام خانوادگی" Required="true" For="@(() => Reserve.LastName)"
+                                  @bind-Value="Reserve.LastName" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField T="string" Label=" موبایل" Required="true" For="@(() => Reserve.Mobile)"
+                                  @bind-Value="Reserve.Mobile" />
+                </MudItem>
+
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField T="string" Label=" کد ملی" Required="true" For="@(() => Reserve.NationalCode)"
+                                  @bind-Value="Reserve.NationalCode" />
+                </MudItem>
+           
+
+            </MudGrid>
+
+        </DialogContent>
+
+        <DialogActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true">
+                ذخیره
+            </MudButton>
+            <MudButton OnClick="Cancel" Color="Color.Error" Variant="Variant.Filled">لغو</MudButton>
+        </DialogActions>
+
+    </MudDialog>
+</EditForm>

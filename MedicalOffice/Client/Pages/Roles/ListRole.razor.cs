@@ -8,7 +8,7 @@ using MedicalOffice.Client.Repositories;
 
 namespace MedicalOffice.Client.Pages.Roles;
 
-public class ListRoleBase : ComponentBase
+public  class ListRoleBase : ComponentBase
 {
     #region ======= Fields ================
 

@@ -7,6 +7,16 @@
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Pages\Roles\ListRoleDelete.razor.cs" />
+    <Compile Remove="Pages\Roles\ListRoleDialogs.razor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\Roles\ListRoleDelete.razor.cs" />
+    <Content Include="Pages\Roles\ListRoleDialogs.razor.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Blazored.TextEditor" Version="1.1.0" />
