@@ -26,6 +26,7 @@ public partial class ListReserveBase : ComponentBase
     public IEnumerable<ReserveDto> pagedData = new List<ReserveDto>();
     public MultipartFormDataContent MultipartFormData = new MultipartFormDataContent();
     public MudTable<ReserveDto>? ReserveTable;
+    public int totalItems;
 
     #endregion
 

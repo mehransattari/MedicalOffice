@@ -37,16 +37,17 @@ public class ReserveRepository: IReserveRepository
 
     public async Task<ResponseData<List<ReserveDto>>> GetAllReserves(int skip = 0, int take = 5)
     {
-        var result = await _http.Get<List<ReserveDto>>($"{_URL}/Reserves/{skip}/{take}");
+        var result = await _http.Get<List<ReserveDto>>($"{_URL}/pages/{skip}/{take}");
         return result;
     }
 
     public async Task<ResponseData<IEnumerable<ReserveDto>>> GetAllReserves(string search)
     {
-        var result = await _http.Get<IEnumerable<ReserveDto>>($"{_URL}/Reserves/{search}");
+        var result = await _http.Get<IEnumerable<ReserveDto>>($"{_URL}/{search}");
         return result;
     }
-
+ 
+    
     public async Task<ResponseData<int>> GetAllReservesCount()
     {
         var result = await _http.Get<int>($"{_URL}/countReserves");

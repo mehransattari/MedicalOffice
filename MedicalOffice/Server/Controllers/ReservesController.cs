@@ -10,7 +10,7 @@ namespace MedicalOffice.Server.Controllers;
 
 [Route("api/Reserves")]
 [ApiController]
-public class ReservesController : ControllerBase
+public class ReservesController : Controller
 {
     #region Constructor
     private readonly AppDbContext _appDbContext;
@@ -27,16 +27,32 @@ public class ReservesController : ControllerBase
 
 
     [HttpGet]
-    public async Task<List<Reservation>> Get()
+    public async Task<List<ReserveDto>> Get()
     {
-        var result = await _appDbContext.Reservations.ToListAsync();
+        var result = await _appDbContext.Reservations
+                           .Include(x=>x.User)
+                           .Include(x=>x.TimesReserve)
+                           .ThenInclude(x=>x.DaysReserve)
+                           .Select(x=>new ReserveDto()
+                           {
+                               FirstName= x.User.FirstName,
+                               LastName= x.User.LastName,
+                               Mobile= x.User.Mobile,
+                               NationalCode=  x.User.NationalCode,
+                               Day= x.TimesReserve.DaysReserve.Day,
+                               FromTime=  x.TimesReserve.FromTime,
+                               ToTime= x.TimesReserve.ToTime,
+                           
+                           }).ToListAsync();
+
+
         if (result != null && result.Count > 0)
         {
             return result;
         }
         else
         {
-            return new List<Reservation>();
+            return new List<ReserveDto>();
         }
     }
 
@@ -144,22 +160,37 @@ public class ReservesController : ControllerBase
         return new List<ReserveDto>();
     }
 
-    [HttpGet("Reserves/{skip}/{pagesize}")]
+    [HttpGet("pages/{skip}/{pagesize}")]
     public async Task<IEnumerable<ReserveDto>> GetReservesPaging(int skip, int pagesize)
     {
-        var Reserves = await _appDbContext.Reservations
-                      .OrderByDescending(p => p.Id)
-                      .Skip(skip)
-                      .Take(pagesize)
-                      .ToListAsync();
+        var reserves = await _appDbContext.Reservations                                          
+                             .Include(x => x.User)
+                             .Include(x => x.TimesReserve)
+                             .ThenInclude(x => x.DaysReserve)
+                             .Select(x => new ReserveDto()
+                             {
+                                 Id=x.Id,
+                                 FirstName = x.User.FirstName,
+                                 LastName = x.User.LastName,
+                                 Mobile = x.User.Mobile,
+                                 NationalCode = x.User.NationalCode,
+                                 Day = x.TimesReserve.DaysReserve.Day,
+                                 FromTime = x.TimesReserve.FromTime,
+                                 ToTime = x.TimesReserve.ToTime,
+                             
+                             })
+                             .OrderByDescending(p => p.Id)
+                             .Skip(skip)
+                             .Take(pagesize)
+                             .ToListAsync();
 
-        var _Reserves = Reserves.Select((Reserve, index) => new ReserveDto
-        {
-            Id = Reserve.Id,
+        //var _Reserves = Resereservesrves.Select((Reserve, index) => new ReserveDto
+        //{
+        //    Id = Reserve.Id,
 
-        }).ToList();
+        //}).ToList();
 
-        return _Reserves;
+        return reserves;
     }
     #endregion
 

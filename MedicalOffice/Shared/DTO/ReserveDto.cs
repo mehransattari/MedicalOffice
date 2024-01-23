@@ -25,6 +25,9 @@ namespace MedicalOffice.Shared.DTO
         public long TimesReserveId { get; set; }
         public long UserId { get; set; }
 
+        public TimeSpan? FromTime { get; set; }
+        public TimeSpan? ToTime { get; set; }
+        public DateTime? Day { get; set; }
 
         public int Number { get; set; }
     }
