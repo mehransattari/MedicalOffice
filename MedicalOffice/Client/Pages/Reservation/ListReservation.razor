@@ -2,6 +2,15 @@
 @page "/admin/reservation"
 @using MedicalOffice.Shared.DTO;
 @using MedicalOffice.Client.Services.Helper
+<style>
+    .mud-table-pagination-actions {   
+        direction: ltr;
+    }
+
+    .mud-table-pagination-toolbar .mud-tablepager-left {
+        direction: ltr;
+    }
+</style>
 <MudIconButton OnClick="@OpenAddDialogAdd" Icon="@Icons.Material.Filled.Add"
                Color="Color.Success"></MudIconButton>
 
@@ -39,22 +48,21 @@
     <ToolBarContent>
 
         <MudText Typo="Typo.h6">
-            پروژه ها
+            رزرو ها
         </MudText>
         <MudSpacer />
 
     </ToolBarContent>
 
     <HeaderContent>
+
         <MudTh><MudTableSortLabel SortLabel="FirstName" T="User">نام </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="LastName" T="User">نام خانوادگی </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="NationalCode" T="User"> کد ملی </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="Mobile" T="User"> موبایل  </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="Day" T="User"> روز  </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="Day" T="User"> تاریخ  </MudTableSortLabel></MudTh>
-
         <MudTh><MudTableSortLabel SortLabel="FromTime" T="User"> ساعت  </MudTableSortLabel></MudTh>
-
 
     </HeaderContent>
 
@@ -121,7 +129,9 @@
      </LoadingContent>
 
      <PagerContent>
-         <MudTablePager />
+         <MudTablePager PageSizeOptions="new int[] { 5,10, 25, 50, 100, int.MaxValue }"
+                        HorizontalAlignment="HorizontalAlignment.Center"                        
+                        RowsPerPageString="تعداد نمایش" />
      </PagerContent>
 
      <EditButtonContent Context="button">
@@ -147,3 +157,4 @@
                    StartIcon="@Icons.Material.Filled.DeleteForever">حذف</MudButton>
     </YesButton>
 </MudMessageBox>
+

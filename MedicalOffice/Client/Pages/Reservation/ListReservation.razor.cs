@@ -28,6 +28,7 @@ public partial class ListReserveBase : ComponentBase
     public MudTable<ReserveDto>? ReserveTable;
     public int totalItems;
 
+
     #endregion
 
     #region ServerReload
@@ -43,18 +44,22 @@ public partial class ListReserveBase : ComponentBase
             }
         }
 
-        var resultQuery = await _ReserveRepository.GetAllReserves();
-
+        var resultQuery = await _ReserveRepository.GetAllReserves(skip: state.Page, take: state.PageSize);
+        var resultQueryCount = await _ReserveRepository.GetAllReservesCount();
+        int totalItems = default;
         if (resultQuery.Success)
         {
             var res = resultQuery.Response.ToArray();
             enumReserve = res.AsEnumerable();
             this.StateHasChanged();
         }
-
+        if (resultQueryCount.Success)
+        {
+            totalItems = resultQueryCount.Response;          
+        }
         pagedData = enumReserve.ToArray();
 
-        return new TableData<ReserveDto>() { TotalItems = 0, Items = pagedData };
+        return new TableData<ReserveDto>() { TotalItems = totalItems, Items = pagedData };
     }
 
 
