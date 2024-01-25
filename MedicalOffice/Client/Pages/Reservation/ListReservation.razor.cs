@@ -1,8 +1,9 @@
 ﻿using MedicalOffice.Client.Repositories.Inteface;
 using MedicalOffice.Shared.DTO;
-using MedicalOffice.Shared.Helper.Mapper;
+using MedicalOffice.Shared.Helper;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using System.ComponentModel.DataAnnotations;
 
 namespace MedicalOffice.Client.Pages.Reservation;
 
@@ -14,55 +15,85 @@ public partial class ListReserveBase : ComponentBase
     #region Inject
     [Inject]
     public IReserveRepository _ReserveRepository { get; set; }
+
     [Inject]
     public ISnackbar Snackbar { get; set; }
+
     [Inject]
     public IDialogService DialogService { get; set; }
     #endregion
 
     #region Properties
     public List<ReserveDto> listReserve { get; set; } = new List<ReserveDto>();
-    public IEnumerable<ReserveDto> enumReserve = new List<ReserveDto>();
-    public IEnumerable<ReserveDto> pagedData = new List<ReserveDto>();
-    public MultipartFormDataContent MultipartFormData = new MultipartFormDataContent();
-    public MudTable<ReserveDto>? ReserveTable;
-    public int totalItems;
 
+    private IEnumerable<ReserveDto> enumReserve = new List<ReserveDto>();
+
+    private IEnumerable<ReserveDto> pagedData = new List<ReserveDto>();
+
+    public MultipartFormDataContent MultipartFormData = new MultipartFormDataContent();
+
+    public MudTable<ReserveDto> ReserveTable;
+
+    private int totalItems = default;
+
+    private string searchString { get; set; } = "-";
 
     #endregion
 
     #region ServerReload
     public async Task<TableData<ReserveDto>> ServerReload(TableState state)
     {
-        if (EditedReserve.Id != 0)
+        await updateReserve();
+
+        await getTotalItemsData();
+
+        var currentPage = ((state.Page + 1) - 1);
+
+        var resultQuery = await _ReserveRepository.GetAllReserves(skip: currentPage * state.PageSize, take: state.PageSize,search: searchString);
+
+        if (resultQuery.Success)
         {
-            var result = await _ReserveRepository.UpdateReserve(EditedReserve);
-            if (result.Response)
+          enumReserve = resultQuery.Response;
+        }
+
+        return new TableData<ReserveDto>() { TotalItems = totalItems, Items = enumReserve };
+
+        #region Local Functions
+
+      
+
+        async Task updateReserve()
+        {
+            if (EditedReserve.Id != 0)
             {
-                StateHasChanged();
-                EditedReserve.Id = 0;
+                var result = await _ReserveRepository.UpdateReserve(EditedReserve);
+                if (result.Response)
+                {
+                    StateHasChanged();
+                    EditedReserve.Id = 0;
+                }
             }
         }
 
-        var resultQuery = await _ReserveRepository.GetAllReserves(skip: state.Page, take: state.PageSize);
-        var resultQueryCount = await _ReserveRepository.GetAllReservesCount();
-        int totalItems = default;
-        if (resultQuery.Success)
+        async Task getTotalItemsData()
         {
-            var res = resultQuery.Response.ToArray();
-            enumReserve = res.AsEnumerable();
-            this.StateHasChanged();
+            var resultQueryCount = await _ReserveRepository.GetAllReservesCount(searchString);
+            if (resultQueryCount.Success)
+            {
+                totalItems = resultQueryCount.Response;
+            }
         }
-        if (resultQueryCount.Success)
-        {
-            totalItems = resultQueryCount.Response;          
-        }
-        pagedData = enumReserve.ToArray();
 
-        return new TableData<ReserveDto>() { TotalItems = totalItems, Items = pagedData };
+  
+
+        #endregion
     }
 
-
+    public void OnSearch(string text)
+    {
+        searchString = string.IsNullOrEmpty(text)?"-":text;
+        ReserveTable.ReloadServerData();
+    }
     #endregion
 }
 

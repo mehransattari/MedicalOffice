@@ -30,19 +30,19 @@ public class ReservesController : Controller
     public async Task<List<ReserveDto>> Get()
     {
         var result = await _appDbContext.Reservations
-                           .Include(x=>x.User)
-                           .Include(x=>x.TimesReserve)
-                           .ThenInclude(x=>x.DaysReserve)
-                           .Select(x=>new ReserveDto()
+                           .Include(x => x.User)
+                           .Include(x => x.TimesReserve)
+                           .ThenInclude(x => x.DaysReserve)
+                           .Select(x => new ReserveDto()
                            {
-                               FirstName= x.User.FirstName,
-                               LastName= x.User.LastName,
-                               Mobile= x.User.Mobile,
-                               NationalCode=  x.User.NationalCode,
-                               Day= x.TimesReserve.DaysReserve.Day,
-                               FromTime=  x.TimesReserve.FromTime,
-                               ToTime= x.TimesReserve.ToTime,
-                           
+                               FirstName = x.User.FirstName,
+                               LastName = x.User.LastName,
+                               Mobile = x.User.Mobile,
+                               NationalCode = x.User.NationalCode,
+                               Day = x.TimesReserve.DaysReserve.Day,
+                               FromTime = x.TimesReserve.FromTime,
+                               ToTime = x.TimesReserve.ToTime,
+
                            }).ToListAsync();
 
 
@@ -78,7 +78,7 @@ public class ReservesController : Controller
         var result = await _appDbContext.SaveChangesAsync();
 
         return result != 0;
-     
+
     }
 
     [HttpPut("updateReserve")]
@@ -130,14 +130,29 @@ public class ReservesController : Controller
         var Reserves = _appDbContext.Reservations.Count();
         return await Task.FromResult(Reserves);
     }
+    [HttpGet("countReserves/{search}")]
+    public async Task<int> GetReservesCount(string search)
+    {
+        var reserves = _appDbContext.Reservations
+                               .Include(x => x.User)
+                               .Include(x => x.TimesReserve)
+                               .ThenInclude(x => x.DaysReserve)
+                               .Where(x => search == "-" ||
+                                           EF.Functions.Like(x.User.FirstName, $"%{search}%") ||
+                                           EF.Functions.Like(x.User.LastName, $"%{search}%") ||
+                                           EF.Functions.Like(x.User.Mobile, $"%{search}%") ||
+                                           EF.Functions.Like(x.User.NationalCode, $"%{search}%"))
+                               .Count();
 
+        return await Task.FromResult(reserves);
+    }
     [HttpGet("Reserves/{search}")]
     public async Task<IEnumerable<ReserveDto>> GetReserves(string search)
     {
 
         if (!string.IsNullOrEmpty(search))
         {
-            var Reserves = await _appDbContext.Reservations.Include(x=>x.User).Where(x => x.User.FirstName.Contains(search) ||
+            var Reserves = await _appDbContext.Reservations.Include(x => x.User).Where(x => x.User.FirstName.Contains(search) ||
                                                                        x.User.LastName.Contains(search) ||
                                                                        x.User.Mobile.Contains(search) ||
                                                                        x.User.NationalCode.Contains(search))
@@ -149,8 +164,8 @@ public class ReservesController : Controller
                 Id = Reserve.Id,
                 FirstName = Reserve.User.FirstName,
                 LastName = Reserve.User.LastName,
-                Mobile =Reserve.User.Mobile,
-                NationalCode= Reserve.User.NationalCode,
+                Mobile = Reserve.User.Mobile,
+                NationalCode = Reserve.User.NationalCode,
                 Number = index + 1,
 
             }).ToList();
@@ -160,16 +175,22 @@ public class ReservesController : Controller
         return new List<ReserveDto>();
     }
 
-    [HttpGet("pages/{skip}/{pagesize}")]
-    public async Task<IEnumerable<ReserveDto>> GetReservesPaging(int skip, int pagesize)
+    [HttpGet("pages/{skip}/{pagesize}/{search}")]
+    public async Task<IEnumerable<ReserveDto>> GetReservesPaging(int skip, int pagesize, string search)
     {
-        var reserves = await _appDbContext.Reservations                                          
+
+        var reserves = await _appDbContext.Reservations
                              .Include(x => x.User)
                              .Include(x => x.TimesReserve)
                              .ThenInclude(x => x.DaysReserve)
+                              .Where(x => search == "-" ||
+                                         EF.Functions.Like(x.User.FirstName, $"%{search}%") ||
+                                         EF.Functions.Like(x.User.LastName, $"%{search}%") ||
+                                         EF.Functions.Like(x.User.Mobile, $"%{search}%") ||
+                                         EF.Functions.Like(x.User.NationalCode, $"%{search}%"))
                              .Select(x => new ReserveDto()
                              {
-                                 Id=x.Id,
+                                 Id = x.Id,
                                  FirstName = x.User.FirstName,
                                  LastName = x.User.LastName,
                                  Mobile = x.User.Mobile,
@@ -177,20 +198,29 @@ public class ReservesController : Controller
                                  Day = x.TimesReserve.DaysReserve.Day,
                                  FromTime = x.TimesReserve.FromTime,
                                  ToTime = x.TimesReserve.ToTime,
-                             
+
                              })
                              .OrderByDescending(p => p.Id)
                              .Skip(skip)
                              .Take(pagesize)
                              .ToListAsync();
 
-        //var _Reserves = Resereservesrves.Select((Reserve, index) => new ReserveDto
-        //{
-        //    Id = Reserve.Id,
+        var _Reserves = reserves.Select((reserve, index) => new ReserveDto
+        {
+            Id = reserve.Id,
+            FirstName = reserve.FirstName,
+            LastName = reserve.LastName,
+            Mobile = reserve.Mobile,
+            NationalCode = reserve.NationalCode,
+            Day = reserve.Day,
+            FromTime = reserve.FromTime,
+            ToTime = reserve.ToTime,
+            Number = index + 1 + skip
 
-        //}).ToList();
+        }).ToList();
 
-        return reserves;
+
+        return _Reserves;
     }
     #endregion
 

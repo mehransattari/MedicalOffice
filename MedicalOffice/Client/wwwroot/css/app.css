@@ -159,3 +159,11 @@ a, .btn-link {
     text-align: right;
     left:unset;
 }
+
+.mud-table-pagination-actions {
+    direction: ltr;
+}
+
+.mud-table-pagination-toolbar .mud-tablepager-left {
+    direction: ltr;
+}

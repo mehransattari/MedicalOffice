@@ -5,7 +5,7 @@ using MedicalOffice.Shared.Helper;
 
 namespace MedicalOffice.Client.Repositories;
 
-public class ReserveRepository: IReserveRepository
+public class ReserveRepository : IReserveRepository
 {
     #region Constructor
     private readonly IHttpService _http;
@@ -35,22 +35,29 @@ public class ReserveRepository: IReserveRepository
         return result;
     }
 
-    public async Task<ResponseData<List<ReserveDto>>> GetAllReserves(int skip = 0, int take = 5)
+    public async Task<ResponseData<List<ReserveDto>>> GetAllReserves(int skip , int take, string search)
     {
-        var result = await _http.Get<List<ReserveDto>>($"{_URL}/pages/{skip}/{take}");
+        var result = await _http.Get<List<ReserveDto>>($"{_URL}/pages/{skip}/{take}/{search}");
         return result;
     }
 
+
     public async Task<ResponseData<IEnumerable<ReserveDto>>> GetAllReserves(string search)
     {
-        var result = await _http.Get<IEnumerable<ReserveDto>>($"{_URL}/{search}");
+        var result = await _http.Get<IEnumerable<ReserveDto>>($"{_URL}/pages/{search}");
         return result;
     }
- 
-    
+
+
     public async Task<ResponseData<int>> GetAllReservesCount()
     {
         var result = await _http.Get<int>($"{_URL}/countReserves");
+        return result;
+    }
+
+    public async Task<ResponseData<int>> GetAllReservesCount(string search)
+    {
+        var result = await _http.Get<int>($"{_URL}/countReserves/{search}");
         return result;
     }
 
