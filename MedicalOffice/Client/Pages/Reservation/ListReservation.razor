@@ -2,15 +2,15 @@
 @page "/admin/reservation"
 @using MedicalOffice.Shared.DTO;
 
-<MudIconButton OnClick="@OpenAddDialogAdd" Icon="@Icons.Material.Filled.Add"
-               Color="Color.Success"></MudIconButton>
+@* <MudIconButton OnClick="@OpenAddDialogAdd" Icon="@Icons.Material.Filled.Add"
+               Color="Color.Success"></MudIconButton> *@
 
 <MudIconButton OnClick="@OpenAddDialogEdit" Icon="@Icons.Material.Filled.Edit"
                Color="Color.Warning"></MudIconButton>
 
 
-<MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete"
-               Color="Color.Error" OnClick="OnButtonClicked"></MudIconButton>
+@* <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete"
+               Color="Color.Error" OnClick="OnButtonClicked"></MudIconButton> *@
 
 <MudTable ServerData="@(new Func<TableState, Task<TableData<ReserveDto>>>(ServerReload))"
           Dense="true"
@@ -49,13 +49,15 @@
 
     <HeaderContent>
 
-        <MudTh><MudTableSortLabel SortLabel="FirstName" T="User">ردیف </MudTableSortLabel></MudTh>
+        <MudTh Style="width:0px"><MudTableSortLabel SortLabel="FirstName" T="User">ردیف </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="FirstName" T="User">نام </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="NationalCode" T="User"> کد ملی </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="Mobile" T="User"> موبایل  </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="Day" T="User"> تاریخ  </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="Day" T="User"> روز  </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="FromTime" T="User"> ساعت  </MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="FromTime" T="User"> وضعیت  </MudTableSortLabel></MudTh>
+
 
     </HeaderContent>
 
@@ -77,6 +79,7 @@
             <MudTd DataLabel="dayDate"> @dayDateValue </MudTd>
             <MudTd DataLabel="Day"> @dayValue </MudTd>
             <MudTd DataLabel="FromTime"> @fromTimeValue </MudTd>
+            <MudTd DataLabel="FromTime"> @context.Status.GetDisplayName() </MudTd>
 
         </RowTemplate>
 
@@ -90,7 +93,7 @@
      </LoadingContent>
 
      <PagerContent>
-         <MudTablePager PageSizeOptions="new int[] {2,10, 25, 50, 100, int.MaxValue }"
+         <MudTablePager PageSizeOptions="new int[] {5,10, 25, 50, 100, int.MaxValue }"
                         HorizontalAlignment="HorizontalAlignment.Center"
                         RowsPerPageString="تعداد نمایش" />
      </PagerContent>

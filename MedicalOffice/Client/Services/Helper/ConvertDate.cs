@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace MedicalOffice.Client.Services.Helper
 {
@@ -23,6 +24,22 @@ namespace MedicalOffice.Client.Services.Helper
             dayOfWeek = (dayOfWeek + 1) % 7;
 
             return (PersianDayOfWeek)dayOfWeek;
+        }
+
+
+        /// <summary>
+        ///Find Name Attribute Display As Enum
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string GetDisplayName(this Enum value)
+        {
+            var displayAttribute = value.GetType()
+                                        .GetField(value.ToString())
+                                        .GetCustomAttributes(typeof(DisplayAttribute), false)
+                                        .SingleOrDefault() as DisplayAttribute;
+
+            return displayAttribute?.Name ?? value.ToString();
         }
     }
     public enum PersianDayOfWeek

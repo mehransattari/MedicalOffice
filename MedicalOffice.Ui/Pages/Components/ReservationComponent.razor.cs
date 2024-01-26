@@ -141,6 +141,7 @@ public partial class ReservationComponentBase : ComponentBase
     {
         FinishInfo = d_none;
         ButtonContinueReserve = d_block;
+        StateHasChanged();
     }
 
     /// <summary>
@@ -154,6 +155,7 @@ public partial class ReservationComponentBase : ComponentBase
         ReserveDto.TimesReserveId = SelectedTime.Id;
         ReserveDto.Password = ReserveDto.NationalCode;
         ReserveDto.RoleId = (long)RoleEnum.user;
+        ReserveDto.Status = StatusEnum.Pending;
 
         var res = await reserveRepository.AddReserve(ReserveDto);
 

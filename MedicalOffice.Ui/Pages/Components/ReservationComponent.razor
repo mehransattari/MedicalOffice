@@ -1,5 +1,5 @@
 ﻿@inherits ReservationComponentBase
-
+@using MedicalOffice.Shared.Entities;
 <style>
     .validation-message{
         color:red;
@@ -139,6 +139,25 @@
                                                     <label>کد ملی</label>
                                                     <InputText @bind-Value="ReserveDto.NationalCode" class="form-control" />
                                                     <ValidationMessage For="()=>ReserveDto.NationalCode" />
+
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+
+                                                    <label> علت مراجعه </label>
+                                           
+                                                    <InputSelect class="form-select" @bind-Value="@ReserveDto.ReserveType">
+                                                   
+                                                        @foreach (var item2 in Enum.GetValues(typeof(ReserveTypeEnum)).Cast<ReserveTypeEnum>())
+                                                        {
+                                                            <option value="@item2">
+                                                                @item2.GetDisplayName()
+                                                            </option>
+                                                        }
+                                                    </InputSelect>
+
+                                                    <ValidationMessage For="()=>ReserveDto.ReserveType" />
 
                                                 </div>
                                             </div>
