@@ -16,11 +16,13 @@ namespace MedicalOffice.Shared.DTO
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "لطفا موبایل خود را وارد نمائید.")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "موبایل صحیح نمی باشد.")]
         public string Mobile { get; set; }
 
         public string? Password { get; set; }
 
         [Required(ErrorMessage = "لطفا کد ملی خود را وارد نمائید.")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "کد ملی صحیح نمی باشد.")]
         public string NationalCode { get; set; }
 
         public long RoleId { get; set; }
@@ -37,7 +39,7 @@ namespace MedicalOffice.Shared.DTO
         public StatusEnum Status { get; set; }
 
         [Required(ErrorMessage = "لطفا  علت مراجعه را انتخاب نمائید.")]
-        public ReserveTypeEnum ReserveType { get; set; }
+        public ReserveTypeEnum ReserveType { get; set; } = ReserveTypeEnum.Visit;
 
         public int Number { get; set; }
     }

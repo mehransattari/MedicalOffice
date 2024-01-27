@@ -1,6 +1,7 @@
 ﻿using MedicalOffice.Client.Repositories.Inteface;
 using MedicalOffice.Client.Services.Interface;
 using MedicalOffice.Shared.DTO;
+using MedicalOffice.Shared.Entities;
 using MedicalOffice.Shared.Helper;
 
 namespace MedicalOffice.Client.Repositories;
@@ -72,5 +73,19 @@ public class ReserveRepository : IReserveRepository
         var result = await _http.PutAsync<ReserveDto, bool>($"{_URL}/updateReserve", Reserve);
         return result;
     }
+
+    public async Task<ResponseData<bool>> ChanageStatusReserveToReserved( IEnumerable<long> ids)
+    {
+        var result = await _http.PutAsync<IEnumerable<long>, bool>($"{_URL}/changeStatusReserveToReserved", ids);
+        return result;
+    }
+
+
+    public async Task<ResponseData<bool>> ChanageStatusReserveToCancelled(IEnumerable<long> ids)
+    {
+        var result = await _http.PutAsync<IEnumerable<long>, bool>($"{_URL}/changeStatusReserveToCancelled", ids);
+        return result;
+    }
+
     #endregion
 }

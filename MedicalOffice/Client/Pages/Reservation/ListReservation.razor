@@ -2,15 +2,18 @@
 @page "/admin/reservation"
 @using MedicalOffice.Shared.DTO;
 
-@* <MudIconButton OnClick="@OpenAddDialogAdd" Icon="@Icons.Material.Filled.Add"
-               Color="Color.Success"></MudIconButton> *@
-
-<MudIconButton OnClick="@OpenAddDialogEdit" Icon="@Icons.Material.Filled.Edit"
-               Color="Color.Warning"></MudIconButton>
 
 
-@* <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete"
-               Color="Color.Error" OnClick="OnButtonClicked"></MudIconButton> *@
+<MudFab StartIcon="@Icons.Material.Filled.AdsClick"
+        Color="Color.Success" 
+        OnClick="(()=>ChnageStatusReserve(StatusEnum.Reserved))" 
+        Label=" تایید رزرو" />
+
+<MudFab StartIcon="@Icons.Material.Filled.Cancel"
+        Color="Color.Error" 
+        OnClick="(()=>ChnageStatusReserve(StatusEnum.Cancelled))" 
+        Label=" لغو رزرو" />
+
 
 <MudTable ServerData="@(new Func<TableState, Task<TableData<ReserveDto>>>(ServerReload))"
           Dense="true"
@@ -42,7 +45,7 @@
             رزرو ها
         </MudText>
         <MudSpacer />
-        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="جستجو..." Adornment="Adornment.Start"
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
 
     </ToolBarContent>
@@ -57,6 +60,7 @@
         <MudTh><MudTableSortLabel SortLabel="Day" T="User"> روز  </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="FromTime" T="User"> ساعت  </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="FromTime" T="User"> وضعیت  </MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="FromTime" T="User"> رزرو  </MudTableSortLabel></MudTh>
 
 
     </HeaderContent>
@@ -72,14 +76,16 @@
             $"{@context.FromTime.Value:hh\\:mm} - {@context.ToTime.Value:hh\\:mm}" : "";
         }
 
-            <MudTd DataLabel="Index">@context.Number </MudTd>
-            <MudTd DataLabel="FirstName">@context.FirstName @context.LastName</MudTd>
-            <MudTd DataLabel="NationalCode">@context.NationalCode</MudTd>
-            <MudTd DataLabel="Mobile">@context.Mobile </MudTd>
-            <MudTd DataLabel="dayDate"> @dayDateValue </MudTd>
-            <MudTd DataLabel="Day"> @dayValue </MudTd>
-            <MudTd DataLabel="FromTime"> @fromTimeValue </MudTd>
-            <MudTd DataLabel="FromTime"> @context.Status.GetDisplayName() </MudTd>
+        <MudTd DataLabel="ردیف">@context.Number </MudTd>
+
+            <MudTd DataLabel="نام">@context.FirstName @context.LastName</MudTd>
+            <MudTd DataLabel="کد ملی">@context.NationalCode</MudTd>
+            <MudTd DataLabel="موبایل">@context.Mobile </MudTd>
+            <MudTd DataLabel="تاریخ"> @dayDateValue </MudTd>
+            <MudTd DataLabel="روز"> @dayValue </MudTd>
+            <MudTd DataLabel="ساعت"> @fromTimeValue </MudTd>
+            <MudTd DataLabel="وضعیت"> @context.Status.GetDisplayName() </MudTd>
+            <MudTd DataLabel="رزرو"> @context.ReserveType.GetDisplayName() </MudTd>
 
         </RowTemplate>
 

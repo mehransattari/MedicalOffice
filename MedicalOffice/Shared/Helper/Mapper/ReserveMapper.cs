@@ -23,7 +23,8 @@ public static class ReserveMapper
         {
             UserId = reserve.UserId,
             TimesReserveId = reserve.TimesReserveId,
-            Id = reserve.Id
+            Id = reserve.Id,
+            ReserveType=reserve.ReserveType 
         };
 
         return reserveDto;
@@ -35,7 +36,8 @@ public static class ReserveMapper
         {
             UserId = model.UserId,
             TimesReserveId = model.TimesReserveId,
-            Id = model.Id
+            Id = model.Id,
+            ReserveType = model.ReserveType
 
         });
 

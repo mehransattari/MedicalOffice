@@ -130,6 +130,7 @@ public class ReservesController : Controller
         var Reserves = _appDbContext.Reservations.Count();
         return await Task.FromResult(Reserves);
     }
+
     [HttpGet("countReserves/{search}")]
     public async Task<int> GetReservesCount(string search)
     {
@@ -146,6 +147,7 @@ public class ReservesController : Controller
 
         return await Task.FromResult(reserves);
     }
+
     [HttpGet("Reserves/{search}")]
     public async Task<IEnumerable<ReserveDto>> GetReserves(string search)
     {
@@ -198,6 +200,8 @@ public class ReservesController : Controller
                                  Day = x.TimesReserve.DaysReserve.Day,
                                  FromTime = x.TimesReserve.FromTime,
                                  ToTime = x.TimesReserve.ToTime,
+                                 ReserveType=x.ReserveType,
+                                 Status=x.Status
 
                              })
                              .OrderByDescending(p => p.Id)
@@ -215,6 +219,8 @@ public class ReservesController : Controller
             Day = reserve.Day,
             FromTime = reserve.FromTime,
             ToTime = reserve.ToTime,
+            ReserveType = reserve.ReserveType,
+            Status = reserve.Status,
             Number = index + 1 + skip
 
         }).ToList();
@@ -228,7 +234,7 @@ public class ReservesController : Controller
     public async Task<bool> ReserveUser([FromBody] ReserveDto reserve)
     {
         User _user = new User();
-        if (await checkDuplicateUserByNationalCode(reserve.NationalCode, reserve.Mobile))
+        if (await checkDuplicateUserByNationalCode(reserve.NationalCode))
         {
             _user = await _appDbContext.Users.FirstOrDefaultAsync(x => x.NationalCode == reserve.NationalCode && x.Mobile == reserve.Mobile);
         }
@@ -241,7 +247,8 @@ public class ReservesController : Controller
                 Mobile = reserve.Mobile,
                 NationalCode = reserve.NationalCode,
                 Password = !string.IsNullOrEmpty(reserve.Password) ? _protect.HashPassword(reserve.Password) : "0",
-                RoleId = reserve.RoleId
+                RoleId = reserve.RoleId,
+
             };
 
             await _appDbContext.Users.AddAsync(_user);
@@ -254,7 +261,9 @@ public class ReservesController : Controller
             {
                 TimesReserveId = reserve.TimesReserveId,
                 User = _user,
-                UserId = _user.Id
+                UserId = _user.Id,
+                Status = reserve.Status,
+                ReserveType=reserve.ReserveType
             };
 
             await _appDbContext.Reservations.AddAsync(_reserve);
@@ -267,9 +276,58 @@ public class ReservesController : Controller
         return false;
     }
 
-    public async Task<bool> checkDuplicateUserByNationalCode(string nationalCode, string mobile)
+
+    [HttpPut("changeStatusReserveToReserved")]
+    public async Task<bool> ChangeStatusReserveToReserved([FromBody] IEnumerable<long> ids)
     {
-        var res = await _appDbContext.Users.AnyAsync(x => x.NationalCode == nationalCode && x.Mobile == mobile);
+        var reserveds = await _appDbContext.Reservations.Where(u => ids.Contains(u.Id)).ToListAsync();
+
+        if (reserveds.Any())
+        {
+            try
+            {
+
+                reserveds.ForEach(x => x.Status = StatusEnum.Reserved);
+                 _appDbContext.UpdateRange(reserveds);
+                await _appDbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    [HttpPut("changeStatusReserveToCancelled")]
+    public async Task<bool> ChangeStatusReserveToCancelled([FromBody] IEnumerable<long> ids)
+    {
+        var cancellaesd = await _appDbContext.Reservations.Where(u => ids.Contains(u.Id)).ToListAsync();
+
+
+        if (cancellaesd.Any())
+        {
+            try
+            {
+                cancellaesd.ForEach(x => x.Status = StatusEnum.Cancelled);
+                _appDbContext.UpdateRange(cancellaesd);
+                await _appDbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public async Task<bool> checkDuplicateUserByNationalCode(string nationalCode)
+    {
+        var res = await _appDbContext.Users.AnyAsync(x => x.NationalCode == nationalCode);
 
         return res;
     }

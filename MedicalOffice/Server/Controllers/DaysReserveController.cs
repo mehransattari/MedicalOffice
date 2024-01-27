@@ -77,7 +77,7 @@ public class DaysReserveController : ControllerBase
     {
         try
         {
-            var result = await _appDbContext.DaysReserves.Include(x=>x.TimesReserves).ToListAsync();
+            var result = await _appDbContext.DaysReserves.OrderByDescending(x=>x.Id).Take(7).Include(x=>x.TimesReserves).ToListAsync();
 
             if (result != null)
             {

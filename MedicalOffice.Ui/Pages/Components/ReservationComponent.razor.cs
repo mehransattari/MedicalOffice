@@ -4,6 +4,8 @@ using MedicalOffice.Shared.Enum;
 using MedicalOffice.Ui.Repositories.Inteface;
 using MedicalOffice.Ui.Services.Helper;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using MudBlazor;
 
 namespace MedicalOffice.Ui.Pages.Components;
 
@@ -24,6 +26,13 @@ public partial class ReservationComponentBase : ComponentBase
 
     [Inject]
     public IReserveRepository reserveRepository { get; set; }
+
+    [Inject]
+    public ISnackbar Snackbar { get; set; }
+
+    [Inject]
+    public IJSRuntime jSRuntime { get; set; }
+
 }
 
 /// <summary>
@@ -141,6 +150,7 @@ public partial class ReservationComponentBase : ComponentBase
     {
         FinishInfo = d_none;
         ButtonContinueReserve = d_block;
+        ReserveDto = new();
         StateHasChanged();
     }
 
@@ -167,6 +177,7 @@ public partial class ReservationComponentBase : ComponentBase
         {
             FailedAction();
         }
+       await  jSRuntime.InvokeVoidAsync("swalFire","نتیجه رزرو", MessageText, MessageColor);
 
     }
 }
@@ -188,8 +199,8 @@ public partial class ReservationComponentBase: ComponentBase
         MessageText = "رزرو شما با موفقیت ثبت گردید";
         MessageColor = "success";
         MessageInfo = d_block;
+        Snackbar.Add(MessageText);
         IsLoader = !IsLoader;
-
     }
 
     /// <summary>
@@ -199,7 +210,9 @@ public partial class ReservationComponentBase: ComponentBase
     {
         MessageText = "رزرو شما با شکست مواجه گردید";
         MessageColor = "danger";
+
         MessageInfo = d_block;
+        Snackbar.Add(MessageText);
         IsLoader = !IsLoader;
     }
 

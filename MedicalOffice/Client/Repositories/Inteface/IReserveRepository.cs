@@ -13,6 +13,10 @@ public interface IReserveRepository
     Task<ResponseData<int>> GetAllReservesCount();
     Task<ResponseData<int>> GetAllReservesCount(string search);
 
+    Task<ResponseData<bool>> ChanageStatusReserveToReserved(IEnumerable<long> ids);
+    Task<ResponseData<bool>> ChanageStatusReserveToCancelled(IEnumerable<long> ids);
+
+
     Task<ResponseData<ReserveDto>> GetReserveById(long Id);
     Task<ResponseData<bool>> UpdateReserve(ReserveDto Reserve);
 }

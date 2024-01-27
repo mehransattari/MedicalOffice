@@ -106,7 +106,6 @@
                                     <EditForm Model="@ReserveDto" OnValidSubmit="SaveInfoAndConnectToPay">
 
                                         <DataAnnotationsValidator/>
-                                        <ValidationSummary />
                                      
                                         <div class="row form-row">
                                             <div class="col-12 col-md-6">
@@ -147,7 +146,7 @@
 
                                                     <label> علت مراجعه </label>
                                            
-                                                    <InputSelect class="form-select" @bind-Value="@ReserveDto.ReserveType">
+                                                    <InputSelect class="form-select" @bind-Value="@ReserveDto.ReserveType" >
                                                    
                                                         @foreach (var item2 in Enum.GetValues(typeof(ReserveTypeEnum)).Cast<ReserveTypeEnum>())
                                                         {
@@ -170,7 +169,7 @@
                                                     ذخیره و پرداخت
                                                 </button>
 
-                                                <button type="button" @onclick="CancellReserve" class="btn  btn-danger float-end">
+                                                <button type="button" @onclick="CancellReserve" @onclick:preventDefault class="btn  btn-danger float-end">
                                                     لغو
                                                 </button>
 
@@ -185,13 +184,6 @@
                     </div>
                 </section>
 
-                <!--پیغام-->
-                <div class="alert alert-@MessageColor alert-dismissible fade show @MessageInfo" role="alert">
-                    <strong>
-                        @MessageText
-                    </strong>  
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
 
             </div>
 

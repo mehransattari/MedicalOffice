@@ -1,9 +1,8 @@
 ﻿using MedicalOffice.Client.Repositories.Inteface;
 using MedicalOffice.Shared.DTO;
-using MedicalOffice.Shared.Helper;
+using MedicalOffice.Shared.Entities;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using System.ComponentModel.DataAnnotations;
 
 namespace MedicalOffice.Client.Pages.Reservation;
 
@@ -21,6 +20,8 @@ public partial class ListReserveBase : ComponentBase
 
     [Inject]
     public IDialogService DialogService { get; set; }
+
+
     #endregion
 
     #region Properties
@@ -231,8 +232,10 @@ public partial class ListReserveBase : ComponentBase
 {
     #region Selected Row
     public HashSet<ReserveDto> selectedItems = new HashSet<ReserveDto>();
+
     public bool _selectOnRowClick = true;
-    public ReserveDto _selectedItem = new ReserveDto();
+
+    public ReserveDto _selectedItem = new();
     public void OnRowClick(TableRowClickEventArgs<ReserveDto> args)
     {
         _selectedItem = args.Item;
@@ -259,4 +262,26 @@ public partial class ListReserveBase : ComponentBase
         await ReserveTable.ReloadServerData();
     }
 
+}
+
+public partial class ListReserveBase : ComponentBase
+{
+    public async Task  ChnageStatusReserve(StatusEnum status)
+    {
+        var ids = selectedItems.Select(x => x.Id);
+        foreach (var item in ids)
+        {
+           await Console.Out.WriteLineAsync(item.ToString());
+
+        }
+        if (StatusEnum.Reserved==status)
+        {
+            await _ReserveRepository.ChanageStatusReserveToReserved(ids);
+        }
+        if (StatusEnum.Cancelled == status)
+        {
+            await _ReserveRepository.ChanageStatusReserveToCancelled(ids);
+        }
+        await ReserveTable.ReloadServerData();
+    }
 }
