@@ -3,6 +3,7 @@ using MedicalOffice.Shared.Entities;
 using MedicalOffice.Shared.Enum;
 using MedicalOffice.Ui.Repositories.Inteface;
 using MedicalOffice.Ui.Services.Helper;
+using MedicalOffice.Ui.Services.Interface;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
@@ -26,6 +27,9 @@ public partial class ReservationComponentBase : ComponentBase
 
     [Inject]
     public IReserveRepository reserveRepository { get; set; }
+
+    [Inject]
+    public ISmsService smsService { get; set; }
 
     [Inject]
     public ISnackbar Snackbar { get; set; }
@@ -171,7 +175,9 @@ public partial class ReservationComponentBase : ComponentBase
 
         if (res.Success && res.Response)
         {
-            SuccessAction();
+            await SuccessAction();
+            await SmsSend(ReserveDto.Mobile,"کد یکبارمصرف");
+
         }
         else
         {
@@ -190,7 +196,7 @@ public partial class ReservationComponentBase: ComponentBase
     /// <summary>
     /// Changes for successful operations
     /// </summary>
-    private void SuccessAction()
+    private async Task SuccessAction()
     {
         FinishInfo = d_none;
         ButtonContinueReserve = d_none;
@@ -224,6 +230,17 @@ public partial class ReservationComponentBase: ComponentBase
         FinishInfo = d_none;
         ButtonContinueReserve = d_none;
         MessageInfo = d_none;
+    }
+
+    private async Task SmsSend(string to ,string text)
+    {
+        var sms = new SmsDto()
+        {
+            To= to,
+            Text= text
+        };
+
+        await smsService.SendSmsAsync(sms);
     }
    
 }
