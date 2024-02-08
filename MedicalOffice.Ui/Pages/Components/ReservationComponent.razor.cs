@@ -165,25 +165,30 @@ public partial class ReservationComponentBase : ComponentBase
     public async Task SaveInfoAndConnectToPay()
     {
         IsLoader = !IsLoader;
-
+      
         ReserveDto.TimesReserveId = SelectedTime.Id;
         ReserveDto.Password = ReserveDto.NationalCode;
         ReserveDto.RoleId = (long)RoleEnum.user;
         ReserveDto.Status = StatusEnum.Pending;
+        string to = ReserveDto.Mobile;
 
         var res = await reserveRepository.AddReserve(ReserveDto);
 
         if (res.Success && res.Response)
         {
-            await SuccessAction();
-            await SmsSend(ReserveDto.Mobile,"کد یکبارمصرف");
+            SuccessAction();
 
+            if(!string.IsNullOrEmpty(to))
+            {
+                await SmsSend(to, "کد یکبارمصرف");
+            }
         }
         else
         {
             FailedAction();
         }
-       await  jSRuntime.InvokeVoidAsync("swalFire","نتیجه رزرو", MessageText, MessageColor);
+
+        await  jSRuntime.InvokeVoidAsync("swalFire","نتیجه رزرو", MessageText, MessageColor);
 
     }
 }
@@ -196,7 +201,7 @@ public partial class ReservationComponentBase: ComponentBase
     /// <summary>
     /// Changes for successful operations
     /// </summary>
-    private async Task SuccessAction()
+    private void SuccessAction()
     {
         FinishInfo = d_none;
         ButtonContinueReserve = d_none;

@@ -1,7 +1,6 @@
 ﻿using MedicalOffice.Shared.DTO;
 using MedicalOffice.Shared.Helper;
 using MedicalOffice.Ui.Services.Interface;
-using System.Net;
 
 namespace MedicalOffice.Ui.Services;
 
@@ -9,7 +8,7 @@ public class SmsService: ISmsService
 {
     #region Constructor
     private readonly IHttpService _http;
-    private readonly string _URL = "api/sms";
+    private readonly string _URL = "api/smsmessage";
     public SmsService( IHttpService http)
     {
         _http = http;

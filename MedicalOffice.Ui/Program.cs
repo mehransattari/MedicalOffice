@@ -38,6 +38,7 @@ builder.Services.AddScoped<ISettingsRepository, SettingsRepository>();
 builder.Services.AddScoped<IDaysReserveRepository, DaysReserveRepository>();
 builder.Services.AddScoped<ITimesRepository, TimesRepository>();
 builder.Services.AddScoped<IReserveRepository, ReserveRepository>();
+builder.Services.AddScoped<ISmsService, SmsService>();
 
 
 builder.Services.AddScoped<JWTService>();

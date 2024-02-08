@@ -4,14 +4,13 @@ using System.Net;
 
 namespace MedicalOffice.Server.Controllers;
 
-
+[Route("api/smsmessage")]
 [ApiController]
-[Route("api/sms")]
-public class SmsController : ControllerBase
+public class SmsController : Controller
 {
 
-    [HttpPost("smssend")]
-    public async Task<bool> SmsSender([FromForm] SmsDto model)
+    [HttpPost]
+    public async Task<bool> SmsSender( [FromBody]SmsDto model)
     {
         try
         {

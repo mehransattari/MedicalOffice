@@ -16,7 +16,7 @@ namespace MedicalOffice.Shared.DTO
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "لطفا موبایل خود را وارد نمائید.")]
-        [RegularExpression(@"^\d{10}$", ErrorMessage = "موبایل صحیح نمی باشد.")]
+        //[RegularExpression(@"^\d{10}$", ErrorMessage = "موبایل صحیح نمی باشد.")]
         public string Mobile { get; set; }
 
         public string? Password { get; set; }
