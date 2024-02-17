@@ -1,8 +1,8 @@
 ﻿@inherits ReservationComponentBase
 @using MedicalOffice.Shared.Entities;
 <style>
-    .validation-message{
-        color:red;
+    .validation-message {
+        color: red;
     }
 </style>
 
@@ -23,15 +23,15 @@
                 <div class="row">
                     <div class="col-12 m-auto text-center">
                         <h4 class="mb-1">
-                          امروز : 
-                          @CurrentNameDay  ،  @CurrentDateDay      
+                            امروز :
+                            @CurrentNameDay  ،  @CurrentDateDay
                         </h4>
-                    
+
                     </div>
                 </div>
 
                 <div class="card booking-schedule schedule-widget">
-                   
+
                     <div class="schedule-header">
                         <div class="row">
                             <div class="col-md-12">
@@ -113,9 +113,11 @@
                                 <form>
                                     <EditForm Model="@ReserveDto" OnValidSubmit="SaveInfoAndConnectToPay">
 
-                                        <DataAnnotationsValidator/>
-                                     
+                                        <DataAnnotationsValidator />
+
                                         <div class="row form-row">
+
+                                            <!-------------نام--------------->
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>نام</label>
@@ -123,6 +125,8 @@
                                                     <ValidationMessage For="()=>ReserveDto.FirstName" />
                                                 </div>
                                             </div>
+
+                                            <!-------------نام خانوادگی--------------->
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>نام خانوادگی</label>
@@ -132,6 +136,7 @@
                                                 </div>
                                             </div>
 
+                                            <!-------------موبایل--------------->
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>موبایل</label>
@@ -141,6 +146,7 @@
                                                 </div>
                                             </div>
 
+                                            <!-----------کد ملی----------------->
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>کد ملی</label>
@@ -149,13 +155,15 @@
 
                                                 </div>
                                             </div>
+
+                                            <!------------علت مراجعه---------------->
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
 
                                                     <label> علت مراجعه </label>
-                                           
-                                                    <InputSelect class="form-select" @bind-Value="@ReserveDto.ReserveType" >
-                                                   
+
+                                                    <InputSelect class="form-select" @bind-Value="@ReserveDto.ReserveType">
+
                                                         @foreach (var item2 in Enum.GetValues(typeof(ReserveTypeEnum)).Cast<ReserveTypeEnum>())
                                                         {
                                                             <option value="@item2">
@@ -168,13 +176,25 @@
 
                                                 </div>
                                             </div>
+
+                                            <!----------کد یکبار مصرف------------------>
+                                            <div class="col-12 col-md-6 @ShowDivFieldSingleUseCode ">
+                                                <div class="form-group">
+
+                                                    <label>کد یکبار مصرف</label>
+                                                    <InputNumber @bind-Value="ReserveDto.SingleUseCode" class="form-control" />
+                                                    <ValidationMessage For="()=>ReserveDto.SingleUseCode" />
+
+                                                </div>
+                                            </div>
+                                            
                                         </div>
 
                                         <div class="row">
                                             <div class="col-12 col-md-12">
 
                                                 <button type="submit" class="btn  btn-success">
-                                                    ذخیره و پرداخت
+                                                    ذخیره اطلاعات
                                                 </button>
 
                                                 <button type="button" @onclick="CancellReserve" @onclick:preventDefault class="btn  btn-danger float-end">

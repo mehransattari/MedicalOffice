@@ -65,27 +65,39 @@ public partial class ReservationComponentBase : ComponentBase
 public partial class ReservationComponentBase : ComponentBase
 {
     public string d_block { get; set; } = "d-block";
+
     public string d_none { get; set; } = "d-none";
 
     public string? CurrentNameDay { get; set; }
+
     public string? CurrentDateDay { get; set; }
 
-    public string FinishInfo { get; set; }
-    public string ButtonContinueReserve { get; set; }
-    public string MessageInfo { get; set; }
+    public string FinishInfo { get; set; } = string.Empty;
+
+    public string ButtonContinueReserve { get; set; } = string.Empty;
+
+    public string MessageInfo { get; set; } = string.Empty;
+
     public string MessageText { get; set; } = string.Empty;
+
     public string MessageColor { get; set; } = string.Empty;
 
     public string Selected { get; set; } = string.Empty;
 
     public bool IsLoader { get; set; } = false;
+
+    public string ShowDivFieldSingleUseCode { get; set; } = string.Empty;
 }
 
 /// <summary>
 ///  Methods
 /// </summary>
 public partial class ReservationComponentBase : ComponentBase
-{  
+{
+    /// <summary>
+    /// OnInitializedAsync
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
         var currentDate = DateTime.Now;
@@ -132,7 +144,8 @@ public partial class ReservationComponentBase : ComponentBase
     /// </summary>
     /// <param name="time"></param>
     /// <returns></returns>
-    public string SelectedClass(TimesReserve time) => time == SelectedTime ? "selected" : string.Empty;
+    public string SelectedClass(TimesReserve time) 
+        => time == SelectedTime ? "selected" : string.Empty;
 
     /// <summary>
     /// Button Save  ContinuePurchaseProcess
@@ -164,31 +177,26 @@ public partial class ReservationComponentBase : ComponentBase
     /// <returns></returns>
     public async Task SaveInfoAndConnectToPay()
     {
+        var randomNumber = new Random().Next(10000, 999000);
+
         IsLoader = !IsLoader;
-      
+        
         ReserveDto.TimesReserveId = SelectedTime.Id;
         ReserveDto.Password = ReserveDto.NationalCode;
         ReserveDto.RoleId = (long)RoleEnum.user;
         ReserveDto.Status = StatusEnum.Pending;
-        string to = ReserveDto.Mobile;
 
-        var res = await reserveRepository.AddReserve(ReserveDto);
+        string toMobile = ReserveDto.Mobile;
 
-        if (res.Success && res.Response)
+        if (!string.IsNullOrEmpty(toMobile))
         {
-            SuccessAction();
-
-            if(!string.IsNullOrEmpty(to))
-            {
-                await SmsSend(to, "کد یکبارمصرف");
-            }
-        }
-        else
-        {
-            FailedAction();
+            await GetSmsSend(toMobile, randomNumber);         
         }
 
-        await  jSRuntime.InvokeVoidAsync("swalFire","نتیجه رزرو", MessageText, MessageColor);
+        if (ReserveDto.SingleUseCode!=0)
+        {
+            await GetAddReserve();      
+        }   
 
     }
 }
@@ -196,7 +204,7 @@ public partial class ReservationComponentBase : ComponentBase
 /// <summary>
 /// Private Methods
 /// </summary>
-public partial class ReservationComponentBase: ComponentBase
+public partial class ReservationComponentBase : ComponentBase
 {
     /// <summary>
     /// Changes for successful operations
@@ -233,19 +241,65 @@ public partial class ReservationComponentBase: ComponentBase
     private void DoDisplayNone()
     {
         FinishInfo = d_none;
+        ShowDivFieldSingleUseCode = d_none;
         ButtonContinueReserve = d_none;
         MessageInfo = d_none;
     }
 
-    private async Task SmsSend(string to ,string text)
+    /// <summary>
+    /// Sms Send When Success Return True Else False
+    /// </summary>
+    /// <param name="to"></param>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    private async Task<bool> SmsSend(string to, string text)
     {
         var sms = new SmsDto()
         {
-            To= to,
-            Text= text
+            To = to,
+            Text = text
         };
 
-        await smsService.SendSmsAsync(sms);
+        var result = await smsService.SendSmsAsync(sms);
+        if (result.Success)
+            return result.Response;
+        return false;
     }
-   
+
+    /// <summary>
+    /// Add Reserve and Show Message Success or Failed
+    /// </summary>
+    /// <returns></returns>
+    private async Task GetAddReserve()
+    {
+        var res = await reserveRepository.AddReserve(ReserveDto);
+
+        if (res.Success && res.Response)
+        {
+            SuccessAction();
+        }
+        else
+        {
+            FailedAction();
+        }
+
+        await jSRuntime.InvokeVoidAsync("swalFire", "نتیجه رزرو", MessageText, MessageColor);
+    }
+
+    /// <summary>
+    /// Sms Send and div SingleUseCode do block
+    /// </summary>
+    /// <param name="toMobile"></param>
+    /// <param name="randomNumber"></param>
+    /// <returns></returns>
+    private async Task GetSmsSend(string toMobile,int randomNumber)
+    {
+        string text = $"کد یکبار مصرف رزرو پزشکی : {randomNumber}";
+
+        var resSmsm = await SmsSend(toMobile, text);
+
+        if (resSmsm)
+            ShowDivFieldSingleUseCode = d_block;
+    }
+
 }

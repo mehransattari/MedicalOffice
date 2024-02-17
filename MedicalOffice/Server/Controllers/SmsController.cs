@@ -27,11 +27,11 @@ public class SmsController : Controller
         try
         {
 
-           var Username = "zsms4731";
-           var Password = "83328265";
+           var Username = "psms8625";
+           var Password = "otnyTY16^9U^";
            var Domain = "0098";
-           var From = "300026592018";
-
+           var From = "30005090503446";
+            //شماره های فعال شده: 30005090503446 - 30005090503446 - 3000164545 -
             HttpClient httpClient = new HttpClient();
             var connectString = $"http://www.0098sms.com/sendsmslink.aspx?FROM=" +
                  From + "&TO=" + smsDto.To + "&TEXT=" + smsDto.Text + 

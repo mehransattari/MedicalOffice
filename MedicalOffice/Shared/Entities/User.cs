@@ -27,6 +27,9 @@ public class User
     [Required]
     public  string NationalCode { get; set; }
 
+   
+    public int SingleUseCode { get; set; }
+
     public long RoleId { get; set; }
 
     public virtual Role? Role { get; set; }

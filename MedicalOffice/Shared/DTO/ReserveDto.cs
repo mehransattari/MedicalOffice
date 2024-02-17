@@ -27,6 +27,8 @@ namespace MedicalOffice.Shared.DTO
 
         public long RoleId { get; set; }
 
+        public int SingleUseCode { get; set; }
+
         //Reserve
         public long Id { get; set; }
         public long TimesReserveId { get; set; }

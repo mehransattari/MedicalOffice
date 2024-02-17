@@ -236,7 +236,9 @@ public class ReservesController : Controller
         User _user = new User();
         if (await checkDuplicateUserByNationalCode(reserve.NationalCode))
         {
-            _user = await _appDbContext.Users.FirstOrDefaultAsync(x => x.NationalCode == reserve.NationalCode && x.Mobile == reserve.Mobile);
+            _user = await _appDbContext.Users
+                                .FirstOrDefaultAsync(x => x.NationalCode == reserve.NationalCode &&
+                                                          x.Mobile == reserve.Mobile);
         }
         else
         {
@@ -248,7 +250,7 @@ public class ReservesController : Controller
                 NationalCode = reserve.NationalCode,
                 Password = !string.IsNullOrEmpty(reserve.Password) ? _protect.HashPassword(reserve.Password) : "0",
                 RoleId = reserve.RoleId,
-
+                SingleUseCode = reserve.SingleUseCode
             };
 
             await _appDbContext.Users.AddAsync(_user);
