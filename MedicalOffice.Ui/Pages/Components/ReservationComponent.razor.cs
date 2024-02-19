@@ -5,8 +5,10 @@ using MedicalOffice.Ui.Repositories.Inteface;
 using MedicalOffice.Ui.Services.Helper;
 using MedicalOffice.Ui.Services.Interface;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using MudBlazor;
+using System.Xml.Serialization;
 
 namespace MedicalOffice.Ui.Pages.Components;
 
@@ -87,6 +89,10 @@ public partial class ReservationComponentBase : ComponentBase
     public bool IsLoader { get; set; } = false;
 
     public string ShowDivFieldSingleUseCode { get; set; } = string.Empty;
+
+    public bool IsReadOnly { get; set; } = false;
+
+    public int RandonNumber { get; set; }
 }
 
 /// <summary>
@@ -144,7 +150,7 @@ public partial class ReservationComponentBase : ComponentBase
     /// </summary>
     /// <param name="time"></param>
     /// <returns></returns>
-    public string SelectedClass(TimesReserve time) 
+    public string SelectedClass(TimesReserve time)
         => time == SelectedTime ? "selected" : string.Empty;
 
     /// <summary>
@@ -169,6 +175,8 @@ public partial class ReservationComponentBase : ComponentBase
         ButtonContinueReserve = d_block;
         ReserveDto = new();
         StateHasChanged();
+        IsReadOnly = false;
+        ShowDivFieldSingleUseCode = d_none;
     }
 
     /// <summary>
@@ -177,26 +185,64 @@ public partial class ReservationComponentBase : ComponentBase
     /// <returns></returns>
     public async Task SaveInfoAndConnectToPay()
     {
-        var randomNumber = new Random().Next(10000, 999000);
+        IsLoader = true;
 
-        IsLoader = !IsLoader;
-        
-        ReserveDto.TimesReserveId = SelectedTime.Id;
-        ReserveDto.Password = ReserveDto.NationalCode;
-        ReserveDto.RoleId = (long)RoleEnum.user;
-        ReserveDto.Status = StatusEnum.Pending;
+        fillFieldsReserveDto();
 
         string toMobile = ReserveDto.Mobile;
 
-        if (!string.IsNullOrEmpty(toMobile))
+        if (string.IsNullOrEmpty(ReserveDto.SingleUseCode) &&
+            !string.IsNullOrEmpty(toMobile))
         {
-            await GetSmsSend(toMobile, randomNumber);         
+            await GetSingleUseCodeSmsSend(toMobile);
         }
 
-        if (ReserveDto.SingleUseCode!=0)
+        if (!string.IsNullOrEmpty(ReserveDto.SingleUseCode) &&
+            ReserveDto.SingleUseCode == RandonNumber.ToString())
         {
-            await GetAddReserve();      
-        }   
+            await GetAddReserve();
+            await getSendSmsmActiveCodeReserve();
+        }
+
+        if (!string.IsNullOrEmpty(ReserveDto.SingleUseCode) &&
+            ReserveDto.SingleUseCode != RandonNumber.ToString())
+        {
+            await NoValidReciveSingleUseCode();
+        }
+
+        void fillFieldsReserveDto()
+        {
+            var randomCode = new Random().Next(10000, 999000);
+
+            ReserveDto.TimesReserveId = SelectedTime.Id;
+            ReserveDto.Password = ReserveDto.NationalCode;
+            ReserveDto.RoleId = (long)RoleEnum.user;
+            ReserveDto.Status = StatusEnum.Pending;
+            ReserveDto.Code = randomCode;
+        }
+
+        //Show Message When Not Valid Single Use Code
+        async Task NoValidReciveSingleUseCode()
+        {
+            string messageSingleUseCode = "کد وارد شده معتبر نمی باشد.";
+
+            await GetSwalFire("نتیجه رزرو", messageSingleUseCode, "danger");
+
+            IsLoader = false;
+        }
+
+
+        //Send Sms TO User for Active User Code + Time + Date
+        async Task getSendSmsmActiveCodeReserve()
+        {
+            var code = ReserveDto.Code;
+            var date = ReserveDto.Code;
+            var time = ReserveDto.Code;
+
+            string text = $"کد رزرو شما :{code}  \n {date} در تاریخ  \n {time} و در ساعت   \n با موفقیت ثبت گردید.";
+            await SmsSend(toMobile, text);
+        }
+
 
     }
 }
@@ -209,7 +255,7 @@ public partial class ReservationComponentBase : ComponentBase
     /// <summary>
     /// Changes for successful operations
     /// </summary>
-    private void SuccessAction()
+    private void SuccessReserveAction()
     {
         FinishInfo = d_none;
         ButtonContinueReserve = d_none;
@@ -220,12 +266,13 @@ public partial class ReservationComponentBase : ComponentBase
         MessageInfo = d_block;
         Snackbar.Add(MessageText);
         IsLoader = !IsLoader;
+
     }
 
     /// <summary>
     ///  Changes for failure operations
     /// </summary>
-    private void FailedAction()
+    private void FailedReserveAction()
     {
         MessageText = "رزرو شما با شکست مواجه گردید";
         MessageColor = "danger";
@@ -246,6 +293,49 @@ public partial class ReservationComponentBase : ComponentBase
         MessageInfo = d_none;
     }
 
+
+    /// <summary>
+    /// Add Reserve and Show Message Success or Failed
+    /// </summary>
+    /// <returns></returns>
+    private async Task GetAddReserve()
+    {
+        var res = await reserveRepository.AddReserve(ReserveDto);
+
+        if (res.Success && res.Response)
+        {
+            SuccessReserveAction();
+        }
+        else
+        {
+            FailedReserveAction();
+        }
+
+        await GetSwalFire("نتیجه رزرو", MessageText, MessageColor);
+
+    }
+
+    /// <summary>
+    /// Sms Send and div SingleUseCode do block
+    /// </summary>
+    /// <param name="toMobile"></param>
+    /// <param name="randomNumber"></param>
+    /// <returns></returns>
+    private async Task GetSingleUseCodeSmsSend(string toMobile)
+    {
+        RandonNumber = new Random().Next(10000, 999000);
+
+        string text = $"کد یکبار مصرف رزرو پزشکی : {RandonNumber}";
+
+        var resSmsm = await SmsSend(toMobile, text);
+
+        if (resSmsm)
+        {
+            ShowDivFieldSingleUseCode = d_block;
+            IsLoader = false;
+        }
+    }
+
     /// <summary>
     /// Sms Send When Success Return True Else False
     /// </summary>
@@ -261,45 +351,23 @@ public partial class ReservationComponentBase : ComponentBase
         };
 
         var result = await smsService.SendSmsAsync(sms);
+
         if (result.Success)
+        {
             return result.Response;
+        }
+
         return false;
     }
 
     /// <summary>
-    /// Add Reserve and Show Message Success or Failed
+    /// Call Swal Filre
     /// </summary>
+    /// <param name="text"></param>
+    /// <param name="title"></param>
+    /// <param name="color"></param>
     /// <returns></returns>
-    private async Task GetAddReserve()
-    {
-        var res = await reserveRepository.AddReserve(ReserveDto);
-
-        if (res.Success && res.Response)
-        {
-            SuccessAction();
-        }
-        else
-        {
-            FailedAction();
-        }
-
-        await jSRuntime.InvokeVoidAsync("swalFire", "نتیجه رزرو", MessageText, MessageColor);
-    }
-
-    /// <summary>
-    /// Sms Send and div SingleUseCode do block
-    /// </summary>
-    /// <param name="toMobile"></param>
-    /// <param name="randomNumber"></param>
-    /// <returns></returns>
-    private async Task GetSmsSend(string toMobile,int randomNumber)
-    {
-        string text = $"کد یکبار مصرف رزرو پزشکی : {randomNumber}";
-
-        var resSmsm = await SmsSend(toMobile, text);
-
-        if (resSmsm)
-            ShowDivFieldSingleUseCode = d_block;
-    }
+    private async Task GetSwalFire(string text, string title, string color) =>
+        await jSRuntime.InvokeVoidAsync("swalFire", title, text, color);
 
 }

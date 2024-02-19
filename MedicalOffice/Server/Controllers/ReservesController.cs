@@ -250,7 +250,7 @@ public class ReservesController : Controller
                 NationalCode = reserve.NationalCode,
                 Password = !string.IsNullOrEmpty(reserve.Password) ? _protect.HashPassword(reserve.Password) : "0",
                 RoleId = reserve.RoleId,
-                SingleUseCode = reserve.SingleUseCode
+                SingleUseCode = Convert.ToInt32(reserve.SingleUseCode)
             };
 
             await _appDbContext.Users.AddAsync(_user);

@@ -121,7 +121,7 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>نام</label>
-                                                    <InputText @bind-Value="ReserveDto.FirstName" class="form-control" />
+                                                    <InputText @bind-Value="ReserveDto.FirstName" class="form-control" readonly="@IsReadOnly" />
                                                     <ValidationMessage For="()=>ReserveDto.FirstName" />
                                                 </div>
                                             </div>
@@ -130,7 +130,7 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>نام خانوادگی</label>
-                                                    <InputText @bind-Value="ReserveDto.LastName" class="form-control" />
+                                                    <InputText @bind-Value="ReserveDto.LastName" class="form-control" readonly="@IsReadOnly" />
                                                     <ValidationMessage For="()=>ReserveDto.LastName" />
 
                                                 </div>
@@ -140,7 +140,7 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>موبایل</label>
-                                                    <InputText @bind-Value="ReserveDto.Mobile" class="form-control" />
+                                                    <InputText @bind-Value="ReserveDto.Mobile" class="form-control" readonly="@IsReadOnly" />
                                                     <ValidationMessage For="()=>ReserveDto.Mobile" />
 
                                                 </div>
@@ -150,7 +150,7 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label>کد ملی</label>
-                                                    <InputText @bind-Value="ReserveDto.NationalCode" class="form-control" />
+                                                    <InputText @bind-Value="ReserveDto.NationalCode" class="form-control" readonly="@IsReadOnly" />
                                                     <ValidationMessage For="()=>ReserveDto.NationalCode" />
 
                                                 </div>
@@ -162,7 +162,7 @@
 
                                                     <label> علت مراجعه </label>
 
-                                                    <InputSelect class="form-select" @bind-Value="@ReserveDto.ReserveType">
+                                                    <InputSelect class="form-select" @bind-Value="@ReserveDto.ReserveType" readonly="@IsReadOnly">
 
                                                         @foreach (var item2 in Enum.GetValues(typeof(ReserveTypeEnum)).Cast<ReserveTypeEnum>())
                                                         {
@@ -182,7 +182,7 @@
                                                 <div class="form-group">
 
                                                     <label>کد یکبار مصرف</label>
-                                                    <InputNumber @bind-Value="ReserveDto.SingleUseCode" class="form-control" />
+                                                    <InputText @bind-Value="ReserveDto.SingleUseCode" class="form-control"  />
                                                     <ValidationMessage For="()=>ReserveDto.SingleUseCode" />
 
                                                 </div>
