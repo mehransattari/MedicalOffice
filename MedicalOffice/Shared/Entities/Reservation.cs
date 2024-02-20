@@ -15,7 +15,6 @@ public class Reservation
 
     public int Code { get; set; }
 
-
     public TimesReserve? TimesReserve { get; set; }
 
     public User? User { get; set; }

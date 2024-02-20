@@ -16,7 +16,7 @@ public class ReserveDto
     public string LastName { get; set; }
     //==================================//
     [Required(ErrorMessage = "لطفا موبایل خود را وارد نمائید.")]
-    [RegularExpression(@"^\d{10}$", ErrorMessage = "موبایل صحیح نمی باشد.")]
+    [RegularExpression(@"^\(?((\+98|0)?9\d{9})$", ErrorMessage = "لطفا شماره موبایل صحیح را وارد نمایید .")]
     public string Mobile { get; set; }
     //==================================//
     public string? Password { get; set; }

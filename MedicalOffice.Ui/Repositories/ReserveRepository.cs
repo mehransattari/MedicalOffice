@@ -1,5 +1,6 @@
 ﻿
 using MedicalOffice.Shared.DTO;
+using MedicalOffice.Shared.Entities;
 using MedicalOffice.Shared.Helper;
 using MedicalOffice.Ui.Repositories.Inteface;
 using MedicalOffice.Ui.Services.Interface;
@@ -24,6 +25,11 @@ public class ReserveRepository : IReserveRepository
 
         return result;
     }
+    public async  Task<ResponseData<TimesReserve>> ShowDateAndTimeByTimeReserveId(long timeReserveId)
+    {
+        var result = await _http.Get<TimesReserve>($"{_URL}/showDateAndTimeByTimeReserveId/{timeReserveId}");
 
+        return result;
+    }
     #endregion
 }

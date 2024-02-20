@@ -233,49 +233,59 @@ public class ReservesController : Controller
     [HttpPost("ReserveUser")]
     public async Task<bool> ReserveUser([FromBody] ReserveDto reserve)
     {
-        User _user = new User();
-        if (await checkDuplicateUserByNationalCode(reserve.NationalCode))
+        try
         {
-            _user = await _appDbContext.Users
-                                .FirstOrDefaultAsync(x => x.NationalCode == reserve.NationalCode &&
-                                                          x.Mobile == reserve.Mobile);
-        }
-        else
-        {
-            _user = new User()
+            User _user = new User();
+            if (await checkDuplicateUserByNationalCode(reserve.NationalCode))
             {
-                FirstName = reserve.FirstName,
-                LastName = reserve.LastName,
-                Mobile = reserve.Mobile,
-                NationalCode = reserve.NationalCode,
-                Password = !string.IsNullOrEmpty(reserve.Password) ? _protect.HashPassword(reserve.Password) : "0",
-                RoleId = reserve.RoleId,
-                SingleUseCode = Convert.ToInt32(reserve.SingleUseCode)
-            };
-
-            await _appDbContext.Users.AddAsync(_user);
-        }
-
-
-        if (_user != null)
-        {
-            var _reserve = new Reservation()
+                _user = await _appDbContext.Users
+                                    .FirstOrDefaultAsync(x => x.NationalCode == reserve.NationalCode &&
+                                                              x.Mobile == reserve.Mobile);
+            }
+            else
             {
-                TimesReserveId = reserve.TimesReserveId,
-                User = _user,
-                UserId = _user.Id,
-                Status = reserve.Status,
-                ReserveType=reserve.ReserveType
-            };
+                _user = new User()
+                {
+                    FirstName = reserve.FirstName,
+                    LastName = reserve.LastName,
+                    Mobile = reserve.Mobile,
+                    NationalCode = reserve.NationalCode,
+                    Password = !string.IsNullOrEmpty(reserve.Password) ? _protect.HashPassword(reserve.Password) : "0",
+                    RoleId = reserve.RoleId,
+                    SingleUseCode = Convert.ToInt32(reserve.SingleUseCode)
+                };
 
-            await _appDbContext.Reservations.AddAsync(_reserve);
+                await _appDbContext.Users.AddAsync(_user);
+            }
 
-            await _appDbContext.SaveChangesAsync();
 
-            return true;
+            if (_user != null)
+            {
+                var _reserve = new Reservation()
+                {
+                    TimesReserveId = reserve.TimesReserveId,
+                    User = _user,
+                    UserId = _user.Id,
+                    Status = reserve.Status,
+                    ReserveType = reserve.ReserveType,
+                    Code = reserve.Code,
+                };
+
+                await _appDbContext.Reservations.AddAsync(_reserve);
+
+                await _appDbContext.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
         }
+        catch (Exception)
+        {
 
-        return false;
+            throw;
+        }
+      
     }
 
 
@@ -332,5 +342,28 @@ public class ReservesController : Controller
         var res = await _appDbContext.Users.AnyAsync(x => x.NationalCode == nationalCode);
 
         return res;
+    }
+
+    [HttpGet("showDateAndTimeByTimeReserveId/{timesReserveId}")]
+    public async Task<TimesReserve> ShowDateAndTimeByTimeReserveId(long timesReserveId)
+    {
+        try
+        {
+            var timeReserve =await _appDbContext.TimesReserves
+                                     .Include(x => x.DaysReserve)
+                                     .FirstOrDefaultAsync(x => x.Id == timesReserveId);
+            if (timeReserve != null)
+            {
+                return timeReserve;
+            }
+            return new TimesReserve();
+        }
+        catch (Exception)
+        {
+            return new TimesReserve();
+
+            throw;
+        }
+     
     }
 }

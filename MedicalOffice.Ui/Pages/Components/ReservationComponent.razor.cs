@@ -5,10 +5,9 @@ using MedicalOffice.Ui.Repositories.Inteface;
 using MedicalOffice.Ui.Services.Helper;
 using MedicalOffice.Ui.Services.Interface;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using MudBlazor;
-using System.Xml.Serialization;
+using System.Text;
 
 namespace MedicalOffice.Ui.Pages.Components;
 
@@ -185,31 +184,47 @@ public partial class ReservationComponentBase : ComponentBase
     /// <returns></returns>
     public async Task SaveInfoAndConnectToPay()
     {
-        IsLoader = true;
-
-        fillFieldsReserveDto();
-
-        string toMobile = ReserveDto.Mobile;
-
-        if (string.IsNullOrEmpty(ReserveDto.SingleUseCode) &&
-            !string.IsNullOrEmpty(toMobile))
+        try
         {
-            await GetSingleUseCodeSmsSend(toMobile);
+            IsLoader = true;
+
+            fillFieldsReserveDto();
+
+            string toMobile = ReserveDto.Mobile;
+
+            if (string.IsNullOrEmpty(ReserveDto.SingleUseCode) &&
+                !string.IsNullOrEmpty(toMobile))
+            {
+                await GetSingleUseCodeSmsSend(toMobile);
+                IsLoader = false;
+            }
+
+            if (!string.IsNullOrEmpty(ReserveDto.SingleUseCode) &&
+                ReserveDto.SingleUseCode == RandonNumber.ToString())
+            {
+                await GetAddReserve();
+                IsLoader = false;
+
+            }
+
+            if (!string.IsNullOrEmpty(ReserveDto.SingleUseCode) &&
+                ReserveDto.SingleUseCode != RandonNumber.ToString())
+            {
+                await NoValidReciveSingleUseCode();
+            }
+        }
+        catch (Exception)
+        {
+
+            IsLoader = false;
+            IsReadOnly = false;
+
         }
 
-        if (!string.IsNullOrEmpty(ReserveDto.SingleUseCode) &&
-            ReserveDto.SingleUseCode == RandonNumber.ToString())
-        {
-            await GetAddReserve();
-            await getSendSmsmActiveCodeReserve();
-        }
 
-        if (!string.IsNullOrEmpty(ReserveDto.SingleUseCode) &&
-            ReserveDto.SingleUseCode != RandonNumber.ToString())
-        {
-            await NoValidReciveSingleUseCode();
-        }
+        #region local functions
 
+        //Fill Fields ReserveDto 
         void fillFieldsReserveDto()
         {
             var randomCode = new Random().Next(10000, 999000);
@@ -232,18 +247,9 @@ public partial class ReservationComponentBase : ComponentBase
         }
 
 
-        //Send Sms TO User for Active User Code + Time + Date
-        async Task getSendSmsmActiveCodeReserve()
-        {
-            var code = ReserveDto.Code;
-            var date = ReserveDto.Code;
-            var time = ReserveDto.Code;
-
-            string text = $"کد رزرو شما :{code}  \n {date} در تاریخ  \n {time} و در ساعت   \n با موفقیت ثبت گردید.";
-            await SmsSend(toMobile, text);
-        }
 
 
+        #endregion
     }
 }
 
@@ -265,7 +271,9 @@ public partial class ReservationComponentBase : ComponentBase
         MessageColor = "success";
         MessageInfo = d_block;
         Snackbar.Add(MessageText);
-        IsLoader = !IsLoader;
+        IsLoader = false;
+        IsReadOnly = false;
+        ShowDivFieldSingleUseCode = d_none;
 
     }
 
@@ -274,13 +282,17 @@ public partial class ReservationComponentBase : ComponentBase
     /// </summary>
     private void FailedReserveAction()
     {
-        MessageText = "رزرو شما با شکست مواجه گردید";
+        MessageText = "رزرو شما ناموفق بود ";
         MessageColor = "danger";
-
         MessageInfo = d_block;
         Snackbar.Add(MessageText);
-        IsLoader = !IsLoader;
+        IsLoader = false;
+        IsReadOnly = false;
+        ShowDivFieldSingleUseCode = d_none;
+
+
     }
+
 
     /// <summary>
     /// Do None Display For Fields And Button
@@ -298,21 +310,52 @@ public partial class ReservationComponentBase : ComponentBase
     /// Add Reserve and Show Message Success or Failed
     /// </summary>
     /// <returns></returns>
-    private async Task GetAddReserve()
+    private async Task<bool> GetAddReserve()
     {
         var res = await reserveRepository.AddReserve(ReserveDto);
 
         if (res.Success && res.Response)
         {
+            await getSendSmsmActiveCodeReserve(ReserveDto);
             SuccessReserveAction();
+            await GetSwalFire("نتیجه رزرو", MessageText, MessageColor);        
+            return true;
         }
         else
         {
             FailedReserveAction();
+            await GetSwalFire("نتیجه رزرو", MessageText, MessageColor);     
+            return false;
         }
 
-        await GetSwalFire("نتیجه رزرو", MessageText, MessageColor);
+        //Send Sms TO User for Active User Code + Time + Date
+        async Task getSendSmsmActiveCodeReserve(ReserveDto reserveDto)
+        {
+            if (reserveDto.TimesReserveId != 0)
+            {
+                var dateTime = await reserveRepository.ShowDateAndTimeByTimeReserveId(reserveDto.TimesReserveId);
 
+                if (dateTime.Success)
+                {
+                    var date = dateTime.Response.DaysReserve?.Day.ToShamsi();
+                    var day = dateTime.Response.DaysReserve?.Day.ToDayShamsi();
+                    var time = dateTime.Response.FromTime.ToString("hh\\:mm") + " - " + dateTime.Response.ToTime.ToString("hh\\:mm");
+                    var code = reserveDto.Code;
+
+                    StringBuilder text = new StringBuilder();
+
+                    text.AppendLine($"کد رزرو شما : {code}");
+                    text.AppendLine($" روز : {day}");
+                    text.AppendLine($" ساعت : {time}");
+                    text.AppendLine($" تاریخ : {date}");
+                    text.AppendLine("با موفقیت ثبت گردید.");
+
+                    await SmsSend(reserveDto.Mobile, text.ToString());
+                }
+
+            }
+
+        }
     }
 
     /// <summary>
@@ -333,6 +376,8 @@ public partial class ReservationComponentBase : ComponentBase
         {
             ShowDivFieldSingleUseCode = d_block;
             IsLoader = false;
+            IsReadOnly = true;
+
         }
     }
 
