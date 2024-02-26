@@ -192,6 +192,7 @@ public partial class ReservationComponentBase : ComponentBase
 
             string toMobile = ReserveDto.Mobile;
 
+            //Sms Code
             if (string.IsNullOrEmpty(ReserveDto.SingleUseCode) &&
                 !string.IsNullOrEmpty(toMobile))
             {
@@ -199,12 +200,12 @@ public partial class ReservationComponentBase : ComponentBase
                 IsLoader = false;
             }
 
+            //Add reserve
             if (!string.IsNullOrEmpty(ReserveDto.SingleUseCode) &&
                 ReserveDto.SingleUseCode == RandonNumber.ToString())
             {
                 await GetAddReserve();
                 IsLoader = false;
-
             }
 
             if (!string.IsNullOrEmpty(ReserveDto.SingleUseCode) &&
@@ -213,14 +214,12 @@ public partial class ReservationComponentBase : ComponentBase
                 await NoValidReciveSingleUseCode();
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
 
             IsLoader = false;
             IsReadOnly = false;
-
         }
-
 
         #region local functions
 
@@ -245,9 +244,6 @@ public partial class ReservationComponentBase : ComponentBase
 
             IsLoader = false;
         }
-
-
-
 
         #endregion
     }
@@ -312,49 +308,76 @@ public partial class ReservationComponentBase : ComponentBase
     /// <returns></returns>
     private async Task<bool> GetAddReserve()
     {
+
+        var isCheckDuplicateReservation = await reserveRepository
+            .CheckDuplicateReservation(ReserveDto.NationalCode, ReserveDto.TimesReserveId);
+
+        if (isCheckDuplicateReservation.Success && isCheckDuplicateReservation.Response)
+        {
+            FailedReserveAction();
+
+            await GetSwalFire("نتیجه رزرو", $"این تاریخ برای این کد ملی از قبل ثبت شده است.", "danger");
+
+            return false;
+        }
+
         var res = await reserveRepository.AddReserve(ReserveDto);
 
         if (res.Success && res.Response)
         {
             await getSendSmsmActiveCodeReserve(ReserveDto);
+
             SuccessReserveAction();
-            await GetSwalFire("نتیجه رزرو", MessageText, MessageColor);        
+
+            await GetSwalFire("نتیجه رزرو", MessageText, MessageColor);
+
             return true;
         }
         else
         {
             FailedReserveAction();
-            await GetSwalFire("نتیجه رزرو", MessageText, MessageColor);     
+            MessageText = "برای این کد ملی از قبل برای این تاریخ ثبت شده است.";
+            await GetSwalFire(MessageText,"نتیجه رزرو",  MessageColor);
+
             return false;
         }
+
+
 
         //Send Sms TO User for Active User Code + Time + Date
         async Task getSendSmsmActiveCodeReserve(ReserveDto reserveDto)
         {
             if (reserveDto.TimesReserveId != 0)
             {
-                var dateTime = await reserveRepository.ShowDateAndTimeByTimeReserveId(reserveDto.TimesReserveId);
-
-                if (dateTime.Success)
+                try
                 {
-                    var date = dateTime.Response.DaysReserve?.Day.ToShamsi();
-                    var day = dateTime.Response.DaysReserve?.Day.ToDayShamsi();
-                    var time = dateTime.Response.FromTime.ToString("hh\\:mm") + " - " + dateTime.Response.ToTime.ToString("hh\\:mm");
-                    var code = reserveDto.Code;
+                    var dateTime = await reserveRepository.ShowDateAndTimeByTimeReserveId(reserveDto.TimesReserveId);
 
-                    StringBuilder text = new StringBuilder();
+                    if (dateTime.Success)
+                    {
+                        var date = dateTime.Response.DaysReserve?.Day.ToShamsi();
+                        var day = dateTime.Response.DaysReserve?.Day.ToDayShamsi();
+                        var time = dateTime.Response.FromTime.ToString("hh\\:mm") + " - " + dateTime.Response.ToTime.ToString("hh\\:mm");
+                        var code = reserveDto.Code;
 
-                    text.AppendLine($"کد رزرو شما : {code}");
-                    text.AppendLine($" روز : {day}");
-                    text.AppendLine($" ساعت : {time}");
-                    text.AppendLine($" تاریخ : {date}");
-                    text.AppendLine("با موفقیت ثبت گردید.");
+                        StringBuilder text = new StringBuilder();
 
-                    await SmsSend(reserveDto.Mobile, text.ToString());
+                        text.AppendLine($"کد رزرو شما : {code}");
+                        text.AppendLine($" روز : {day}");
+                        text.AppendLine($" ساعت : {time}");
+                        text.AppendLine($" تاریخ : {date}");
+                        text.AppendLine("با موفقیت ثبت گردید.");
+
+                        await SmsSend(reserveDto.Mobile, text.ToString());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Sms :" + ex.Message);
+                    throw;
                 }
 
             }
-
         }
     }
 
@@ -368,6 +391,8 @@ public partial class ReservationComponentBase : ComponentBase
     {
         RandonNumber = new Random().Next(10000, 999000);
 
+        Console.WriteLine("RandonNumber : "+RandonNumber);
+
         string text = $"کد یکبار مصرف رزرو پزشکی : {RandonNumber}";
 
         var resSmsm = await SmsSend(toMobile, text);
@@ -377,7 +402,6 @@ public partial class ReservationComponentBase : ComponentBase
             ShowDivFieldSingleUseCode = d_block;
             IsLoader = false;
             IsReadOnly = true;
-
         }
     }
 
@@ -389,20 +413,20 @@ public partial class ReservationComponentBase : ComponentBase
     /// <returns></returns>
     private async Task<bool> SmsSend(string to, string text)
     {
-        var sms = new SmsDto()
-        {
-            To = to,
-            Text = text
-        };
+        //var sms = new SmsDto()
+        //{
+        //    To = to,
+        //    Text = text
+        //};
 
-        var result = await smsService.SendSmsAsync(sms);
+        //var result = await smsService.SendSmsAsync(sms);
 
-        if (result.Success)
-        {
-            return result.Response;
-        }
+        //if (result.Success)
+        //{
+        //    return result.Response;
+        //}
 
-        return false;
+        return true;
     }
 
     /// <summary>

@@ -13,8 +13,6 @@ builder.Services.AddCorsServices();
 
 builder.Services.AddAuthServices(builder);
 
-
-
 var app = builder.Build();
 
 app.AddAppCustom();

@@ -9,9 +9,11 @@ public static class ReserveMapper
     {
         var reservation = new Reservation()
         {
-            UserId= reserveDto.UserId,
-            TimesReserveId= reserveDto.TimesReserveId,
-            Id= reserveDto.Id   
+            UserId = reserveDto.UserId,
+            TimesReserveId = reserveDto.TimesReserveId,
+            Id = reserveDto.Id,
+            CreateDate = reserveDto.CreateDate,
+            UpdateDate = reserveDto.UpdateDate,
         };
 
         return reservation;
@@ -24,7 +26,9 @@ public static class ReserveMapper
             UserId = reserve.UserId,
             TimesReserveId = reserve.TimesReserveId,
             Id = reserve.Id,
-            ReserveType=reserve.ReserveType 
+            ReserveType = reserve.ReserveType,
+            CreateDate = reserve.CreateDate,
+            UpdateDate = reserve.UpdateDate,
         };
 
         return reserveDto;
@@ -37,8 +41,9 @@ public static class ReserveMapper
             UserId = model.UserId,
             TimesReserveId = model.TimesReserveId,
             Id = model.Id,
-            ReserveType = model.ReserveType
-
+            ReserveType = model.ReserveType,
+            CreateDate = model.CreateDate,
+            UpdateDate = model.UpdateDate,
         });
 
         return result;
@@ -50,9 +55,11 @@ public static class ReserveMapper
         {
             UserId = model.UserId,
             TimesReserveId = model.TimesReserveId,
-            Id = model.Id
-
+            Id = model.Id,
+            CreateDate = model.CreateDate,
+            UpdateDate = model.UpdateDate,
         });
+
 
         return result;
     }

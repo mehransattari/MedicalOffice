@@ -1,5 +1,7 @@
 ﻿using MedicalOffice.Shared.Helper;
 using MedicalOffice.Ui.Services.Interface;
+using System.Net.Http.Headers;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -14,6 +16,9 @@ public class HttpService : IHttpService
     public HttpService(HttpClient http)
     {
         _http = http;
+        _http.DefaultRequestHeaders.CacheControl=new System.Net.Http.Headers.CacheControlHeaderValue { NoCache = true };
+        _http.DefaultRequestHeaders.Pragma.Add(new NameValueHeaderValue("no-cache"));
+
     }
     JsonSerializerOptions defaultJsonSerializerOptions = new()
     {
@@ -159,20 +164,43 @@ public class HttpService : IHttpService
         var responseString = await httpResponse.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<T>(responseString, options);
     }
+
     public async Task<ResponseData<T>> Get<T>(string url)
     {
-        var responseHTTP = await _http.GetAsync(url);
+        try
+        {
+            using (var responseHTTP = await _http.GetAsync(url))
+            {
+                responseHTTP.EnsureSuccessStatusCode();
+                Console.WriteLine($"response: {responseHTTP.Content}");
 
-        if (responseHTTP.IsSuccessStatusCode)
-        {
-            var response = await Deserialize<T>(responseHTTP, defaultJsonSerializerOptions);
-            return new ResponseData<T>(response, true, responseHTTP);
+                var response = await Deserialize<T>(responseHTTP, defaultJsonSerializerOptions);
+
+
+
+                return new ResponseData<T>(response, true, responseHTTP);
+            }
         }
-        else
+        catch (HttpRequestException ex)
         {
-            return new ResponseData<T>(default, false, responseHTTP);
+            // اینجا می‌توانید خطاهای مربوط به درخواست HTTP را مدیریت کنید
+            Console.WriteLine($"An HTTP request exception occurred: {ex.Message}");
+            return new ResponseData<T>(default, false, null);
+        }
+        catch (JsonException ex)
+        {
+            // اینجا می‌توانید خطاهای مربوط به Deserialize کردن JSON را مدیریت کنید
+            Console.WriteLine($"A JSON parsing exception occurred: {ex.Message}");
+            return new ResponseData<T>(default, false, null);
+        }
+        catch (Exception ex)
+        {
+            // اینجا می‌توانید خطاهای دیگر را مدیریت کنید
+            Console.WriteLine($"An unexpected exception occurred: {ex.Message}");
+            throw; // یا ممکن است خطاهای غیرمنتظره را دوباره پرتاب کنید
         }
     }
+
     #endregion
 }
 

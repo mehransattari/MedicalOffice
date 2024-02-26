@@ -7,7 +7,9 @@ namespace MedicalOffice.Ui.Repositories.Inteface;
 public interface IReserveRepository
 {
     Task<ResponseData<bool>> AddReserve(ReserveDto reserveDto);
+
     Task<ResponseData<TimesReserve>> ShowDateAndTimeByTimeReserveId(long timeReserveId);
 
+    Task<ResponseData<bool>> CheckDuplicateReservation(string nationalCode, long timesReserveId);
 
 }

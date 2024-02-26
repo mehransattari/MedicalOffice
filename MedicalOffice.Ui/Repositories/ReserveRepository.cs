@@ -31,5 +31,13 @@ public class ReserveRepository : IReserveRepository
 
         return result;
     }
+    public async Task<ResponseData<bool>> CheckDuplicateReservation(string nationalCode, long timesReserveId)
+    {
+        var result = await _http.Get<bool>($"{_URL}/checkDuplicateReservation/{nationalCode}/{timesReserveId}");
+
+        return result;
+    }
+
+    
     #endregion
 }

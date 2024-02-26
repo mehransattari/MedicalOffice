@@ -19,6 +19,11 @@ public class Reservation
 
     public User? User { get; set; }
 
+    public DateTime CreateDate { get; set; }
+
+    public DateTime UpdateDate { get; set; }
+
+
 }
 public enum StatusEnum
 {

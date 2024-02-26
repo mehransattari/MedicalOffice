@@ -12,29 +12,39 @@ public class ReserveDto
     [Required(ErrorMessage ="لطفا نام خود را وارد نمائید.")]
     public string FirstName { get; set; }
     //==================================//
+
     [Required(ErrorMessage = "لطفا نام خانوادگی خود را وارد نمائید.")]
     public string LastName { get; set; }
     //==================================//
     [Required(ErrorMessage = "لطفا موبایل خود را وارد نمائید.")]
     [RegularExpression(@"^\(?((\+98|0)?9\d{9})$", ErrorMessage = "لطفا شماره موبایل صحیح را وارد نمایید .")]
     public string Mobile { get; set; }
+
     //==================================//
     public string? Password { get; set; }
+
     //==================================//
     [Required(ErrorMessage = "لطفا کد ملی خود را وارد نمائید.")]
     [RegularExpression(@"^\d{10}$", ErrorMessage = "کد ملی صحیح نمی باشد.")]
     public string NationalCode { get; set; }
+
     //==================================//
     public long RoleId { get; set; }
-    //==================================//
 
+    //==================================//
     public int Code { get; set; }
+
     //==================================//
 
     [RegularExpression(@"^[0-9]+$", ErrorMessage = "کد یکبارمصرف باید عدد باشد.")]
     public string? SingleUseCode { get; set; }
+
     //==================================//
 
+    public DateTime CreateDate { get; set; }
+
+    //==================================//
+    public DateTime UpdateDate { get; set; }
     #endregion
 
     #region Reserve Fields    

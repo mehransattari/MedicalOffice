@@ -42,6 +42,8 @@ public class ReservesController : Controller
                                Day = x.TimesReserve.DaysReserve.Day,
                                FromTime = x.TimesReserve.FromTime,
                                ToTime = x.TimesReserve.ToTime,
+                               CreateDate = x.CreateDate,
+                               UpdateDate = x.UpdateDate
 
                            }).ToListAsync();
 
@@ -74,18 +76,29 @@ public class ReservesController : Controller
     public async Task<bool> Create([FromBody] ReserveDto Reserve)
     {
         var _Reserve = Reserve.Mapper();
+
+        _Reserve.CreateDate = DateTime.Now;
+
+        _Reserve.UpdateDate = DateTime.Now;
+
         await _appDbContext.Reservations.AddAsync(_Reserve);
+
         var result = await _appDbContext.SaveChangesAsync();
 
         return result != 0;
-
     }
 
     [HttpPut("updateReserve")]
     public async Task<bool> Update([FromBody] ReserveDto Reserve)
     {
         var _Reserve = Reserve.Mapper();
+
+        _Reserve.CreateDate = Reserve.CreateDate;
+
+        _Reserve.UpdateDate = DateTime.Now;
+
         _appDbContext.Reservations.Update(_Reserve);
+
         var result = await _appDbContext.SaveChangesAsync();
 
         return result != 0;
@@ -200,11 +213,13 @@ public class ReservesController : Controller
                                  Day = x.TimesReserve.DaysReserve.Day,
                                  FromTime = x.TimesReserve.FromTime,
                                  ToTime = x.TimesReserve.ToTime,
-                                 ReserveType=x.ReserveType,
-                                 Status=x.Status
-
+                                 ReserveType = x.ReserveType,
+                                 Status = x.Status,
+                                 CreateDate = x.CreateDate,
+                                 UpdateDate = x.UpdateDate
                              })
-                             .OrderByDescending(p => p.Id)
+                             .OrderByDescending(p => p.CreateDate)
+                             .ThenBy(x => x.Id)
                              .Skip(skip)
                              .Take(pagesize)
                              .ToListAsync();
@@ -221,14 +236,14 @@ public class ReservesController : Controller
             ToTime = reserve.ToTime,
             ReserveType = reserve.ReserveType,
             Status = reserve.Status,
+            CreateDate = reserve.CreateDate,
+            UpdateDate = reserve.UpdateDate,
             Number = index + 1 + skip
 
         }).ToList();
 
-
         return _Reserves;
     }
-    #endregion
 
     [HttpPost("ReserveUser")]
     public async Task<bool> ReserveUser([FromBody] ReserveDto reserve)
@@ -236,6 +251,7 @@ public class ReservesController : Controller
         try
         {
             User _user = new User();
+
             if (await checkDuplicateUserByNationalCode(reserve.NationalCode))
             {
                 _user = await _appDbContext.Users
@@ -261,6 +277,11 @@ public class ReservesController : Controller
 
             if (_user != null)
             {
+               var checkDuplicateReservation = await CheckDuplicateReservation(reserve.NationalCode,reserve.TimesReserveId);
+                if(checkDuplicateReservation)
+                {
+                    return false ;
+                }
                 var _reserve = new Reservation()
                 {
                     TimesReserveId = reserve.TimesReserveId,
@@ -269,6 +290,8 @@ public class ReservesController : Controller
                     Status = reserve.Status,
                     ReserveType = reserve.ReserveType,
                     Code = reserve.Code,
+                    CreateDate = DateTime.Now,
+                    UpdateDate = DateTime.Now
                 };
 
                 await _appDbContext.Reservations.AddAsync(_reserve);
@@ -285,9 +308,8 @@ public class ReservesController : Controller
 
             throw;
         }
-      
-    }
 
+    }
 
     [HttpPut("changeStatusReserveToReserved")]
     public async Task<bool> ChangeStatusReserveToReserved([FromBody] IEnumerable<long> ids)
@@ -300,7 +322,7 @@ public class ReservesController : Controller
             {
 
                 reserveds.ForEach(x => x.Status = StatusEnum.Reserved);
-                 _appDbContext.UpdateRange(reserveds);
+                _appDbContext.UpdateRange(reserveds);
                 await _appDbContext.SaveChangesAsync();
                 return true;
             }
@@ -344,12 +366,25 @@ public class ReservesController : Controller
         return res;
     }
 
+    [HttpPut("checkDuplicateReservation/{nationalCode}/{timesReserveId}")]
+    public async Task<bool> CheckDuplicateReservation(string nationalCode, long timesReserveId)
+    {
+        var timesReserves = await _appDbContext.TimesReserves
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == timesReserveId);
+
+        var res = await _appDbContext.Reservations.AnyAsync(x => x.User.NationalCode == nationalCode &&
+                                                                 x.TimesReserve.DaysReserveId == timesReserves.DaysReserveId);
+
+        return res;
+    }
+
     [HttpGet("showDateAndTimeByTimeReserveId/{timesReserveId}")]
     public async Task<TimesReserve> ShowDateAndTimeByTimeReserveId(long timesReserveId)
     {
         try
         {
-            var timeReserve =await _appDbContext.TimesReserves
+            var timeReserve = await _appDbContext.TimesReserves
                                      .Include(x => x.DaysReserve)
                                      .FirstOrDefaultAsync(x => x.Id == timesReserveId);
             if (timeReserve != null)
@@ -364,6 +399,8 @@ public class ReservesController : Controller
 
             throw;
         }
-     
+
     }
+
+    #endregion
 }

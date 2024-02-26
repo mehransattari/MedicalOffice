@@ -61,6 +61,8 @@
         <MudTh><MudTableSortLabel SortLabel="FromTime" T="User"> ساعت  </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="FromTime" T="User"> وضعیت  </MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="FromTime" T="User"> رزرو  </MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="FromTime" T="User"> تاریخ ثبت  </MudTableSortLabel></MudTh>
+
 
 
     </HeaderContent>
@@ -86,6 +88,7 @@
             <MudTd DataLabel="ساعت"> @fromTimeValue </MudTd>
             <MudTd DataLabel="وضعیت"> @context.Status.GetDisplayName() </MudTd>
             <MudTd DataLabel="رزرو"> @context.ReserveType.GetDisplayName() </MudTd>
+            <MudTd DataLabel="تاریخ ثبت"> @context.CreateDate.ToShamsi() </MudTd>
 
         </RowTemplate>
 
