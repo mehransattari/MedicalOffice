@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace MedicalOffice.Server.Helper;
 
 public static class ServiceExtensions
@@ -30,17 +31,24 @@ public static class ServiceExtensions
         services.AddDbContext<AppDbContext>(option => option.UseSqlServer(connection));
     }
 
-    public static void AddCorsServices(this IServiceCollection services)
+    public static void AddCorsServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
+        var myPolicySection = builder.Configuration.GetSection("MyPolicy");
+        var site = myPolicySection["site"];
+        var local = myPolicySection["local"];
+
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowSpecificOrigin",
-                builder =>
-                {
-                    builder.WithOrigins("https://localhost:7084") // Allow requests from this origin
-                           .AllowAnyHeader()
-                           .AllowAnyMethod();
-                });
+
+            options.AddPolicy("AllowSpecificOrigins",
+            builder =>      
+            {
+                builder.WithOrigins(site, local)
+                       .AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowCredentials(); 
+            });
+
         });
     }
 

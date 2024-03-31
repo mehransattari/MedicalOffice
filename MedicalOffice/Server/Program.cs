@@ -9,12 +9,13 @@ builder.Services.AddBaseServices(builder);
 
 builder.Services.AddSqlServerServices(builder);
 
-builder.Services.AddCorsServices();
+builder.Services.AddCorsServices(builder);
 
 builder.Services.AddAuthServices(builder);
 
 var app = builder.Build();
 
 app.AddAppCustom();
+
 
 app.Run();

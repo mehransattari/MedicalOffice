@@ -15,14 +15,16 @@ public static class AppMiddleware
             app.UseHsts();
         }
 
-        app.UseCors("AllowSpecificOrigin"); // Apply the CORS policy
 
         app.UseHttpsRedirection();
+        app.UseCors("AllowSpecificOrigins");
 
         app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
 
         app.UseRouting();
+
+
         app.UseAuthentication();
         app.UseAuthorization();
 
