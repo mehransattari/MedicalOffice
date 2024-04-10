@@ -207,7 +207,7 @@ function our_service_slider(count) {
                     nav: true
                 },
                 1000: {
-                    items: 3,
+                    items: 4,
                     nav: true,
                     loop: false
                 }

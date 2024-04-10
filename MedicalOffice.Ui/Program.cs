@@ -13,8 +13,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 
 
-//builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7117/") });
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://api.medical.mehransattary.ir/") });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7117/") });
+//builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://api.medical.mehransattary.ir/") });
 
 
 builder.Services.AddMudServices();

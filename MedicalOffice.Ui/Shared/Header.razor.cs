@@ -1,6 +1,8 @@
 ﻿using MedicalOffice.Shared.Entities;
 using MedicalOffice.Ui.Repositories.Inteface;
+using MedicalOffice.Ui.Services.Interface;
 using Microsoft.AspNetCore.Components;
+using System.Diagnostics.Contracts;
 
 namespace MedicalOffice.Ui.Shared;
 
@@ -12,6 +14,11 @@ public class HeaderBase : ComponentBase
     [Inject]
     public ISettingsRepository settingsRepository { get; set; }
 
+    [Inject]
+    public IUserAuthService userAuthService { get; set; }
+
+    [Inject]
+    public NavigationManager navigationManager { get; set; }
     public string Logo { get; set; } = string.Empty;
 
     public ContactUs ContactUs { get; set; } = new ContactUs();
@@ -33,5 +40,10 @@ public class HeaderBase : ComponentBase
             ContactUs = resContactUs?.Response?.FirstOrDefault();
         }
 
+    }
+    public async Task LogOut()
+    {
+       await userAuthService.Logout();
+        navigationManager.NavigateTo("/login");
     }
 }

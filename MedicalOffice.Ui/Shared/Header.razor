@@ -84,18 +84,47 @@
                 <li>
                     <a href="/contactus">‌ تماس ما</a>
                 </li>
-                <li class="login-link">
-                    <a href="/login">‌ورود / ثبت‌نام</a>
-                </li>
+                <AuthorizeView>
+
+                    <Authorized>               
+                        
+                        <li class="login-link">
+                            <a href="/login">‌خروج ‌</a>
+                        </li>
+                    </Authorized>
+
+                    <NotAuthorized>
+                        <li class="login-link">
+                            <a href="/LogOut">‌ورود ‌</a>
+                        </li>
+                    </NotAuthorized>
+
+                </AuthorizeView>
+           
             </ul>
 
 
 
         </div>
         <ul class="nav header-navbar-rht">
-            <li class="nav-item">
-                <a class="nav-link header-login" href="login.html">‌ورود / ثبت‌نام</a>
-            </li>
+
+               <AuthorizeView>
+
+                    <Authorized>
+                        <li class="nav-item">
+                            <a class="nav-link header-login" @onclick="LogOut">‌ خروج ‌ </a>
+                        </li>                      
+                    </Authorized>
+
+                    <NotAuthorized>
+                        <li class="nav-item">
+                            <a class="nav-link header-login" href="/login">ورود‌</a>
+                        </li>
+                    </NotAuthorized>
+
+                </AuthorizeView>
+
+        
         </ul>
     </nav>
 </header>

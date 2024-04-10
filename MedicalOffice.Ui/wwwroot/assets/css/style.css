@@ -1842,7 +1842,7 @@ button.bg-danger:hover {
 .logo {
     display: inline-block;
     margin-left: 30px;
-    width: 130px;
+    width: 176px;
 }
 .header-contact-img {
 	display: inline-block;
@@ -2322,7 +2322,7 @@ html.menu-opened body {
 
 .home-banner { 
     min-height: 450px;
-	background-size: cover;
+	background-size: contain;
 	background-repeat: no-repeat;
     position: relative;
 	padding: 120px 0 180px;
@@ -2359,7 +2359,7 @@ html.menu-opened body {
 		margin-bottom: 10px;
 		font-size: 56px;
 		font-weight: 600;
-		color: #9af7eb;
+		color: #f7f7f7;
 		text-transform: uppercase;
 		line-height: 55px;
 	}
@@ -7891,7 +7891,7 @@ html.menu-opened body {
 		margin-left: 0;
 	}
 	.navbar-brand.logo img {
-		height: 30px;
+		height: 59px;
 	}
 	.search-box form {
 		display: block;
@@ -8082,7 +8082,7 @@ html.menu-opened body {
 		padding: 8px 18px!important;
 	}
 	.home-banner {
-		min-height: 270px !important;
+	/*	min-height: 270px !important;*/
 		padding: 30px 15px !important;
 	}
 }
