@@ -1,21 +1,25 @@
 ﻿<MudAppBar Elevation="1" Style="@($"color:{Colors.Shades.Black}; background:{Colors.Shades.White};")">
 
-    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
-                   OnClick="@ToggleDrawer" />
-    <MudSpacer />
-    <MudIconButton Icon="@Icons.Material.Filled.Home" Color="Color.Inherit" Href="@urlSite" />
-
-    <AuthorizeView>
+       <AuthorizeView>
 
         <Authorized>
+      
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
+                           OnClick="@ToggleDrawer" />
+            <MudSpacer />
+            <MudIconButton Icon="@Icons.Material.Filled.Home" Color="Color.Inherit" Href="@urlSite" />
             <MudIconButton Icon="@Icons.Material.Filled.Login" Color="Color.Inherit" @onclick="LogOut" Target="_blank" />
+
         </Authorized>
 
         <NotAuthorized>
+            <MudSpacer />
+            <MudIconButton Icon="@Icons.Material.Filled.Home" Color="Color.Inherit" Href="@urlSite" />
             <MudIconButton Icon="@Icons.Material.Filled.Logout" Color="Color.Inherit" Href="/admin/login" Target="_blank" />
         </NotAuthorized>
 
     </AuthorizeView>
+
 
 </MudAppBar>
 
@@ -27,62 +31,74 @@
             مدیریت پزشکی
         </MudText>
     </MudDrawerHeader>
+
     <MudNavMenu Rounded="true" Margin="Margin.Dense" Class="pa-2  ">
 
-        <MudText Typo="Typo.h6" Class="px-4">
-            دکتر سودا هاشم زاده
-        </MudText>
+        <AuthorizeView>
 
-        <MudDivider Class="my-2" />
+            <Authorized>
 
-        <MudNavLink Match="NavLinkMatch.Prefix" Href="/" Icon="@Icons.Material.Filled.Dashboard" Class=" mb-1">
-            داشبورد
-        </MudNavLink>
+                <MudText Typo="Typo.h6" Class="px-4">
+                    دکتر سودا هاشم زاده
+                </MudText>
 
-        <MudNavLink Href="/admin/reservation" Icon="@Icons.Material.Filled.Badge" Class="mb-1">
-            رزرو ها
-        </MudNavLink>
+                <MudDivider Class="my-2" />
 
-        <MudNavLink Href="/admin/daysreserve" Icon="@Icons.Material.Filled.Timer" Class="mb-1">
-            تنظیم روز و ساعت
-        </MudNavLink>
+                <MudNavLink Match="NavLinkMatch.Prefix" Href="/" Icon="@Icons.Material.Filled.Dashboard" Class=" mb-1">
+                    داشبورد
+                </MudNavLink>
 
-        <MudNavLink Href="/admin/users" Icon="@Icons.Material.Filled.SupervisedUserCircle" Class=" mb-1">
-            کاربران
-        </MudNavLink>
+                <MudNavLink Href="/admin/reservation" Icon="@Icons.Material.Filled.Badge" Class="mb-1">
+                    رزرو ها
+                </MudNavLink>
 
-        <MudNavLink Href="/admin/roles" Icon="@Icons.Material.Filled.Attribution" Class="mb-1">
-            نقش ها
-        </MudNavLink>
+                <MudNavLink Href="/admin/daysreserve" Icon="@Icons.Material.Filled.Timer" Class="mb-1">
+                    تنظیم روز و ساعت
+                </MudNavLink>
 
-        <MudNavLink Href="/admin/aboutus" Icon="@Icons.Material.Filled.Info" Class="mb-1">
-            درباره ما
-        </MudNavLink>
+                <MudNavLink Href="/admin/users" Icon="@Icons.Material.Filled.SupervisedUserCircle" Class=" mb-1">
+                    کاربران
+                </MudNavLink>
 
-        <MudNavLink Href="/admin/contactus" Icon="@Icons.Material.Filled.AddIcCall" Class="mb-1">
-            تماس با ما
-        </MudNavLink>
+                <MudNavLink Href="/admin/roles" Icon="@Icons.Material.Filled.Attribution" Class="mb-1">
+                    نقش ها
+                </MudNavLink>
 
-        <MudNavLink Href="/admin/slider" Icon="@Icons.Material.Filled.Image" Class="mb-1">
-            اسلایدر
-        </MudNavLink>
+                <MudNavLink Href="/admin/aboutus" Icon="@Icons.Material.Filled.Info" Class="mb-1">
+                    درباره ما
+                </MudNavLink>
 
-        <MudNavLink Href="/admin/services" Icon="@Icons.Material.Filled.AddToDrive" Class="mb-1">
-            خدمات
-        </MudNavLink>
+                <MudNavLink Href="/admin/contactus" Icon="@Icons.Material.Filled.AddIcCall" Class="mb-1">
+                    تماس با ما
+                </MudNavLink>
 
-        <MudNavLink Href="/admin/projects" Icon="@Icons.Material.Filled.AddCard" Class="mb-1">
-            پروژه ها
-        </MudNavLink>
+                <MudNavLink Href="/admin/slider" Icon="@Icons.Material.Filled.Image" Class="mb-1">
+                    اسلایدر
+                </MudNavLink>
 
-        <MudNavLink Href="/admin/settings" Icon="@Icons.Material.Filled.Settings" Class="mb-1">
-            تنظیمات
-        </MudNavLink>
+                <MudNavLink Href="/admin/services" Icon="@Icons.Material.Filled.AddToDrive" Class="mb-1">
+                    خدمات
+                </MudNavLink>
 
+                <MudNavLink Href="/admin/projects" Icon="@Icons.Material.Filled.AddCard" Class="mb-1">
+                    پروژه ها
+                </MudNavLink>
+
+                <MudNavLink Href="/admin/settings" Icon="@Icons.Material.Filled.Settings" Class="mb-1">
+                    تنظیمات
+                </MudNavLink>
+
+            </Authorized>
+
+            <NotAuthorized>
+            </NotAuthorized>
+
+        </AuthorizeView>
 
 
     </MudNavMenu>
 </MudDrawer>
+
 
 @code {
 
