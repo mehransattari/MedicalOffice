@@ -1,9 +1,11 @@
 ﻿using MedicalOffice.Shared.Helper;
 using MedicalOffice.Ui.Repositories.Inteface;
 using MedicalOffice.Ui.Services;
+using MedicalOffice.Ui.Services.Helper;
 using MedicalOffice.Ui.Services.Interface;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.JSInterop;
 
 namespace MedicalOffice.Ui.Pages;
 
@@ -23,6 +25,11 @@ public class LoginRegisterBase:ComponentBase
     [Inject]
     public NavigationManager navigationManager { get; set; }
 
+    [Inject]
+    public GenerateNewToken generateNewToken { get; set; }
+
+    [Inject]
+    public IJSRuntime jSRuntime { get; set; }
     #endregion
 
     #region Data
@@ -41,18 +48,18 @@ public class LoginRegisterBase:ComponentBase
 
     public async Task LoginUser()
     {
+        generateNewToken.Dispose();
         var response =  await  authRepository.Login(userData);
         var authentication = await authenticationState;
+
+
         if (response.Status)
         {
-            var tokenData = new TokenData()
-            {
-                Token = response.Token
-            };
-            await userAuthService.Login(tokenData);
+            generateNewToken.Initiate();
+            
+            await userAuthService.Login(response);
             userStateService.SetUserInfo(authentication.User.Claims.ToList());
             navigationManager.NavigateTo("/");
-
         }
         else
         {

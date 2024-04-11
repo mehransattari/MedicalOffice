@@ -34,9 +34,9 @@ public class AuthController:ControllerBase
     public async Task<ActionResult<TokenData>> Login([FromBody] UserData userData)
     {
         var query = _db.Users.Where(p => p.Mobile == userData.Mobile);
-        if (query != null && query.Count() > 0)
+        if (query.Any())
         {
-            User user = query.Include(p => p.Role).FirstOrDefault();
+            var user =await query.Include(p => p.Role).FirstOrDefaultAsync();
 
             if (user != null && _protectPassword.ValidatePassword(userData.Password, user.Password))
             {
@@ -73,9 +73,11 @@ public class AuthController:ControllerBase
             new Claim("UserId", user.Id.ToString()),
             new Claim(ClaimTypes.Role , user.Role.EnCaption)
         };
+
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["jwt:key"]));
         var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var expiration = DateTime.Now.AddHours(1);
+        var expiration = DateTime.Now.AddHours(5);
+
         JwtSecurityToken token = new JwtSecurityToken(
             issuer: null,
             audience: null,
@@ -83,6 +85,7 @@ public class AuthController:ControllerBase
             expires: expiration,
             signingCredentials: cred
         );
+
         return await Task.FromResult(new TokenData
         {
             Token = new JwtSecurityTokenHandler().WriteToken(token),

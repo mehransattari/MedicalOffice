@@ -19,13 +19,21 @@ public class HeaderBase : ComponentBase
 
     [Inject]
     public NavigationManager navigationManager { get; set; }
+
+    [Inject]
+    public IConfiguration _config { get; set; }
+
+
     public string Logo { get; set; } = string.Empty;
 
     public ContactUs ContactUs { get; set; } = new ContactUs();
 
+    public string adminUrl { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        adminUrl = _config["typeSite:adminsite"];
+
         var resSettings = await settingsRepository.GetLogo();
 
         if (resSettings.Success)

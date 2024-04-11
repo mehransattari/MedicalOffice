@@ -1,6 +1,71 @@
-﻿@page "/login"
+﻿@page "/admin/login"
 @inherits LoginBase
+@attribute [AllowAnonymous]
+@layout LoginLayout
 
 <PageTitle>login</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <p class="alert alert-success">
+            ورود موفقیت آمیز
+        </p>
+    </Authorized>
+    <NotAuthorized>
+
+        @if (showError)
+        {
+            <p class="alert alert-danger">
+                اطلاعات وارد شده صحیح نیست.
+            </p>
+        }
+
+    </NotAuthorized>
+</AuthorizeView>
+
+<MudGrid>
+    <MudItem md="2" sm="12" >
+    </MudItem>
+
+    <MudItem md="8" sm="12" >
+        <EditForm OnValidSubmit="LoginUser" Model="userData">
+            <DataAnnotationsValidator />
+
+            <MudPaper Class="pa-16 ma-2">
+
+                <MudGrid>
+
+
+                    <MudItem md="12" sm="12" xs="12">
+                        <MudTextField T="string" Label="موبایل" Required="true" For="@(() => userData.Mobile)"
+                                      @bind-Value="userData.Mobile" />
+                    </MudItem>
+
+                    <MudItem md="12" sm="12" xs="12">
+                        <MudTextField T="string" Label="رمز" Required="true" For="@(() => userData.Password)"
+                                      @bind-Value="userData.Password" />
+                    </MudItem>
+
+                </MudGrid>
+
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
+                           DisableElevation="true" Class="mt-4">
+                    ذخیره
+                </MudButton>
+
+            </MudPaper>
+
+        </EditForm>
+    </MudItem>
+
+    <MudItem md="2" sm="12">
+    </MudItem>
+</MudGrid>
+
+
+
+
+
+
 
 

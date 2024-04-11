@@ -11,7 +11,9 @@ public class GenerateNewToken
     #region Constructor
     [CascadingParameter]
     public Task<AuthenticationState> AuthenticationState { get; set; }
+
     private readonly IUserAuthService _loginService;
+
     System.Timers.Timer timer;
 
     public GenerateNewToken(IUserAuthService loginService)

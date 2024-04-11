@@ -5,17 +5,16 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 
 
+
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 builder.RootComponents.Add<App>("#app");
 
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
+var typeSite = builder.Configuration["typeSite:adminsite"]; 
 
-
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7117/") });
-//builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://api.medical.mehransattary.ir/") });
-
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(typeSite) });
 
 builder.Services.AddMudServices();
 

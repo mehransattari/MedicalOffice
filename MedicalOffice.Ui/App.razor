@@ -18,8 +18,8 @@
                 <FocusOnNavigate RouteData="@routeData" Selector="h1" />
             </Authorizing>
             <NotAuthorized>
-                <p>
-                    No Autorize
+                <p class="alert alert-danger text-center">
+                  دسترسی شما به این صفحه محدود است.
                 </p>
             </NotAuthorized>
         </AuthorizeRouteView>
@@ -28,7 +28,9 @@
         <CascadingAuthenticationState>
             <PageTitle>Not found</PageTitle>
             <LayoutView Layout="@typeof(MainLayout)">
-                <p role="alert">Sorry, there's nothing at this address.</p>
+                <p class="alert alert-danger text-center">
+                 این صفحه موجود نمی باشد.
+                </p>
             </LayoutView>
         </CascadingAuthenticationState>
 

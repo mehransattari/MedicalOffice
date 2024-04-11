@@ -3,8 +3,19 @@
     <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
                    OnClick="@ToggleDrawer" />
     <MudSpacer />
+    <MudIconButton Icon="@Icons.Material.Filled.Home" Color="Color.Inherit" Href="@urlSite" />
 
-    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor" Target="_blank" />
+    <AuthorizeView>
+
+        <Authorized>
+            <MudIconButton Icon="@Icons.Material.Filled.Login" Color="Color.Inherit" @onclick="LogOut" Target="_blank" />
+        </Authorized>
+
+        <NotAuthorized>
+            <MudIconButton Icon="@Icons.Material.Filled.Logout" Color="Color.Inherit" Href="/admin/login" Target="_blank" />
+        </NotAuthorized>
+
+    </AuthorizeView>
 
 </MudAppBar>
 
@@ -74,12 +85,35 @@
 </MudDrawer>
 
 @code {
+
+
+    [Inject]
+    public IConfiguration _config { get; set; }
+
+    [Inject]
+    public IUserAuthService userAuthService { get; set; }
+
+    [Inject]
+    public NavigationManager navigationManager { get; set; }
+
     private MudTheme Theme = new MudTheme();
+
+    public string urlSite { get; set; }    
 
     bool open = true;
 
+    protected override void OnInitialized()
+    {
+        urlSite = _config["typeSite:site"];
+    }
     void ToggleDrawer()
     {
         open = !open;
+    }
+
+    public async Task LogOut()
+    {
+        await userAuthService.Logout();
+        navigationManager.NavigateTo("admin/login");
     }
 }
